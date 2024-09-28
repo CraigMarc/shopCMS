@@ -15,7 +15,7 @@ const Login = (props) => {
 
   
     try {
-    return fetch('https://blogapi1200.fly.dev/api/login', {
+    return fetch('http://localhost:3000/users/login ', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,6 +46,7 @@ const Login = (props) => {
       password
     });
     let errMessage = token.message
+   
     setToken(token);
     if (token.message == "wrong username or password" ){
       setError(errMessage)

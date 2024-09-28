@@ -36,7 +36,7 @@ function App() {
 
 export default */
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 import Router from './Router'
 import Login from './Login';
@@ -68,8 +68,8 @@ function App() {
 
 }
 
-  const [messages, setMessages] = useState([])
-  const [comments, setComments] = useState()
+  const [products, setProducts] = useState()
+  
   
   
 
@@ -86,10 +86,8 @@ const { token, setToken } = useToken();
     <div>
 
       <Router
-        messages={messages}
-        setMessages={setMessages}
-        comments={comments}
-        setComments={setComments}
+        products={products}
+        setProducts={setProducts}
         token={token}
         setToken={setToken}
         

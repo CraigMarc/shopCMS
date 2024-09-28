@@ -9,10 +9,8 @@ const Router = (props) => {
 
   const {
 
-    messages,
-    setMessages,
-    comments,
-    setComments,
+    products,
+    setProducts,
     token,
     setToken,
     
@@ -25,10 +23,8 @@ const Router = (props) => {
       path: "/",
       element:
         <Products
-          messages={messages}
-          setMessages={setMessages}
-          comments={comments}
-          setComments={setComments}
+          products={products}
+          setProducts={setProducts}
 
         />,
 
@@ -49,10 +45,8 @@ const Router = (props) => {
       path: "/post/:id",
       element:
         <Edit
-          messages={messages}
-          setMessages={setMessages}
-          comments={comments}
-          setComments={setComments}
+          products={products}
+          setMessages={setProducts}
 
         />,
 
@@ -63,10 +57,8 @@ const Router = (props) => {
       path: "/newproduct",
       element:
         <NewProduct
-          messages={messages}
-          comments={comments}
-          setComments={setComments}
-
+          products={products}
+       
         />,
 
       errorElement: <ErrorPage />,
