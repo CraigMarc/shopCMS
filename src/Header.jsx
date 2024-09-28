@@ -1,13 +1,22 @@
 //import { Link } from "react-router-dom"
-import { Link, useParams } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 
 function Header(props) {
 
+  const {
+
+    setLogMessage,
+
+  } = props;
+
+
+  const navigate = useNavigate();
 
   const handleLogout = (event) => {
     sessionStorage.removeItem("message");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user_id");
+    setLogMessage(false)
     navigate('/login')
   }
 

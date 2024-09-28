@@ -14,7 +14,9 @@ const Router = (props) => {
     setProducts,
     token,
     setToken,
-   
+    logMessage,
+    setLogMessage
+
 
   } = props;
 
@@ -26,7 +28,7 @@ const Router = (props) => {
         <Products
           products={products}
           setProducts={setProducts}
-         
+          setLogMessage={setLogMessage}
         />,
 
       errorElement: <ErrorPage />,
@@ -36,8 +38,9 @@ const Router = (props) => {
       path: "/login",
       element: <Login2
         setToken={setToken}
-       
-        
+        logMessage={logMessage}
+        setLogMessage={setLogMessage}
+
       />,
       errorElement: <ErrorPage />,
     },
@@ -48,7 +51,7 @@ const Router = (props) => {
         <Edit
           products={products}
           setProducts={setProducts}
-
+          setLogMessage={setLogMessage}
         />,
 
       errorElement: <ErrorPage />,
@@ -59,7 +62,8 @@ const Router = (props) => {
       element:
         <NewProduct
           products={products}
-       
+          setLogMessage={setLogMessage}
+
         />,
 
       errorElement: <ErrorPage />,

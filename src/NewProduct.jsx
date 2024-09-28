@@ -9,6 +9,12 @@ const NewProduct = (props) => {
 
   const navigate = useNavigate();
 
+  const {
+
+    setLogMessage,
+
+  } = props;
+
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
@@ -59,6 +65,7 @@ const NewProduct = (props) => {
           sessionStorage.removeItem("token");
           sessionStorage.removeItem("user_id");
           sessionStorage.removeItem("message");
+          setLogMessage(true)
           navigate('/login')
         }
 
@@ -70,7 +77,9 @@ const NewProduct = (props) => {
   return (
     <div className="login-wrapper">
 
-      <Header />
+      <Header
+      setLogMessage={setLogMessage}
+      />
       <h2 className="pageTitle">New Product</h2>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>

@@ -9,9 +9,13 @@ const Login2 = (props) => {
   const {
 
     setToken,
+    logMessage,
+    setLogMessage
   
 
   } = props;
+
+  
 
   async function loginUser(credentials) {
 
@@ -59,6 +63,16 @@ const Login2 = (props) => {
   }
 
 
+   // if error render error
+   const renderError = () => {
+    if (logMessage == true) {
+      
+        return (
+            <h3>Your Session Expired Log Back In</h3>
+        )
+    }
+  }
+
 
 
   return (
@@ -78,6 +92,7 @@ const Login2 = (props) => {
         </div>
       </form>
       <p>{error}</p>
+      {renderError()}
     </div>
   )
 }

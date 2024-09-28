@@ -9,6 +9,7 @@ const Edit = (props) => {
 
     products,
     setProducts,
+    setLogMessage,
 
   } = props;
 
@@ -38,7 +39,7 @@ const Edit = (props) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
 
-console.log(data)
+
     //send form data
     await fetch(`http://localhost:3000/products/edit/${productId}`, {
       method: 'PUT',
@@ -75,6 +76,17 @@ console.log(data)
 
       .catch((err) => {
         console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
       });
 
 
@@ -102,6 +114,18 @@ console.log(data)
       })
       .catch((err) => {
         console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+
       });
   };
 
@@ -133,6 +157,18 @@ console.log(data)
       })
       .catch((err) => {
         console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+
       });
 
   }
@@ -214,7 +250,9 @@ console.log(data)
     return (
 
       <div className="login-wrapper">
-        <Header />
+        <Header
+        setLogMessage={setLogMessage}
+        />
         <h2 className="pageTitle">Edit Post</h2>
         {renderform()}
         <img className="imgEdit" src={url}></img>

@@ -1,14 +1,16 @@
-
 import { useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header"
 
 function Products(props) {
+
+  const navigate = useNavigate();
 
   const {
 
     products,
     setProducts,
+    setLogMessage,
 
   } = props;
 
@@ -46,6 +48,17 @@ function Products(props) {
       })
       .catch((err) => {
         console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
       });
   };
 
@@ -71,15 +84,21 @@ function Products(props) {
       })
       .catch((err) => {
         console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
       });
   };
 
-  // edit posts
-/*
-  const handleEdit = async (event) => {
-    let id = event.target.value
-    console.log(id)
-  }*/
+
   //get posts
 
 
@@ -97,13 +116,23 @@ function Products(props) {
       const productData = await apiProducts.json();
 
       setProducts(productData)
-      
+
     }
 
     catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
       //add error message to dom
       setError("true")
+
+      //send to login if token expires
+
+      if (error.message.includes("Unauthorized")) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user_id");
+        sessionStorage.removeItem("message");
+        setLogMessage(true)
+        navigate('/login')
+      }
 
     }
     setLoading(false)
@@ -131,8 +160,8 @@ function Products(props) {
 
   return (
     <div>
-      <Header 
-       
+      <Header
+        setLogMessage={setLogMessage}
       />
       <h2 className='pageTitle'>All Products</h2>
       <div className='postContainer'>
