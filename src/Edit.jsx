@@ -1,20 +1,5 @@
-/*import { Link } from "react-router-dom";
-
-const Edit = () => {
-  return (
-    <div className="error">
-      <h1>Oh no, this route doesn't exist!</h1>
-      <Link to="/">
-        You can go back to the home page by clicking here, though!
-      </Link>
-    </div>
-  );
-};
-
-export default Edit;*/
-
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from 'react'
 import Header from './Header'
 
 
@@ -24,7 +9,7 @@ const Edit = (props) => {
 
     products,
     setProducts,
-   
+
 
 
   } = props;
@@ -32,7 +17,7 @@ const Edit = (props) => {
   const urlParams = useParams();
   const productId = urlParams.id
   const productData = products.filter((product) => product._id == productId)
- 
+
   let image = productData[0].image
   let url = ""
   if (image) {
@@ -40,33 +25,6 @@ const Edit = (props) => {
   }
 
   const navigate = useNavigate();
-/*
-  // delete comments
-
-  const deleteComments = async (event) => {
-    let id = event.target.value
-
-
-    await fetch(`https://blogapi1200.fly.dev/users/comments/${id}`, {
-      method: 'Delete',
-
-      headers: {
-        Authorization: tokenFetch,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-
-        setComments(data)
-        //maybe set state for a rerender
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
-*/
-
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -82,12 +40,12 @@ const Edit = (props) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
 
-
+console.log(data)
     //send form data
-    await fetch(`http://localhost:3000/products/edit/${id}`, {
+    await fetch(`http://localhost:3000/products/edit/${productId}`, {
       method: 'PUT',
       body: JSON.stringify({
-       
+
         title: data.title,
         category: data.category,
         brand: data.brand,
@@ -128,7 +86,7 @@ const Edit = (props) => {
 
   const deleteImage = async (event) => {
     let id = event.target.value
-    
+
 
     await fetch(`http://localhost:3000/products/image/${id}`, {
       method: 'Delete',
@@ -142,7 +100,7 @@ const Edit = (props) => {
       .then((data) => {
 
         setProducts(data)
-       
+
       })
       .catch((err) => {
         console.log(err.message);
@@ -155,11 +113,11 @@ const Edit = (props) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
     const formData = new FormData();
-    
+
     formData.append("image", data.image);
 
 
-    await fetch(`http://localhost:3000/products/image/${postId}`, {
+    await fetch(`http://localhost:3000/products/image/${productId}`, {
 
       method: 'Post',
       body: formData,
@@ -181,39 +139,93 @@ const Edit = (props) => {
 
   }
 
-  //jsx
-  
+  // render form
 
-  // render delete pic button
+  const renderform = () => {
 
-  if (productData[0].image) {
     return (
-      <div className="login-wrapper">
-        <Header />
-        <h2 className="pageTitle">Edit Post</h2>
+      <>
+
         <form onSubmit={handleSubmit}>
           <label>
             <p>Title</p>
             <input className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
           </label>
           <label>
-            <p>Text</p>
-            <textarea defaultValue={productData[0].text} type="text" name="text" />
+            <p>Category</p>
+            <input className="titleInput" defaultValue={productData[0].category} type="text" name="category" />
+          </label>
+          <label>
+            <p>Brand</p>
+            <input className="titleInput" defaultValue={productData[0].brand} type="text" name="brand" />
+          </label>
+          <label>
+            <p>Color</p>
+            <input className="titleInput" defaultValue={productData[0].color} type="text" name="color" />
+          </label>
+          <label>
+            <p>Description</p>
+            <textarea defaultValue={productData[0].description} type="text" name="description" />
+          </label>
+          <label>
+            <p>Model Number</p>
+            <input className="titleInput" defaultValue={productData[0].modelNum} type="text" name="modelNum" />
+          </label>
+          <label>
+            <p>Price</p>
+            <input className="titleInput" defaultValue={productData[0].price} type="text" name="price" />
+          </label>
+          <label>
+            <p>Quantity</p>
+            <input className="titleInput" defaultValue={productData[0].quantity} type="text" name="quantity" />
+          </label>
+          <label>
+            <p>Length</p>
+            <input className="titleInput" defaultValue={productData[0].length} type="text" name="length" />
+          </label>
+          <label>
+            <p>Width</p>
+            <input className="titleInput" defaultValue={productData[0].width} type="text" name="width" />
+          </label>
+          <label>
+            <p>Height</p>
+            <input className="titleInput" defaultValue={productData[0].height} type="text" name="height" />
+          </label>
+          <label>
+            <p>Weight</p>
+            <input className="titleInput" defaultValue={productData[0].weight} type="text" name="weight" />
           </label>
           <div>
             <button type="submit">Submit</button>
           </div>
         </form>
+      </>
+    )
+  }
+
+
+
+
+
+  //jsx
+
+
+  // render delete pic button
+
+  if (productData[0].image) {
+    return (
+
+      <div className="login-wrapper">
+        <Header />
+        <h2 className="pageTitle">Edit Post</h2>
+        {renderform()}
         <img className="imgEdit" src={url}></img>
         <div className="deleteImageContainer">
           <button className="delete" value={productData[0]._id} onClick={deleteImage}>delete image</button>
 
         </div>
-       
-
-        
-
       </div>
+
     )
   }
 
@@ -222,22 +234,14 @@ const Edit = (props) => {
   else {
 
     return (
+
+
+
+
       <div className="login-wrapper">
         <Header />
         <h2 className="pageTitle">Edit Post</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            <p>Title</p>
-            <input className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
-          </label>
-          <label>
-            <p>Text</p>
-            <textarea defaultValue={productData[0].text} type="text" name="text" />
-          </label>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
+        {renderform()}
         <img className="imgEdit" src={url}></img>
         <div className="addImageContainer">
           <form encType="multipart/form-data" onSubmit={newImage}>
@@ -252,9 +256,9 @@ const Edit = (props) => {
             </div>
           </form>
         </div>
-        
 
       </div>
+
     )
   }
 
