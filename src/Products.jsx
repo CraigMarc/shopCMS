@@ -9,7 +9,7 @@ function Products(props) {
 
     products,
     setProducts,
-    
+
   } = props;
 
 
@@ -88,15 +88,15 @@ function Products(props) {
     try {
 
       const apiProducts = await fetch('http://localhost:3000/products/all', {
-          headers: { Authorization: tokenFetch }
+        headers: { Authorization: tokenFetch }
 
-        })
-       
+      })
+
 
       const productData = await apiProducts.json();
-      
+
       setProducts(productData)
-     
+
 
     }
 
@@ -128,8 +128,6 @@ function Products(props) {
 
   if (loading) return <p>Loading...</p>;
 
-  console.log(products)
-
 
   return (
     <div>
@@ -159,34 +157,34 @@ function Products(props) {
 
               <div key={index._id} className="post">
 
-              <div id={index._id} className="card" >
+                <div id={index._id} className="card" >
 
 
-                <h2 className='postTitle'>{index.title}</h2>
-                <p>model number: {index.modelNum}</p>
-                <p>quantity: {index.quantity}</p>
-                <img alt="no image" className="imgPost" src={url}></img>
-                <div className='commentContainer'>
-                  <p>Published: {published}</p>
-                  
+                  <h2 className='postTitle'>{index.title}</h2>
+                  <p>model number: {index.modelNum}</p>
+                  <p>quantity: {index.quantity}</p>
+                  <img alt="no image" className="imgPost" src={url}></img>
+                  <div className='commentContainer'>
+                    <p>Published: {published}</p>
+
+                  </div>
+                </div>
+                <div className='allButtonContainer'>
+                  <div className="deleteButtonContainer">
+                    <button className="delete" value={index._id} onClick={handleDelete} >delete product</button>
+
+                  </div>
+                  <div className="editButtonContainer" >
+                    <Link to={`product/${index._id}`} state={index._id}>
+                      <button className="edit" value={index._id} >edit product</button>
+                    </Link>
+                  </div>
+                  <div className="publishButtonContainer"  >
+                    <button className="publish" value={index._id} onClick={handlePublish} >publish/unpublish product</button>
+
+                  </div>
                 </div>
               </div>
-              <div className='allButtonContainer'>
-                <div className="deleteButtonContainer">
-                  <button className="delete" value={index._id} onClick={handleDelete} >delete product</button>
-
-                </div>
-                <div className="editButtonContainer" >
-                  <Link to={`product/${index._id}`} state={index._id}>
-                    <button className="edit" value={index._id} >edit product</button>
-                  </Link>
-                </div>
-                <div className="publishButtonContainer"  >
-                  <button className="publish" value={index._id} onClick={handlePublish} >publish/unpublish product</button>
-
-                </div>
-              </div>
-            </div>
 
             )
           })}

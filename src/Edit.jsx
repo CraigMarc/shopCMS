@@ -10,8 +10,6 @@ const Edit = (props) => {
     products,
     setProducts,
 
-
-
   } = props;
 
   const urlParams = useParams();
@@ -173,27 +171,27 @@ console.log(data)
           </label>
           <label>
             <p>Price</p>
-            <input className="titleInput" defaultValue={productData[0].price} type="text" name="price" />
+            <input className="titleInput" defaultValue={productData[0].price} type="number" name="price" />
           </label>
           <label>
             <p>Quantity</p>
-            <input className="titleInput" defaultValue={productData[0].quantity} type="text" name="quantity" />
+            <input className="titleInput" defaultValue={productData[0].quantity} type="number" name="quantity" />
           </label>
           <label>
             <p>Length</p>
-            <input className="titleInput" defaultValue={productData[0].length} type="text" name="length" />
+            <input className="titleInput" defaultValue={productData[0].length} type="number" name="length" />
           </label>
           <label>
             <p>Width</p>
-            <input className="titleInput" defaultValue={productData[0].width} type="text" name="width" />
+            <input className="titleInput" defaultValue={productData[0].width} type="number" name="width" />
           </label>
           <label>
             <p>Height</p>
-            <input className="titleInput" defaultValue={productData[0].height} type="text" name="height" />
+            <input className="titleInput" defaultValue={productData[0].height} type="number" name="height" />
           </label>
           <label>
             <p>Weight</p>
-            <input className="titleInput" defaultValue={productData[0].weight} type="text" name="weight" />
+            <input className="titleInput" defaultValue={productData[0].weight} type="number" name="weight" />
           </label>
           <div>
             <button type="submit">Submit</button>

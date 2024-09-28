@@ -46,7 +46,7 @@ const Router = (props) => {
       element:
         <Edit
           products={products}
-          setMessages={setProducts}
+          setProducts={setProducts}
 
         />,
 
