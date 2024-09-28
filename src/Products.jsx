@@ -19,6 +19,7 @@ function Products(props) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
@@ -74,11 +75,11 @@ function Products(props) {
   };
 
   // edit posts
-
+/*
   const handleEdit = async (event) => {
     let id = event.target.value
     console.log(id)
-  }
+  }*/
   //get posts
 
 
@@ -96,8 +97,7 @@ function Products(props) {
       const productData = await apiProducts.json();
 
       setProducts(productData)
-
-
+      
     }
 
     catch (error) {
@@ -131,7 +131,9 @@ function Products(props) {
 
   return (
     <div>
-      <Header />
+      <Header 
+       
+      />
       <h2 className='pageTitle'>All Products</h2>
       <div className='postContainer'>
 

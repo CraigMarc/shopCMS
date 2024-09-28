@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Products from "./Products"
 import ErrorPage from "./ErrorPage";
 import Login from "./Login"
+import Login2 from "./Login2"
 import Edit from "./Edit"
 import NewProduct from "./NewProduct"
 
@@ -13,7 +14,7 @@ const Router = (props) => {
     setProducts,
     token,
     setToken,
-    
+   
 
   } = props;
 
@@ -25,7 +26,7 @@ const Router = (props) => {
         <Products
           products={products}
           setProducts={setProducts}
-
+         
         />,
 
       errorElement: <ErrorPage />,
@@ -33,9 +34,9 @@ const Router = (props) => {
 
     {
       path: "/login",
-      element: <Login
-        
+      element: <Login2
         setToken={setToken}
+       
         
       />,
       errorElement: <ErrorPage />,

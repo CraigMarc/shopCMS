@@ -1,12 +1,14 @@
 //import { Link } from "react-router-dom"
 import { Link, useParams } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+
 
   const handleLogout = (event) => {
     sessionStorage.removeItem("message");
     sessionStorage.removeItem("token");
-
+    sessionStorage.removeItem("user_id");
+    navigate('/login')
   }
 
   return (

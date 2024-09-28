@@ -54,6 +54,14 @@ const NewProduct = (props) => {
       })
       .catch((err) => {
         console.log(err.message);
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          navigate('/login')
+        }
+
       });
 
   }

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 
+const Login2 = (props) => {
 
-const Login = (props) => {
+  const navigate = useNavigate();
 
   const {
 
@@ -48,7 +50,7 @@ const Login = (props) => {
     let errMessage = token.message
 
     setToken(token);
-   
+    navigate('/')
     if (token.message == "wrong username or password") {
       setError(errMessage)
     }
@@ -81,4 +83,4 @@ const Login = (props) => {
 }
 
 
-export default Login;
+export default Login2;
