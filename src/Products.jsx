@@ -1,17 +1,3 @@
-/*import { Link } from "react-router-dom";
-
-const Products = () => {
-  return (
-    <div className="error">
-      <h1>Oh no, this route doesn't exist!</h1>
-      <Link to="/">
-        You can go back to the home page by clicking here, though!
-      </Link>
-    </div>
-  );
-};
-
-export default Products;*/
 
 import { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
@@ -142,13 +128,13 @@ function Products(props) {
 
   if (loading) return <p>Loading...</p>;
 
-
+  console.log(products)
 
 
   return (
     <div>
       <Header />
-      <h2 className='pageTitle'>All Posts</h2>
+      <h2 className='pageTitle'>All Products</h2>
       <div className='postContainer'>
 
         <div className="postCard">
@@ -173,34 +159,34 @@ function Products(props) {
 
               <div key={index._id} className="post">
 
-                <div id={index._id} className="card" >
+              <div id={index._id} className="card" >
 
 
-                  <h2 className='postTitle'>{index.title}</h2>
-                  <img alt="no image" className="imgPost" src={url}></img>
-                  <div className='commentContainer'>
-                    <p>Published: {published}</p>
-                    <div>
-                      <p>{date}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className='allButtonContainer'>
-                  <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id} onClick={handleDelete} >delete product</button>
-
-                  </div>
-                  <div className="editButtonContainer" >
-                    <Link to={`product/${index._id}`} state={index._id}>
-                      <button className="edit" value={index._id} >edit product</button>
-                    </Link>
-                  </div>
-                  <div className="publishButtonContainer"  >
-                    <button className="publish" value={index._id} onClick={handlePublish} >publish/unpublish product</button>
-
-                  </div>
+                <h2 className='postTitle'>{index.title}</h2>
+                <p>model number: {index.modelNum}</p>
+                <p>quantity: {index.quantity}</p>
+                <img alt="no image" className="imgPost" src={url}></img>
+                <div className='commentContainer'>
+                  <p>Published: {published}</p>
+                  
                 </div>
               </div>
+              <div className='allButtonContainer'>
+                <div className="deleteButtonContainer">
+                  <button className="delete" value={index._id} onClick={handleDelete} >delete product</button>
+
+                </div>
+                <div className="editButtonContainer" >
+                  <Link to={`product/${index._id}`} state={index._id}>
+                    <button className="edit" value={index._id} >edit product</button>
+                  </Link>
+                </div>
+                <div className="publishButtonContainer"  >
+                  <button className="publish" value={index._id} onClick={handlePublish} >publish/unpublish product</button>
+
+                </div>
+              </div>
+            </div>
 
             )
           })}

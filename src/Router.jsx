@@ -42,7 +42,7 @@ const Router = (props) => {
     },
 
     {
-      path: "/post/:id",
+      path: "/product/:id",
       element:
         <Edit
           products={products}
