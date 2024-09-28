@@ -29,10 +29,7 @@ const Edit = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
+  
   //submit function
 
   const handleSubmit = async e => {
@@ -182,7 +179,7 @@ const Edit = (props) => {
 
         <form onSubmit={handleSubmit}>
           <label>
-            <p>Title</p>
+            <p>Product Name</p>
             <input className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
           </label>
           <label>

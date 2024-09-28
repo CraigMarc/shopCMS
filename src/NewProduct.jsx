@@ -1,9 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react'
 import Header from './Header'
-import ImageUpload from './ImageUpload'
-import { useForm } from "react-hook-form";
-
 
 const NewProduct = (props) => {
 
@@ -83,7 +79,7 @@ const NewProduct = (props) => {
       <h2 className="pageTitle">New Product</h2>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
-          <p>Title</p>
+          <p>Product Name</p>
           <input className="titleInput" type="text" name="title" required />
         </label>
         <label>
