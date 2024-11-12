@@ -42,6 +42,7 @@ header {
   margin: 0;
   border-bottom: solid;
   border-width: 0.1px;
+  padding-top: 30px;
 }
 /*
 .postContainer {
@@ -50,8 +51,8 @@ header {
  
 }*/
 .imgPost {
-  width: 250px;
-  height: 175px;
+  width: 150px;
+  height: 100px;
 }
 
 .imgEdit {
@@ -92,6 +93,7 @@ header {
 
   .pageTitle {
     padding-top: 20px;
+    padding-bottom: 40px;
     
   }
 
@@ -147,19 +149,30 @@ padding-bottom: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
  } 
-
+/*
  .descriptionContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   
+ }*/
+
+ .descriptionContainer {
+text-align: left;
+margin-left: 20px;
+margin-right: 20px;
  }
 
  .productSpan {
   font-weight: bold;
  }
 
- .description {
-  padding-top: 20px;
+
+ .titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding-bottom: 30px;
  }

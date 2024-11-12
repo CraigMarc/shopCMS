@@ -190,25 +190,27 @@ function Products(props) {
 
                 <div id={index._id} className="card" >
 
-
-                  <h2 className='postTitle'>{index.title}</h2>
-                  <img alt="no image" className="imgPost" src={url}></img>
-                  <div className='descriptionContainer'>
-                  <p><span className='productSpan'>category:</span> {index.category}</p>
-                  <p><span className='productSpan'>brand:</span> {index.brand}</p>
-                  <p><span className='productSpan'>color:</span> {index.color}</p>
-                  <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
-                  <p><span className='productSpan'>price:</span> {index.price}</p>
-                  <p><span className='productSpan'>quantity:</span> {index.quantity}</p>
-                  <p><span className='productSpan'>length:</span> {index.length}</p>
-                  <p><span className='productSpan'>height:</span> {index.height}</p>
-                  <p><span className='productSpan'>width:</span> {index.width}</p>
-                  <p><span className='productSpan'>weight:</span> {index.weight}</p>
+                  <div className='titleContainer'>
+                    <h2 className='postTitle'>{index.title}</h2>
+                    <img alt="no image" className="imgPost" src={url}></img>
                   </div>
-                  <p className='description'><span className='productSpan'>description:</span> {index.description}</p>
+                  <div className='descriptionContainer'>
+                    <p><span className='productSpan'>category:</span> {index.category}</p>
+                    <p><span className='productSpan'>brand:</span> {index.brand}</p>
+                    <p><span className='productSpan'>color:</span> {index.color}</p>
+                    <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
+                    <p><span className='productSpan'>price:</span> {index.price}</p>
+                    <p><span className='productSpan'>quantity:</span> {index.quantity}</p>
+                    <p><span className='productSpan'>length:</span> {index.length}</p>
+                    <p><span className='productSpan'>height:</span> {index.height}</p>
+                    <p><span className='productSpan'>width:</span> {index.width}</p>
+                    <p><span className='productSpan'>weight:</span> {index.weight}</p>
+                    <p><span className='productSpan'>description:</span> {index.description}</p>
+                  </div>
                   
+
                   <div className='commentContainer'>
-                    <p>Published: {published}</p>
+                    <p><span className='productSpan'>Published:</span> {published}</p>
 
                   </div>
                 </div>
