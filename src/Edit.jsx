@@ -226,8 +226,8 @@ const Edit = (props) => {
             <p>Weight</p>
             <input className="titleInput" defaultValue={productData[0].weight} type="number" name="weight" />
           </label>
-          <div>
-            <button type="submit">Submit</button>
+          <div className="submitChanges">
+            <button type="submit">Submit Changes</button>
           </div>
         </form>
       </>
@@ -254,7 +254,7 @@ const Edit = (props) => {
         {renderform()}
         <img className="imgEdit" src={url}></img>
         <div className="deleteImageContainer">
-          <button className="delete" value={productData[0]._id} onClick={deleteImage}>delete image</button>
+          <button className="delete" value={productData[0]._id} onClick={deleteImage}>Delete Image</button>
 
         </div>
       </div>
