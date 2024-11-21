@@ -33,6 +33,7 @@ function App() {
 
   const [products, setProducts] = useState()
   const [logMessage, setLogMessage] = useState(false)
+  const [orders, setOrders] = useState()
   
   const { token, setToken } = useToken();
  
@@ -53,6 +54,8 @@ function App() {
         setToken={setToken}
         logMessage={logMessage}
         setLogMessage={setLogMessage}
+        orders={orders}
+        setOrders={setOrders}
         
       />
     </div>

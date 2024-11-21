@@ -169,13 +169,13 @@ function Products(props) {
         <div className="postCard">
 
           {products.map((index) => {
-            //const postComments = comments.filter((comment) => comment.posts_id == index._id).length
+           
             let image = index.image
             let url = ""
             if (image) {
               url = `http://localhost:3000/uploads/${index.image}`
             }
-            //let date = new Date(index.timestamp).toLocaleString()
+           
             let published = ""
             if (index.published == true) {
               published = 'Yes'

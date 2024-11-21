@@ -15,7 +15,9 @@ const Router = (props) => {
     token,
     setToken,
     logMessage,
-    setLogMessage
+    setLogMessage,
+    orders,
+    setOrders
 
 
   } = props;
@@ -74,6 +76,8 @@ const Router = (props) => {
       element:
         <Orders
           setLogMessage={setLogMessage}
+          orders={orders}
+          setOrders={setOrders}
 
         />,
 
