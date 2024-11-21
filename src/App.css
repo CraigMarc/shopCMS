@@ -27,15 +27,6 @@ header {
   justify-content: center;
   gap: 50px
 }
-/*
-.post {
-  box-shadow: 0 0 5px grey;
-  width: 70vw;
-  margin-top: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
- 
-}*/
 
 .post {
   width: 100%;
@@ -44,12 +35,7 @@ header {
   border-width: 0.1px;
   padding-top: 30px;
 }
-/*
-.postContainer {
-  display: flex;
-  justify-content: center;
- 
-}*/
+
 .imgPost {
   width: 150px;
   height: 100px;
@@ -149,14 +135,6 @@ padding-bottom: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
  } 
-/*
- .descriptionContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  
- }*/
 
  .descriptionContainer {
 text-align: left;
@@ -179,4 +157,10 @@ margin-right: 20px;
 
  .submitChanges {
   padding-top: 20px;
+ }
+
+ .editButtonContainer {
+  display: flex;
+  gap: 30px;
+  align-items: center;
  }

@@ -4,6 +4,7 @@ import ErrorPage from "./ErrorPage";
 import Login2 from "./Login2"
 import Edit from "./Edit"
 import NewProduct from "./NewProduct"
+import Orders from "./Orders"
 
 const Router = (props) => {
 
@@ -61,6 +62,17 @@ const Router = (props) => {
       element:
         <NewProduct
           products={products}
+          setLogMessage={setLogMessage}
+
+        />,
+
+      errorElement: <ErrorPage />,
+    },
+
+    {
+      path: "/orders",
+      element:
+        <Orders
           setLogMessage={setLogMessage}
 
         />,
