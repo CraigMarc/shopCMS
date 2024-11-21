@@ -236,11 +236,6 @@ const Edit = (props) => {
 
 
 
-
-
-  //jsx
-
-
   // render delete pic button
 
   if (productData[0].image) {

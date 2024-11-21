@@ -80,6 +80,7 @@ const Orders = (props) => {
 
   if (loading) return <p>Loading...</p>;
 
+  console.log(orders)
  
    // delete order
 
@@ -187,6 +188,7 @@ const Orders = (props) => {
 
                  <div className='descriptionContainer'>
                    <p><span className='productSpan'>name:</span> {index.firstName} {index.lastName}</p>
+                   <p><span className='productSpan'>email:</span> {index.email}</p>
                    <p><span className='productSpan'>address1:</span> {index.address1}</p>
                    <p><span className='productSpan'>address2:</span> {index.address2}</p>
                    <p><span className='productSpan'>town:</span> {index.town}</p>
