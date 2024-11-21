@@ -80,8 +80,6 @@ const Orders = (props) => {
 
   if (loading) return <p>Loading...</p>;
 
-console.log(orders)
-
  
    // delete order
 
@@ -210,8 +208,8 @@ console.log(orders)
 
                  </div>
                  <div className="editButtonContainer" >
-                   <Link to={`product/${index._id}`} state={index._id}>
-                     <button className="edit" value={index._id} >edit product</button>
+                   <Link to={`order/${index._id}`} state={index._id}>
+                     <button className="edit" value={index._id} >edit order</button>
                    </Link>
                  </div>
                  <div className="publishButtonContainer"  >

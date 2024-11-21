@@ -5,6 +5,7 @@ import Login2 from "./Login2"
 import Edit from "./Edit"
 import NewProduct from "./NewProduct"
 import Orders from "./Orders"
+import EditOrder from "./EditOrder"
 
 const Router = (props) => {
 
@@ -84,6 +85,19 @@ const Router = (props) => {
       errorElement: <ErrorPage />,
     },
 
+    {
+      path: "orders/order/:id",
+      element:
+        <EditOrder
+          setLogMessage={setLogMessage}
+          orders={orders}
+          setOrders={setOrders}
+
+        />,
+
+      errorElement: <ErrorPage />,
+    },
+ 
 
   ]);
 
