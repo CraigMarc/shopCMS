@@ -69,9 +69,9 @@ const Orders = (props) => {
     fetchInfo();
   }, [])
 
-   //display error and loading for api call
+  //display error and loading for api call
 
-   if (error) return (
+  if (error) return (
     <div>
 
       <p>A network error was encountered</p>
@@ -81,10 +81,10 @@ const Orders = (props) => {
   if (loading) return <p>Loading...</p>;
 
   console.log(orders)
- 
-   // delete order
 
-   const handleDelete = async (event) => {
+  // delete order
+
+  const handleDelete = async (event) => {
     let id = event.target.value
 
 
@@ -156,9 +156,6 @@ const Orders = (props) => {
 
 
 
-
-
-
   return (
     <div>
       <Header
@@ -167,62 +164,70 @@ const Orders = (props) => {
       <h2>Orders</h2>
 
       {orders.map((index) => {
-           
-           let shipped = ""
-           if (index.shipped == true) {
-             shipped = 'Yes'
-           }
-           else {
-             shipped = 'No'
-           }
 
-           return (
+        let shipped = ""
+        if (index.shipped == true) {
+          shipped = 'Yes'
+        }
+        else {
+          shipped = 'No'
+        }
 
-             <div key={index._id} className="post">
+        return (
 
-               <div id={index._id} className="card" >
-               <div className='titleContainer'>
-                    <h2 className='postTitle'>{index.title}</h2>
-                    <h3><span className='productSpan'>order number:</span> {index._id}</h3>
-                  </div>
+          <div key={index._id} className="post">
 
-                 <div className='descriptionContainer'>
-                   <p><span className='productSpan'>name:</span> {index.firstName} {index.lastName}</p>
-                   <p><span className='productSpan'>email:</span> {index.email}</p>
-                   <p><span className='productSpan'>address1:</span> {index.address1}</p>
-                   <p><span className='productSpan'>address2:</span> {index.address2}</p>
-                   <p><span className='productSpan'>town:</span> {index.town}</p>
-                   <p><span className='productSpan'>state:</span> {index.state}</p>
-                   <p><span className='productSpan'>zip:</span> {index.zip}</p>
-                   <p><span className='productSpan'>shipping:</span> {index.shippingCost}</p>
-                   <p><span className='productSpan'>price:</span> {index.orderCost}</p>
-                   
-                 </div>
-                 
-                 <div className='commentContainer'>
-                   <p><span className='productSpan'>Shipped:</span> {shipped}</p>
+            <div id={index._id} className="card" >
+              <div className='titleContainer'>
+              <h2 className='postTitle'>{index.title}</h2>
+                <h3><span className='productSpan'>order number:</span> {index._id}</h3>
+              </div>
 
-                 </div>
-               </div>
-               <div className='allButtonContainer'>
-                 <div className="deleteButtonContainer">
-                   <button className="delete" value={index._id} onClick={handleDelete} >delete order</button>
+              <div className='descriptionContainer'>
+                <p><span className='productSpan'>name:</span> {index.firstName} {index.lastName}</p>
+                <p><span className='productSpan'>email:</span> {index.email}</p>
+                <p><span className='productSpan'>address1:</span> {index.address1}</p>
+                <p><span className='productSpan'>address2:</span> {index.address2}</p>
+                <p><span className='productSpan'>town:</span> {index.town}</p>
+                <p><span className='productSpan'>state:</span> {index.state}</p>
+                <p><span className='productSpan'>zip:</span> {index.zip}</p>
+                <p><span className='productSpan'>shipping:</span> {index.shippingCost}</p>
+                <p><span className='productSpan'>price:</span> {index.orderCost}</p>
+              </div>
+              <h3 className='productTitle'>Products:</h3>
+              {index.productsArray.map((data) => {
+                  return (
+                    <div className='productsContainer' key={data._id}>
+                      <p>{data.title}</p>
+                      <p>${data.price}</p>
+                      <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
+                    </div>
+                  )
+                })}
+              <div className='commentContainer'>
+                <p><span className='productSpan'>Shipped:</span> {shipped}</p>
 
-                 </div>
-                 <div className="editButtonContainer" >
-                   <Link to={`order/${index._id}`} state={index._id}>
-                     <button className="edit" value={index._id} >edit order</button>
-                   </Link>
-                 </div>
-                 <div className="publishButtonContainer"  >
-                   <button className="publish" value={index._id} onClick={handleShip} >shipped / not shipped</button>
+              </div>
+            </div>
+            <div className='allButtonContainer'>
+              <div className="deleteButtonContainer">
+                <button className="delete" value={index._id} onClick={handleDelete} >delete order</button>
 
-                 </div>
-               </div>
-             </div>
+              </div>
+              <div className="editButtonContainer" >
+                <Link to={`order/${index._id}`} state={index._id}>
+                  <button className="edit" value={index._id} >edit order</button>
+                </Link>
+              </div>
+              <div className="publishButtonContainer"  >
+                <button className="publish" value={index._id} onClick={handleShip} >shipped / not shipped</button>
 
-           )
-         })}
+              </div>
+            </div>
+          </div>
+
+        )
+      })}
 
 
     </div>

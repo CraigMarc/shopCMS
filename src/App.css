@@ -1,9 +1,8 @@
-
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
- } 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -13,9 +12,13 @@ body {
   padding-bottom: 20px;
 }
 
-h2 {font-size: 30px;}
+h2 {
+  font-size: 30px;
+}
 
-h1 {font-size: 60px;}
+h1 {
+  font-size: 60px;
+}
 
 .loginSubmit {
   padding-top: 20px;
@@ -63,53 +66,54 @@ header {
 
 .commentPadding {
   padding-right: 5px;
-  }
+}
 
-  .allButtonContainer {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-bottom: 10px;
-  }
+.allButtonContainer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 10px;
+}
 
-  .postTitle {
-    padding-bottom: 20px;
-  }
+.postTitle {
+  padding-bottom: 20px;
+}
 
-  .pageTitle {
-    padding-top: 20px;
-    padding-bottom: 40px;
-    
-  }
+.pageTitle {
+  padding-top: 20px;
+  padding-bottom: 40px;
 
-  .newPostContainer {
-    padding-top: 20px;
-  }
+}
 
-  textarea {
-    width: 70%;
-    height: 300px;
-    border-radius: 5px;
-  }
+.newPostContainer {
+  padding-top: 20px;
+}
 
-  .newPostSubmit {
-    padding-top: 20px;
-  }
+textarea {
+  width: 70%;
+  height: 300px;
+  border-radius: 5px;
+}
 
-  .addImage {
-    padding-top: 20px;
-  }
+.newPostSubmit {
+  padding-top: 20px;
+}
 
-  input {
-    border-radius: 5px;
-     font-size: 18px;
-   }
+.addImage {
+  padding-top: 20px;
+}
 
-  label {
-    font-size: 18px;
-    font-weight: bold;
-  }
+input {
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .titleInput {
   width: 70%;
 }
@@ -127,40 +131,54 @@ header {
 }
 
 .deleteCommentContainer {
-padding-top: 20px;
-padding-bottom: 20px;
-}
-
- .imgEdit {
   padding-top: 20px;
   padding-bottom: 20px;
- } 
+}
 
- .descriptionContainer {
-text-align: left;
-margin-left: 20px;
-margin-right: 20px;
- }
+.imgEdit {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
- .productSpan {
+.descriptionContainer {
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.productSpan {
   font-weight: bold;
- }
+}
 
 
- .titleContainer {
+.titleContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 50px;
   padding-bottom: 30px;
- }
+}
 
- .submitChanges {
+.submitChanges {
   padding-top: 20px;
- }
+}
 
- .editButtonContainer {
+.editButtonContainer {
   display: flex;
   gap: 30px;
   align-items: center;
- }
+}
+
+.productsContainer {
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+
+.productTitle {
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: 10px;
+}
