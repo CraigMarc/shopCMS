@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "./Header"
+import { useRef } from 'react'
 
 const EditOrder = (props) => {
 
@@ -10,6 +11,8 @@ const EditOrder = (props) => {
     setOrders,
 
   } = props;
+
+  const orderObject = useRef([]);
 
   const urlParams = useParams();
   const orderId = urlParams.id
@@ -78,44 +81,58 @@ const EditOrder = (props) => {
 
   }
 
-  console.log(orderData[0].productsArray)
+  // create object
+
+  const createObject = (index) => {
+
+    orderObject.current = index
+
+    
+  }
+
+ 
   // render products
 
   const renderProducts = () => {
     return (
       <>
-       {orderData[0].productsArray.map((data) => {
-                  return (
-                    <div key={data._id}>
-                    <label>
-                    <p>Title</p>
-                    <input className="titleInput" defaultValue={data.title} type="text" name="`title[${expression}]`" />
-                  </label>
-                  <label>
-                    <p>Quantity</p>
-                    <input className="titleInput" defaultValue={data.quantity} type="text" name="quantity" />
-                  </label>
-                  <label>
-                    <p>Price</p>
-                    <input className="titleInput" defaultValue={data.price} type="text" name="price" />
-                  </label>
-                  </div>
-                  )
-                })}
-      
+        {orderData[0].productsArray.map((data) => {
+          createObject(data)
+          let titleName = "title" + data.id
+          let quantityName = "quantity" + data.id
+          let priceName = "price" + data.id
+
+          return (
+            <div key={data._id}>
+              <label>
+                <p>Title</p>
+                <input className="titleInput" defaultValue={data.title} type="text" name={titleName} />
+              </label>
+              <label>
+                <p>Quantity</p>
+                <input className="titleInput" defaultValue={data.quantity} type="text" name={quantityName} />
+              </label>
+              <label>
+                <p>Price</p>
+                <input className="titleInput" defaultValue={data.price} type="text" name={priceName} />
+              </label>
+            </div>
+          )
+        })}
+
       </>
     )
 
   }
-    // render form
+  // render form
 
-    const renderform = () => {
+  const renderform = () => {
 
-      return (
-        <>
+    return (
+      <>
 
-          <form onSubmit={handleSubmit}>
-            <div className="editContainer">
+        <form onSubmit={handleSubmit}>
+          <div className="editContainer">
             <label>
               <p>First Name</p>
               <input className="titleInput" defaultValue={orderData[0].firstName} type="text" name="firstName" />
@@ -157,15 +174,15 @@ const EditOrder = (props) => {
               <input className="titleInput" defaultValue={orderData[0].shippingCost} type="number" name="shippingCost" />
             </label>
             {renderProducts()}
-            </div>
-            <div className="submitChanges">
-              <button type="submit">Submit Changes</button>
-            </div>
-          </form>
-         
-        </>
-      )
-    }
+          </div>
+          <div className="submitChanges">
+            <button type="submit">Submit Changes</button>
+          </div>
+        </form>
+
+      </>
+    )
+  }
 
 
 
@@ -174,16 +191,16 @@ const EditOrder = (props) => {
 
 
 
-    return (
-      <div>
-        <Header
-          setLogMessage={setLogMessage}
-        />
-        <h2>Edit Order</h2>
-        {renderform()}
-       
-      </div>
-    );
-  };
+  return (
+    <div>
+      <Header
+        setLogMessage={setLogMessage}
+      />
+      <h2>Edit Order</h2>
+      {renderform()}
 
-  export default EditOrder;
+    </div>
+  );
+};
+
+export default EditOrder;
