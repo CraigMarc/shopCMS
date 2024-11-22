@@ -80,7 +80,6 @@ const Orders = (props) => {
 
   if (loading) return <p>Loading...</p>;
 
-  console.log(orders)
 
   // delete order
 
