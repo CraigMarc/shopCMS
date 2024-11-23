@@ -96,11 +96,11 @@ const EditOrder = (props) => {
   const renderProducts = () => {
     return (
       <>
-        {orderData[0].productsArray.map((data) => {
+        {orderData[0].productsArray.map((data, iter) => {
           createObject(data)
-          let titleName = "title" + data.id
-          let quantityName = "quantity" + data.id
-          let priceName = "price" + data.id
+          let titleName = "title" + iter
+          let quantityName = "quantity" + iter
+          let priceName = "price" + iter
 
           return (
             <div key={data._id}>
