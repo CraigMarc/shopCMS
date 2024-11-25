@@ -24,11 +24,25 @@ const EditOrder = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
+
+
   const handleSubmit = async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
 
-    console.log(data)
+    // build new productArray
+    for (let i = 0; i < orderData[0].productsArray.length; i++) {
+      let titleIter = "title" + i
+      let quantityIter = "quantity" + i
+      let priceIter = "price" + i
+
+
+      orders[0].productsArray[i].title = data[titleIter]
+      orders[0].productsArray[i].quantity = data[quantityIter]
+      orders[0].productsArray[i].price = data[priceIter]
+
+    }
+
 
     //send form data
     await fetch(`http://localhost:3000/products/editOrder/${orderId}`, {
@@ -45,7 +59,7 @@ const EditOrder = (props) => {
         zip: data.zip,
         orderCost: data.orderCost,
         shippingCost: data.shippingCost,
-        productArray: data.productArray,
+        productsArray: orders[0].productsArray,
 
       }),
       headers: {
@@ -58,7 +72,7 @@ const EditOrder = (props) => {
 
       .then((response) => response.json())
       .then((data) => {
-        //navigate('/')
+        navigate('/')
 
       })
 
@@ -81,23 +95,14 @@ const EditOrder = (props) => {
 
   }
 
-  // create object
 
-  const createObject = (index) => {
-
-    orderObject.current = index
-
-    
-  }
-
- 
   // render products
 
   const renderProducts = () => {
     return (
       <>
         {orderData[0].productsArray.map((data, iter) => {
-          createObject(data)
+         
           let titleName = "title" + iter
           let quantityName = "quantity" + iter
           let priceName = "price" + iter
