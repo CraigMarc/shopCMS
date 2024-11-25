@@ -72,7 +72,7 @@ const EditOrder = (props) => {
 
       .then((response) => response.json())
       .then((data) => {
-        navigate('/')
+        navigate('/orders')
 
       })
 
