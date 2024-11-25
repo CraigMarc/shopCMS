@@ -30,7 +30,7 @@ const EditOrder = (props) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
 
-    // build new productArray
+    // edit productArray
     for (let i = 0; i < orderData[0].productsArray.length; i++) {
       let titleIter = "title" + i
       let quantityIter = "quantity" + i
@@ -100,7 +100,7 @@ const EditOrder = (props) => {
 
   const renderProducts = () => {
     return (
-      <>
+      <div>
         {orderData[0].productsArray.map((data, iter) => {
          
           let titleName = "title" + iter
@@ -108,7 +108,7 @@ const EditOrder = (props) => {
           let priceName = "price" + iter
 
           return (
-            <div key={data._id}>
+            <div key={iter}>
               <label>
                 <p>Title</p>
                 <input className="titleInput" defaultValue={data.title} type="text" name={titleName} />
@@ -125,7 +125,7 @@ const EditOrder = (props) => {
           )
         })}
 
-      </>
+      </div>
     )
 
   }

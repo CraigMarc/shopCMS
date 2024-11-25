@@ -162,7 +162,7 @@ const Orders = (props) => {
       />
       <h2>Orders</h2>
 
-      {orders.map((index) => {
+      {orders.map((index, iter) => {
 
         let shipped = ""
         if (index.shipped == true) {
@@ -174,7 +174,7 @@ const Orders = (props) => {
 
         return (
 
-          <div key={index._id} className="post">
+          <div key={iter} className="post">
 
             <div id={index._id} className="card" >
               <div className='titleContainer'>
@@ -194,9 +194,9 @@ const Orders = (props) => {
                 <p><span className='productSpan'>price:</span> {index.orderCost}</p>
               </div>
               <h3 className='productTitle'>Products:</h3>
-              {index.productsArray.map((data) => {
+              {index.productsArray.map((data, iter) => {
                   return (
-                    <div className='productsContainer' key={data._id}>
+                    <div className='productsContainer' key={iter}>
                       <p>{data.title}</p>
                       <p>${data.price}</p>
                       <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
