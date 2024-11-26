@@ -20,8 +20,8 @@ const NewProduct = (props) => {
   const handleSubmit = async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-    const formData = new FormData();
 
+    const formData = new FormData();
 
     formData.append("title", data.title)
     formData.append("category", data.category)
@@ -96,7 +96,7 @@ const NewProduct = (props) => {
         </label>
         <label>
           <p>Description</p>
-          <textarea type="text" name="description" required  />
+          <textarea className="descriptInput" type="text" name="description" required  />
         </label>
         <label>
           <p>Model Number</p>
