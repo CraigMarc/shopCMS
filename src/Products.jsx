@@ -107,7 +107,7 @@ function Products(props) {
 
     try {
 
-      const apiProducts = await fetch('http://localhost:3000/products/all', {
+      const apiProducts = await fetch('http://localhost:3000/users/all', {
         headers: { Authorization: tokenFetch }
 
       })
