@@ -190,15 +190,15 @@ const Orders = (props) => {
                 <p><span className='productSpan'>town:</span> {index.town}</p>
                 <p><span className='productSpan'>state:</span> {index.state}</p>
                 <p><span className='productSpan'>zip:</span> {index.zip}</p>
-                <p><span className='productSpan'>shipping:</span> {index.shippingCost}</p>
-                <p><span className='productSpan'>price:</span> {index.orderCost}</p>
+                <p><span className='productSpan'>shipping:</span> {(index.shippingCost / 100).toFixed(2)}</p>
+                <p><span className='productSpan'>price:</span> {(index.orderCost / 100).toFixed(2)}</p>
               </div>
               <h3 className='productTitle'>Products:</h3>
               {index.productsArray.map((data, iter) => {
                   return (
                     <div className='productsContainer' key={iter}>
                       <p>{data.title}</p>
-                      <p>${data.price}</p>
+                      <p>${(data.price / 100).toFixed(2)}</p>
                       <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
                     </div>
                   )

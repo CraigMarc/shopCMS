@@ -39,7 +39,7 @@ const EditOrder = (props) => {
 
       orders[0].productsArray[i].title = data[titleIter]
       orders[0].productsArray[i].quantity = data[quantityIter]
-      orders[0].productsArray[i].price = data[priceIter]
+      orders[0].productsArray[i].price = Math.round(data[priceIter] * 100)
 
     }
 
@@ -57,8 +57,8 @@ const EditOrder = (props) => {
         town: data.town,
         state: data.state,
         zip: data.zip,
-        orderCost: data.orderCost,
-        shippingCost: data.shippingCost,
+        orderCost: Math.round(data.orderCost * 100),
+        shippingCost: Math.round(data.shippingCost * 100),
         productsArray: orders[0].productsArray,
 
       }),
@@ -115,11 +115,11 @@ const EditOrder = (props) => {
               </label>
               <label>
                 <p>Quantity</p>
-                <input className="titleInput" defaultValue={data.quantity} type="text" name={quantityName} />
+                <input className="titleInput" defaultValue={data.quantity} type="number" name={quantityName} />
               </label>
               <label>
                 <p>Price</p>
-                <input className="titleInput" defaultValue={data.price} type="text" name={priceName} />
+                <input className="titleInput" defaultValue={data.price / 100} type="number" step="0.01" name={priceName} />
               </label>
             </div>
           )
@@ -148,7 +148,7 @@ const EditOrder = (props) => {
             </label>
             <label>
               <p>Email</p>
-              <input className="titleInput" defaultValue={orderData[0].email} type="text" name="email" />
+              <input className="titleInput" defaultValue={orderData[0].email} type="email" name="email" />
             </label>
             <label>
               <p>Address 1</p>
@@ -172,11 +172,11 @@ const EditOrder = (props) => {
             </label>
             <label>
               <p>Order Cost</p>
-              <input className="titleInput" defaultValue={orderData[0].orderCost} type="number" name="orderCost" />
+              <input className="titleInput" defaultValue={orderData[0].orderCost / 100} type="number" step="0.01" name="orderCost" />
             </label>
             <label>
               <p>Shipping Cost</p>
-              <input className="titleInput" defaultValue={orderData[0].shippingCost} type="number" name="shippingCost" />
+              <input className="titleInput" defaultValue={orderData[0].shippingCost / 100} type="number" step="0.01" name="shippingCost" />
             </label>
             {renderProducts()}
           </div>
