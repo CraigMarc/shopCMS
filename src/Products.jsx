@@ -199,12 +199,12 @@ function Products(props) {
                     <p><span className='productSpan'>brand:</span> {index.brand}</p>
                     <p><span className='productSpan'>color:</span> {index.color}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
-                    <p><span className='productSpan'>price:</span> {index.price}</p>
+                    <p><span className='productSpan'>price:</span> {index.price / 100}</p>
                     <p><span className='productSpan'>quantity:</span> {index.quantity}</p>
-                    <p><span className='productSpan'>length:</span> {index.length}</p>
-                    <p><span className='productSpan'>height:</span> {index.height}</p>
-                    <p><span className='productSpan'>width:</span> {index.width}</p>
-                    <p><span className='productSpan'>weight:</span> {index.weight}</p>
+                    <p><span className='productSpan'>length:</span> {index.length / 100}</p>
+                    <p><span className='productSpan'>height:</span> {index.height / 100}</p>
+                    <p><span className='productSpan'>width:</span> {index.width / 100}</p>
+                    <p><span className='productSpan'>weight:</span> {index.weight / 100}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
                   </div>
                   

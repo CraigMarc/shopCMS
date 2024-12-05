@@ -29,11 +29,11 @@ const NewProduct = (props) => {
     formData.append("color", data.color)
     formData.append("description", data.description)
     formData.append("modelNum", data.modelNum)
-    formData.append("price", data.price)
-    formData.append("length", data.length)
-    formData.append("height", data.height)
-    formData.append("width", data.width)
-    formData.append("weight", data.weight);
+    formData.append("price", Math.round(data.price * 100))
+    formData.append("length", Math.round(data.length * 100))
+    formData.append("height", Math.round(data.height * 100))
+    formData.append("width", Math.round(data.width * 100))
+    formData.append("weight", Math.round(data.weight * 100));
     formData.append("quantity", data.quantity)
     formData.append("image", data.image);
 
@@ -104,23 +104,23 @@ const NewProduct = (props) => {
         </label>
         <label>
           <p>Price</p>
-          <input className="titleInput" type="number" name="price" required />
+          <input className="titleInput" type="number" step="0.01" name="price" required />
         </label>
         <label>
           <p>Length</p>
-          <input className="titleInput" type="number" name="length" required />
+          <input className="titleInput" type="number" step="0.01" name="length" required />
         </label>
         <label>
           <p>Width</p>
-          <input className="titleInput" type="number" name="width" required  />
+          <input className="titleInput" type="number" step="0.01" name="width" required  />
         </label>
         <label>
           <p>Height</p>
-          <input className="titleInput" type="number" name="height" required  />
+          <input className="titleInput" type="number" step="0.01" name="height" required  />
         </label>
         <label>
           <p>Weight</p>
-          <input className="titleInput" type="number" name="weight" required  />
+          <input className="titleInput" type="number" step="0.01" name="weight" required  />
         </label>
         <label>
           <p>Quantity</p>

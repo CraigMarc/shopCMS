@@ -48,11 +48,11 @@ const Edit = (props) => {
         color: data.color,
         description: data.description,
         modelNum: data.modelNum,
-        price: data.price,
-        length: data.length,
-        width: data.width,
-        height: data.height,
-        weight: data.weight,
+        price: Math.round(data.price * 100),
+        length: Math.round(data.length * 100),
+        width: Math.round(data.width * 100),
+        height: Math.round(data.height * 100),
+        weight: Math.round(data.weight * 100),
         quantity: data.quantity
 
       }),
@@ -204,7 +204,7 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Price</p>
-            <input className="titleInput" defaultValue={productData[0].price} type="number" name="price" />
+            <input className="titleInput" defaultValue={productData[0].price / 100} type="number" step="0.01" name="price" />
           </label>
           <label>
             <p>Quantity</p>
@@ -212,19 +212,19 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Length</p>
-            <input className="titleInput" defaultValue={productData[0].length} type="number" name="length" />
+            <input className="titleInput" defaultValue={productData[0].length / 100} type="number" step="0.01" name="length" />
           </label>
           <label>
             <p>Width</p>
-            <input className="titleInput" defaultValue={productData[0].width} type="number" name="width" />
+            <input className="titleInput" defaultValue={productData[0].width / 100} type="number" step="0.01" name="width" />
           </label>
           <label>
             <p>Height</p>
-            <input className="titleInput" defaultValue={productData[0].height} type="number" name="height" />
+            <input className="titleInput" defaultValue={productData[0].height / 100} type="number" step="0.01" name="height" />
           </label>
           <label>
             <p>Weight</p>
-            <input className="titleInput" defaultValue={productData[0].weight} type="number" name="weight" />
+            <input className="titleInput" defaultValue={productData[0].weight / 100} type="number" step="0.01" name="weight" />
           </label>
           <div className="submitChanges">
             <button type="submit">Submit Changes</button>
