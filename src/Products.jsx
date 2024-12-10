@@ -173,7 +173,7 @@ function Products(props) {
             let image = index.image
             let url = ""
             if (image) {
-              url = `http://localhost:3000/uploads/${index.image}`
+              url = `http://localhost:3000/${index.image}`
             }
            
             let published = ""
