@@ -134,8 +134,7 @@ const Edit = (props) => {
     const formData = new FormData();
 
     formData.append("image", data.image);
-
-
+    
     await fetch(`http://localhost:3000/products/image/${productId}`, {
 
       method: 'Post',
