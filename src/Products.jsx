@@ -145,7 +145,7 @@ function Products(props) {
   }, [])
 
 
-
+ 
   //display error and loading for api call
 
   if (error) return (

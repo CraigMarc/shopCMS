@@ -12,9 +12,9 @@ const NewProduct = (props) => {
 
   } = props;
 
-  const [newProduct, setNewProduct] = useState([])
+ 
   const [picArray, setPicArray] = useState([])
-  const [current_id, setCurrent_id] = useState()
+  const [current_data, setCurrent_data] = useState()
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -102,8 +102,8 @@ const NewProduct = (props) => {
 
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-        setCurrent_id(data._id)
+       
+        setCurrent_data(data)
         //e.target.reset()
        
       })
@@ -122,7 +122,7 @@ const NewProduct = (props) => {
 
 
   }
-console.log(current_id)
+
 
 const submitProduct = async event => {
   
@@ -130,16 +130,14 @@ const submitProduct = async event => {
     const data = Object.fromEntries(new FormData(event.target).entries());
     let uuid = self.crypto.randomUUID();
     const idData = { ...data, id_product: uuid }
-    //const newData = [...newProduct, idData]
-    
-    //setNewProduct(newData);
+   
 
       //send form data
-    await fetch("http://localhost:3000/products/new_product1", {
+    await fetch("http://localhost:3000/products/product_array", {
       method: 'PUT',
       body: JSON.stringify({
-      products_array: idData,
-      current_id: current_id
+      color_array: idData,
+      current_id: current_data._id
 
       }),
       headers: {
@@ -153,7 +151,7 @@ const submitProduct = async event => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        //setCurrent_id(data._id)
+        setCurrent_data(data)
         //e.target.reset()
        
       })
@@ -185,13 +183,17 @@ const submitProduct = async event => {
 
   // add pic
 
-  const newImage = async e => {
+  const newImage = async (e )=> {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
+    console.log(e.target.id)
+    
     const formData = new FormData();
 
 
     formData.append("image", data.image);
+    formData.append("current_id", current_data._id)
+    formData.append("array_number", e.target.id)
 
 
     await fetch(`http://localhost:3000/products/new_image/`, {
@@ -236,11 +238,12 @@ const submitProduct = async event => {
   }
 
   
-
   function showProducts() {
+if (current_data) {
+    if (current_data.colorArray) {
     return (
       <div>
-        {newProduct.map((index) => {
+        {current_data.colorArray.map((index, iter) => {
 
           return (
 
@@ -254,18 +257,9 @@ const submitProduct = async event => {
               <p>{index.height}</p>
               <p>{index.weight}</p>
 
-              {index.images.map((data, iter) => {
-                let url = `http://localhost:3000/${data}`
-                return (
-
-                  <div key={iter} className="productCard">
-                    <img className="imgEdit" src={url}></img>
-                  </div>
-
-                )
-              })}
+            
                <div className="addImageContainer">
-          <form encType="multipart/form-data" onSubmit={newImage}>
+          <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
             <label>
               <div className="form-group">
                 <label>Image (file must be .jpeg .jpg or .png):</label>
@@ -285,6 +279,8 @@ const submitProduct = async event => {
       </div>
 
     )
+  }
+}
   }
 
   function addProduct() {
