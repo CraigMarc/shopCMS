@@ -12,9 +12,10 @@ const NewProduct = (props) => {
 
   } = props;
 
- 
+ //  think can get rid of picarray    ***************
   const [picArray, setPicArray] = useState([])
   const [current_data, setCurrent_data] = useState()
+  const [sizeArray, setSizeArray] = useState([])
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -74,6 +75,8 @@ const NewProduct = (props) => {
   
     }*/
 
+  // submit new product
+
   const handleSubmit = async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
@@ -115,6 +118,7 @@ const NewProduct = (props) => {
         if (err.message.includes("Unauthorized")) {
           sessionStorage.removeItem("token");
           sessionStorage.removeItem("userName");
+          setLogMessage(true)
           navigate('/login')
         }
 
@@ -123,16 +127,27 @@ const NewProduct = (props) => {
 
   }
 
+  // submit size array
+  const submitSize = async event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.target).entries());
+    let uuid = self.crypto.randomUUID();
+    const idData = { ...data, id_size: uuid }
+    const newData = [...sizeArray, idData]
+    setSizeArray(newData)
+
+  }
+console.log(sizeArray)
+    //submit new color array
 
 const submitProduct = async event => {
   
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
     let uuid = self.crypto.randomUUID();
-    const idData = { ...data, id_product: uuid }
+    const idData = { ...data, sizeArray: sizeArray, id_product: uuid }
    
 
-      //send form data
     await fetch("http://localhost:3000/products/product_array", {
       method: 'PUT',
       body: JSON.stringify({
@@ -163,6 +178,7 @@ const submitProduct = async event => {
         if (err.message.includes("Unauthorized")) {
           sessionStorage.removeItem("token");
           sessionStorage.removeItem("userName");
+          setLogMessage(true)
           navigate('/login')
         }
 
@@ -181,7 +197,7 @@ const submitProduct = async event => {
 
   }
 
-  // add pic
+  // add pic to color array
 
   const newImage = async (e )=> {
     e.preventDefault();
@@ -237,7 +253,8 @@ const submitProduct = async event => {
 
   }
 
-  
+  // show colors arrray
+
   function showProducts() {
 if (current_data) {
     if (current_data.colorArray) {
@@ -283,16 +300,13 @@ if (current_data) {
 }
   }
 
-  function addProduct() {
+  // create size array
+
+  function addSize() {
 
     return (
       <div>
-        <form onSubmit={submitProduct}>
-          <label>
-
-            <p>Color</p>
-            <input className="productInput" type="text" name="color" />
-          </label>
+        <form onSubmit={submitSize}>
           <label>
             <p>Size</p>
             <input className="productInput" type="text" name="size" />
@@ -322,12 +336,33 @@ if (current_data) {
             <input className="productInput" type="number" name="weight" required />
           </label>
           <div className="newProductSubmit">
-            <button type="submit product">Add New Product</button>
+            <button type="submit product">Add Size</button>
           </div>
         </form>
        
 
 
+      </div>
+    )
+  }
+
+
+
+  // create color array
+
+  function addProduct() {
+
+    return (
+      <div>
+        <form onSubmit={submitProduct}>
+          <label>
+            <p>Color</p>
+            <input className="productInput" type="text" name="color" />
+          </label>
+          <div className="newProductSubmit">
+            <button type="submit product">Add Color</button>
+          </div>
+        </form>
       </div>
     )
   }
@@ -367,6 +402,7 @@ if (current_data) {
       </form>
       {showProducts()}
       {addProduct()}
+      {addSize()}
     </div>
   )
 }
