@@ -191,3 +191,7 @@ label {
   padding-top: 10px;
 }
 
+.newProdImage {
+  width: 100px;
+  height: 75px;
+}

@@ -12,20 +12,20 @@ const NewProduct = (props) => {
 
   } = props;
 
-  //  think can get rid of picarray    ***************
+
   const [picArray, setPicArray] = useState([])
   const [current_data, setCurrent_data] = useState()
   const [sizeArray, setSizeArray] = useState([])
   const displayNew = useRef(true);
   const displayColor = useRef(false);
-  
+
 
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
- 
+
 
   // submit new product
 
@@ -183,9 +183,9 @@ const NewProduct = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const newData = [...picArray, data.image]
-        setPicArray(newData);
-
+        // const newData = [...picArray, data.image]
+        //setPicArray(newData);
+        setCurrent_data(data)
 
       })
       .catch((err) => {
@@ -296,17 +296,45 @@ const NewProduct = (props) => {
     )
   }
 
-   
+  // function display images 
+
+  function displayImages(data) {
+
+  if (data.images) {
+     
+      
+      return (
+        <div>
+         {data.images.map((index, iter) => {
+            let url = `http://localhost:3000/${index}`
+            return (
+              <div key={iter}>
+                <img className="newProdImage" src={url}></img>
+
+              </div>
+            )
+          })
+        }
+        </div>
+      )
+
+    }
+
+
+  }
 
 
   // show colors arrray
-  
+
   function showProducts() {
+
     if (current_data) {
       if (current_data.colorArray) {
         return (
           <div>
             {current_data.colorArray.map((index, iter) => {
+
+
 
               return (
 
@@ -327,7 +355,8 @@ const NewProduct = (props) => {
                       </div>
                     )
                   })}
-                
+
+                    {displayImages(index)}
 
                   <div className="addImageContainer">
                     <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
@@ -342,7 +371,7 @@ const NewProduct = (props) => {
                       </div>
                     </form>
                   </div>
-                  <button className="delete" value={index._id} onClick={handleDelete} >delete product</button>
+                  <button className="delete" value={index._id} onClick={handleDelete} >delete color</button>
                 </div>
 
               )
@@ -353,7 +382,7 @@ const NewProduct = (props) => {
       }
     }
   }
- 
+
 
   // display main form
 
@@ -387,7 +416,7 @@ const NewProduct = (props) => {
 
   }
 
-  
+
 
 
   function displayMain() {
