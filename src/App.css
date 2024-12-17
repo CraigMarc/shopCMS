@@ -195,3 +195,8 @@ label {
   width: 100px;
   height: 75px;
 }
+
+.productQuantityContainer {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}

@@ -205,18 +205,18 @@ function Products(props) {
 
                     return (
                       <div key={iter}>
-                        <p>index: {index2.color}</p>
+                        <p><span className='productSpan'>color:</span> {index2.color}</p>
 
                         {index2.sizeArray.map((index3, iter) => {
                     return (
-                      <div key={iter}>
-                        <p>size: {index3.size}</p>
-                        <p>price: {index3.price}</p>
-                        <p>quantity: {index3.quantity}</p>
-                        <p>length: {index3.length}</p>
-                        <p>width: {index3.width}</p>
-                        <p>height: {index3.height}</p>
-                        <p>weight: {index3.weight}</p>
+                      <div className='productQuantityContainer' key={iter}>
+                        <p><span className='productSpan'>size:</span> {index3.size}</p>
+                        <p><span className='productSpan'>price:</span> {index3.price}</p>
+                        <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                        <p><span className='productSpan'>length:</span> {index3.length}</p>
+                        <p><span className='productSpan'>width:</span> {index3.width}</p>
+                        <p><span className='productSpan'>height:</span> {index3.height}</p>
+                        <p><span className='productSpan'>weight:</span> {index3.weight}</p>
                        
 
                       </div>
