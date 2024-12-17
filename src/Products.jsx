@@ -201,8 +201,10 @@ function Products(props) {
                     <p><span className='productSpan'>description:</span> {index.description}</p>
 
                     {index.colorArray.map((index2, iter) => {
-                       let url = `http://localhost:3000/${index2.images[0]}`
-
+                      let url = ""
+                      if (index2.images) {
+                       url = `http://localhost:3000/${index2.images[0]}`
+                      }
                     return (
                       <div key={iter}>
                         <p><span className='productSpan'>color:</span> {index2.color}</p>
