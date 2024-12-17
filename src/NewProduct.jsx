@@ -10,8 +10,74 @@ const NewProduct = (props) => {
 
   } = props;
 
+  const navigate = useNavigate();
+
   const [sizeArray, setSizeArray] = useState([])
   const [colorArray, setcolorArray] = useState([])
+  const [title, setTitle] = useState()
+  const [category, setCategory] = useState()
+  const [brand, setBrand] = useState()
+  const [modelNum, setModelNum] = useState()
+  const [description, setDescription] = useState()
+
+  const token = sessionStorage.getItem("token");
+  const tokenOb = JSON.parse(token)
+  const tokenFetch = `Bearer ${tokenOb.token}`
+
+
+  // submit new product
+
+  const handleSubmit = async () => {
+
+    let uuid = self.crypto.randomUUID()
+
+    //send form data
+    await fetch("http://localhost:3000/products/new_product1", {
+      method: 'POST',
+      body: JSON.stringify({
+        title: title,
+        category: category,
+        description: description,
+        modelNum: modelNum,
+        brand: brand,
+        colorArray: colorArray,
+        product_id: uuid
+
+      }),
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+
+
+
+      .then((response) => response.json())
+      .then((data) => {
+        /*
+                setCurrent_data(data)*/
+
+
+        //e.target.reset()
+
+      })
+
+
+      .catch((err) => {
+        console.log(err.message);
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("userName");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+
+
+  }
+
 
 
   //submit new color array
@@ -29,50 +95,7 @@ const NewProduct = (props) => {
 
     clearAllInputs()
 
-    /*
-        await fetch("http://localhost:3000/products/product_array", {
-          method: 'PUT',
-          body: JSON.stringify({
-            color_array: idData,
-            current_id: current_data._id
-    
-          }),
-          headers: {
-            Authorization: tokenFetch,
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        })
-    
-    
-    
-          .then((response) => response.json())
-          .then((data) => {
-    
-            setCurrent_data(data)
-            setSizeArray([])
-    
-          })
-    
-    
-          .catch((err) => {
-            console.log(err.message);
-    
-            if (err.message.includes("Unauthorized")) {
-              sessionStorage.removeItem("token");
-              sessionStorage.removeItem("userName");
-              setLogMessage(true)
-              navigate('/login')
-            }
-    
-          });
-    */
-
-
-
-
   }
-
-  console.log(colorArray)
 
 
   function clearAllInputs() {
@@ -94,6 +117,40 @@ const NewProduct = (props) => {
 
   }
 
+  //display color 
+
+  function displayColorArray() {
+    return (
+      <div>
+        {colorArray.map((index2, iter) => {
+
+          return (
+            <div key={iter}>
+              <p><span className='productSpan'>color:</span> {index2.color}</p>
+
+              {index2.sizeArray.map((index3, iter) => {
+                return (
+                  <div className='productQuantityContainer' key={iter}>
+                    <p><span className='productSpan'>size:</span> {index3.size}</p>
+                    <p><span className='productSpan'>price:</span> {index3.price}</p>
+                    <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                    <p><span className='productSpan'>length:</span> {index3.length}</p>
+                    <p><span className='productSpan'>width:</span> {index3.width}</p>
+                    <p><span className='productSpan'>height:</span> {index3.height}</p>
+                    <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+
+
+                  </div>
+                )
+              })}
+
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
   // display main form
 
   function displayMain() {
@@ -102,27 +159,28 @@ const NewProduct = (props) => {
         <form>
           <label>
             <p>Product Name</p>
-            <input className="titleInput" type="text" name="title" required />
+            <input onChange={(e) => setTitle(e.target.value)} className="titleInput" type="text" name="title" required />
           </label>
           <label>
             <p>Category</p>
-            <input className="titleInput" type="text" name="category" required />
+            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" type="text" name="category" required />
           </label>
           <label>
             <p>Brand</p>
-            <input className="titleInput" type="text" name="brand" />
+            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" type="text" name="brand" />
           </label>
           <label>
             <label>
               <p>Model Number</p>
-              <input className="titleInput" type="text" name="modelNum" />
+              <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" type="text" name="modelNum" />
             </label>
             <p>Description</p>
-            <textarea className="descriptInput" type="text" name="description" required />
+            <textarea onChange={(e) => setDescription(e.target.value)} className="descriptInput" type="text" name="description" required />
           </label>
 
 
         </form>
+        {displayColorArray()}
       </div>
     )
   }
@@ -236,7 +294,9 @@ const NewProduct = (props) => {
 
       {displayMain()}
       {addProduct()}
-
+      <div className="newProductSubmit">
+        <button onClick={handleSubmit} type="submit product">Submit Product</button>
+      </div>
     </div>
   )
 
