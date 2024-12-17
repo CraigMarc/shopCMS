@@ -192,20 +192,42 @@ function Products(props) {
 
                   <div className='titleContainer'>
                     <h2 className='postTitle'>{index.title}</h2>
-                    <img alt="no image" className="imgPost" src={url}></img>
+                    
                   </div>
                   <div className='descriptionContainer'>
                     <p><span className='productSpan'>category:</span> {index.category}</p>
                     <p><span className='productSpan'>brand:</span> {index.brand}</p>
-                    <p><span className='productSpan'>color:</span> {index.color}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
-                    <p><span className='productSpan'>price:</span> {(index.price / 100).toFixed(2)}</p>
-                    <p><span className='productSpan'>quantity:</span> {index.quantity}</p>
-                    <p><span className='productSpan'>length:</span> {(index.length / 100).toFixed(2)}</p>
-                    <p><span className='productSpan'>height:</span> {(index.height / 100).toFixed(2)}</p>
-                    <p><span className='productSpan'>width:</span> {(index.width / 100).toFixed(2)}</p>
-                    <p><span className='productSpan'>weight:</span> {(index.weight / 100).toFixed(2)}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
+
+                    {index.colorArray.map((index2, iter) => {
+                       let url = `http://localhost:3000/${index2.images[0]}`
+
+                    return (
+                      <div key={iter}>
+                        <p>index: {index2.color}</p>
+
+                        {index2.sizeArray.map((index3, iter) => {
+                    return (
+                      <div key={iter}>
+                        <p>size: {index3.size}</p>
+                        <p>price: {index3.price}</p>
+                        <p>quantity: {index3.quantity}</p>
+                        <p>length: {index3.length}</p>
+                        <p>width: {index3.width}</p>
+                        <p>height: {index3.height}</p>
+                        <p>weight: {index3.weight}</p>
+                       
+
+                      </div>
+                    )
+                  })}
+                      <img className="newProdImage" src={url}></img>
+                      </div>
+                    )
+                  })}
+                   
+                    
                   </div>
                   
 

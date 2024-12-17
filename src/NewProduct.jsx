@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Header from './Header'
 import { useState, useRef } from 'react'
 
@@ -300,12 +300,12 @@ const NewProduct = (props) => {
 
   function displayImages(data) {
 
-  if (data.images) {
-     
-      
+    if (data.images) {
+
+
       return (
         <div>
-         {data.images.map((index, iter) => {
+          {data.images.map((index, iter) => {
             let url = `http://localhost:3000/${index}`
             return (
               <div key={iter}>
@@ -314,7 +314,7 @@ const NewProduct = (props) => {
               </div>
             )
           })
-        }
+          }
         </div>
       )
 
@@ -356,7 +356,7 @@ const NewProduct = (props) => {
                     )
                   })}
 
-                    {displayImages(index)}
+                  {displayImages(index)}
 
                   <div className="addImageContainer">
                     <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
@@ -462,7 +462,9 @@ const NewProduct = (props) => {
       {displayForms()}
       {showProducts()}
       {displayColorForm()}
-
+      <Link to="/">
+        <button>Submit New Product</button>
+      </Link>
     </div>
   )
 }
