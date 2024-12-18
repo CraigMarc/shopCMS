@@ -118,6 +118,56 @@ const NewProduct = (props) => {
 
   }
 
+  // add pic to color array
+
+  const newImage = async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+
+    const formData = new FormData();
+
+    formData.append("image", data.image);
+    formData.append("current_id", current_data._id)
+    formData.append("array_number", e.target.id)
+
+
+    await fetch(`http://localhost:3000/products/new_image/`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // const newData = [...picArray, data.image]
+        //setPicArray(newData);
+        setCurrent_data(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+
+      });
+
+  }
+
+
   //display color 
 
   function displayColorArray() {
@@ -308,7 +358,33 @@ const NewProduct = (props) => {
     }
   }
 
+  // function display images 
 
+  function displayImages(data) {
+
+    if (data.images) {
+
+
+      return (
+        <div>
+          {data.images.map((index, iter) => {
+            let url = `http://localhost:3000/${index}`
+            return (
+              <div key={iter}>
+                <img className="newProdImage" src={url}></img>
+
+              </div>
+            )
+          })
+          }
+        </div>
+      )
+
+    }
+  }
+
+
+  // display submitted product 
 
   function displaySubmitted() {
 
@@ -348,10 +424,26 @@ const NewProduct = (props) => {
                           <p><span className='productSpan'>height:</span> {index3.height}</p>
                           <p><span className='productSpan'>weight:</span> {index3.weight}</p>
 
-
                         </div>
+
                       )
                     })}
+
+                    {displayImages(index2)}
+
+                    <div className="addImageContainer">
+                      <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
+                        <label>
+                          <div className="form-group">
+                            <label>Image (file must be .jpeg .jpg or .png):</label>
+                            <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+                          </div>
+                        </label>
+                        <div className="addImage">
+                          <button type="submit">Add New Picture</button>
+                        </div>
+                      </form>
+                    </div>
 
                   </div>
                 )
@@ -364,7 +456,7 @@ const NewProduct = (props) => {
 
         </div>
 
-      </div>
+      </div >
     )
 
   }
