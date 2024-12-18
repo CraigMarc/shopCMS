@@ -29,7 +29,7 @@ const Edit = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-  
+
   //submit function
 
   const handleSubmit = async e => {
@@ -134,7 +134,7 @@ const Edit = (props) => {
     const formData = new FormData();
 
     formData.append("image", data.image);
-    
+
     await fetch(`http://localhost:3000/products/image/${productId}`, {
 
       method: 'Post',
@@ -190,40 +190,12 @@ const Edit = (props) => {
             <input className="titleInput" defaultValue={productData[0].brand} type="text" name="brand" />
           </label>
           <label>
-            <p>Color</p>
-            <input className="titleInput" defaultValue={productData[0].color} type="text" name="color" />
-          </label>
-          <label>
-            <p>Description</p>
-            <textarea defaultValue={productData[0].description} type="text" name="description" />
-          </label>
-          <label>
             <p>Model Number</p>
             <input className="titleInput" defaultValue={productData[0].modelNum} type="text" name="modelNum" />
           </label>
           <label>
-            <p>Price</p>
-            <input className="titleInput" defaultValue={productData[0].price / 100} type="number" step="0.01" name="price" />
-          </label>
-          <label>
-            <p>Quantity</p>
-            <input className="titleInput" defaultValue={productData[0].quantity} type="number" name="quantity" />
-          </label>
-          <label>
-            <p>Length</p>
-            <input className="titleInput" defaultValue={productData[0].length / 100} type="number" step="0.01" name="length" />
-          </label>
-          <label>
-            <p>Width</p>
-            <input className="titleInput" defaultValue={productData[0].width / 100} type="number" step="0.01" name="width" />
-          </label>
-          <label>
-            <p>Height</p>
-            <input className="titleInput" defaultValue={productData[0].height / 100} type="number" step="0.01" name="height" />
-          </label>
-          <label>
-            <p>Weight</p>
-            <input className="titleInput" defaultValue={productData[0].weight / 100} type="number" step="0.01" name="weight" />
+            <p>Description</p>
+            <textarea defaultValue={productData[0].description} type="text" name="description" />
           </label>
           <div className="submitChanges">
             <button type="submit">Submit Changes</button>
@@ -233,61 +205,103 @@ const Edit = (props) => {
     )
   }
 
+  // function display images 
+
+  function displayImages(data) {
+
+    if (data.images) {
 
 
-  // render delete pic button
-
-  if (productData[0].image) {
-    return (
-
-      <div className="login-wrapper">
-        <Header
-        setLogMessage={setLogMessage}
-        />
-        <h2 className="pageTitle">Edit Post</h2>
-        {renderform()}
-        <img className="imgEdit" src={url}></img>
-        <div className="deleteImageContainer">
-          <button className="delete" value={productData[0]._id} onClick={deleteImage}>Delete Image</button>
-
-        </div>
-      </div>
-
-    )
-  }
-
-  // render add new pic button
-
-  else {
-
-    return (
-
-
-
-
-      <div className="login-wrapper">
-        <Header />
-        <h2 className="pageTitle">Edit Post</h2>
-        {renderform()}
-        <img className="imgEdit" src={url}></img>
-        <div className="addImageContainer">
-          <form encType="multipart/form-data" onSubmit={newImage}>
-            <label>
-              <div className="form-group">
-                <label>Image (file must be .jpeg .jpg or .png):</label>
-                <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+      return (
+        <div>
+          {data.images.map((index, iter) => {
+            let url = `http://localhost:3000/${index}`
+            return (
+              <div key={iter}>
+                <img className="newProdImage" src={url}></img>
+              <button>add image</button>
+              <button>delete image</button>
               </div>
-            </label>
-            <div className="addImage">
-              <button type="submit">Add New Picture</button>
-            </div>
-          </form>
+            )
+          })
+          }
+        </div>
+      )
+
+    }
+  }
+
+  // display the colors and sizes
+
+  const renderColorArray = () => {
+    return (
+      <div>
+        
+      <div className="post">
+
+        <div className="card" >
+
+        
+          <div className='descriptionContainer'>
+           
+            {productData[0].colorArray.map((index2, iter) => {
+
+              return (
+                <div key={iter}>
+                  <p><span className='productSpan'>color:</span> {index2.color}</p>
+
+                  {index2.sizeArray.map((index3, iter) => {
+                    return (
+                      <div className='productQuantityContainer' key={iter}>
+                        <p><span className='productSpan'>size:</span> {index3.size}</p>
+                        <p><span className='productSpan'>price:</span> {index3.price}</p>
+                        <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                        <p><span className='productSpan'>length:</span> {index3.length}</p>
+                        <p><span className='productSpan'>width:</span> {index3.width}</p>
+                        <p><span className='productSpan'>height:</span> {index3.height}</p>
+                        <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+
+                      </div>
+
+                    )
+                  })}
+
+                  {displayImages(index2)}
+                  <button>Delete</button>
+                  <button>Edit</button>
+                </div>
+              )
+            })}
+
+          </div>
+
         </div>
 
       </div>
 
-    )
+    </div >
+)
+
   }
+
+
+
+
+  return (
+
+    <div className="login-wrapper">
+      <Header
+        setLogMessage={setLogMessage}
+      />
+      <h2 className="pageTitle">Edit Post</h2>
+      {renderform()}
+      {renderColorArray()}
+    </div>
+
+
+  )
+
+
 
 
 }

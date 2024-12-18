@@ -430,8 +430,7 @@ const NewProduct = (props) => {
 
     return (
       <div>
-
-
+        
         <div className="post">
 
           <div className="card" >
