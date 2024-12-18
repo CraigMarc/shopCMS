@@ -169,12 +169,12 @@ function Products(props) {
         <div className="postCard">
 
           {products.map((index) => {
-           
+           /*
             let image = index.image
             let url = ""
             if (image) {
               url = `http://localhost:3000/${index.image}`
-            }
+            }*/
            
             let published = ""
             if (index.published == true) {

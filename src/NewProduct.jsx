@@ -19,6 +19,8 @@ const NewProduct = (props) => {
   const [brand, setBrand] = useState()
   const [modelNum, setModelNum] = useState()
   const [description, setDescription] = useState()
+  const [current_data, setCurrent_data] = useState()
+  const display = useRef(false);
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -54,9 +56,9 @@ const NewProduct = (props) => {
 
       .then((response) => response.json())
       .then((data) => {
-        /*
-                setCurrent_data(data)*/
 
+        setCurrent_data(data)
+        display.current = true
 
         //e.target.reset()
 
@@ -77,7 +79,6 @@ const NewProduct = (props) => {
 
 
   }
-
 
 
   //submit new color array
@@ -283,6 +284,91 @@ const NewProduct = (props) => {
     )
   }
 
+  function switchDisplay() {
+    if (display.current == true) {
+      return (
+        <div>
+          {displaySubmitted()}
+          <Link to="/">
+            <button>Return Home If Done Adding Pictures</button>
+          </Link>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+          {displayMain()}
+          {addProduct()}
+          <div className="newProductSubmit">
+            <button onClick={handleSubmit} type="submit product">Submit Product</button>
+          </div>
+        </div>
+      )
+    }
+  }
+
+
+
+  function displaySubmitted() {
+
+    return (
+      <div>
+
+
+        <div className="post">
+
+          <div className="card" >
+
+            <div className='titleContainer'>
+              <h2 className='postTitle'>{current_data.title}</h2>
+
+            </div>
+            <div className='descriptionContainer'>
+              <p><span className='productSpan'>category:</span> {current_data.category}</p>
+              <p><span className='productSpan'>brand:</span> {current_data.brand}</p>
+              <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
+              <p><span className='productSpan'>description:</span> {current_data.description}</p>
+
+              {current_data.colorArray.map((index2, iter) => {
+
+
+                return (
+                  <div key={iter}>
+                    <p><span className='productSpan'>color:</span> {index2.color}</p>
+
+                    {index2.sizeArray.map((index3, iter) => {
+                      return (
+                        <div className='productQuantityContainer' key={iter}>
+                          <p><span className='productSpan'>size:</span> {index3.size}</p>
+                          <p><span className='productSpan'>price:</span> {index3.price}</p>
+                          <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                          <p><span className='productSpan'>length:</span> {index3.length}</p>
+                          <p><span className='productSpan'>width:</span> {index3.width}</p>
+                          <p><span className='productSpan'>height:</span> {index3.height}</p>
+                          <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+
+
+                        </div>
+                      )
+                    })}
+
+                  </div>
+                )
+              })}
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    )
+
+  }
+
 
   return (
     <div className="login-wrapper">
@@ -292,11 +378,8 @@ const NewProduct = (props) => {
       />
       <h2 className="pageTitle">New Product</h2>
 
-      {displayMain()}
-      {addProduct()}
-      <div className="newProductSubmit">
-        <button onClick={handleSubmit} type="submit product">Submit Product</button>
-      </div>
+      {switchDisplay()}
+
     </div>
   )
 
