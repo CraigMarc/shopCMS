@@ -21,6 +21,8 @@ const NewProduct = (props) => {
   const [description, setDescription] = useState()
   const [current_data, setCurrent_data] = useState()
   const display = useRef(false);
+  const [message, setMessage] = useState(false)
+  const [message2, setMessage2] = useState(false)
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -33,50 +35,54 @@ const NewProduct = (props) => {
 
     let uuid = self.crypto.randomUUID()
 
-    //send form data
-    await fetch("http://localhost:3000/products/new_product1", {
-      method: 'POST',
-      body: JSON.stringify({
-        title: title,
-        category: category,
-        description: description,
-        modelNum: modelNum,
-        brand: brand,
-        colorArray: colorArray,
-        product_id: uuid
+    if (!title || !category || !description || !modelNum || !brand || colorArray.length == 0) {
+      setMessage(true)
+    }
+    else {
+      //send form data
+      await fetch("http://localhost:3000/products/new_product1", {
+        method: 'POST',
+        body: JSON.stringify({
+          title: title,
+          category: category,
+          description: description,
+          modelNum: modelNum,
+          brand: brand,
+          colorArray: colorArray,
+          product_id: uuid
 
-      }),
-      headers: {
-        Authorization: tokenFetch,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-
-
-
-      .then((response) => response.json())
-      .then((data) => {
-
-        setCurrent_data(data)
-        display.current = true
-
-        //e.target.reset()
-
+        }),
+        headers: {
+          Authorization: tokenFetch,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
       })
 
 
-      .catch((err) => {
-        console.log(err.message);
 
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("userName");
-          setLogMessage(true)
-          navigate('/login')
-        }
+        .then((response) => response.json())
+        .then((data) => {
 
-      });
+          setCurrent_data(data)
+          display.current = true
 
+          //e.target.reset()
+
+        })
+
+
+        .catch((err) => {
+          console.log(err.message);
+
+          if (err.message.includes("Unauthorized")) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("userName");
+            setLogMessage(true)
+            navigate('/login')
+          }
+
+        });
+    }
 
   }
 
@@ -84,18 +90,22 @@ const NewProduct = (props) => {
   //submit new color array
 
   const submitProduct = async event => {
-
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.target).entries());
-    let uuid = self.crypto.randomUUID();
-    const idData = { ...data, sizeArray: sizeArray }
-    const newData = [...colorArray, idData]
+    if (sizeArray.length == 0) {
+     setMessage2(true)
+    }
+    else {
+    
+      const data = Object.fromEntries(new FormData(event.target).entries());
+      let uuid = self.crypto.randomUUID();
+      const idData = { ...data, sizeArray: sizeArray }
+      const newData = [...colorArray, idData]
 
-    setcolorArray(newData)
-    setSizeArray([])
+      setcolorArray(newData)
+      setSizeArray([])
 
-    clearAllInputs()
-
+      clearAllInputs()
+    }
   }
 
 
@@ -115,7 +125,7 @@ const NewProduct = (props) => {
     setSizeArray(newData)
     let allInputs = document.querySelectorAll('.sizeInput');
     allInputs.forEach(singleInput => singleInput.value = '');
-
+    setMessage2(false)
   }
 
   // add pic to color array
@@ -173,6 +183,7 @@ const NewProduct = (props) => {
   function displayColorArray() {
     return (
       <div>
+        <h3>Colors</h3>
         {colorArray.map((index2, iter) => {
 
           return (
@@ -242,8 +253,10 @@ const NewProduct = (props) => {
 
     return (
       <div>
+        <h3>sizes</h3>
         {sizeArray.map((index, iter) => {
           return (
+            
             <div key={iter}>
               <p>size: {index.size}</p>
               <p>price: {index.price}</p>
@@ -262,6 +275,19 @@ const NewProduct = (props) => {
 
   }
 
+  // display warning if size form is not complete
+
+  function displaySizeMessage () {
+    if (message2 == true) {
+      return (
+        <div>
+          <h3>Must fill out and submit size form</h3>
+        </div>
+      )
+    }
+
+  }
+
 
 
   // color form
@@ -277,8 +303,8 @@ const NewProduct = (props) => {
             <input className="productInput" type="text" name="color" required />
           </label>
           <div className="newProductSubmit">
-
-            <button type="submit product">Add Color</button>
+            {displaySizeMessage()}
+            <button type="submit">Add Color</button>
 
           </div>
         </form>
@@ -334,6 +360,19 @@ const NewProduct = (props) => {
     )
   }
 
+  function displayMessage() {
+    if (message == true) {
+      return (
+        <div>
+          <h3>All fields must be filled out</h3>
+        </div>
+      )
+    }
+  }
+
+
+  // display submitted product screen after form submission
+
   function switchDisplay() {
     if (display.current == true) {
       return (
@@ -351,6 +390,7 @@ const NewProduct = (props) => {
           {displayMain()}
           {addProduct()}
           <div className="newProductSubmit">
+            {displayMessage()}
             <button onClick={handleSubmit} type="submit product">Submit Product</button>
           </div>
         </div>
