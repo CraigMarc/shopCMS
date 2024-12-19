@@ -24,16 +24,16 @@ const Edit = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [display, setDisplay] = useState(false)
-  /// maybe get rid of *********
-  const [update, setUpdate] = useState(true)
   const [title, setTitle] = useState(productData[0].title)
   const [category, setCategory] = useState(productData[0].category)
   const [brand, setBrand] = useState(productData[0].brand)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
   const [current_data, setCurrent_data] = useState(productData[0])
+  const [showPicForm, setShowPicForm] = useState(false)
   const iter = useRef();
   const disableEdit = useRef(false);
+  
 
   //send updates to API
   const sendUpdates = async e => {
@@ -88,8 +88,11 @@ const Edit = (props) => {
 
   }
 
+  // submit new image
+  const newImage = async e => {
 
-
+setShowPicForm(false)
+  }
 
   // display and populate form
 
@@ -127,7 +130,7 @@ const Edit = (props) => {
     setDisplay(false)
   }
 
-  // delete item from cart **** need to change
+  // delete item from cart 
 
   const handleDelete = (colorIter, sizeIter) => {
 
@@ -138,15 +141,15 @@ const Edit = (props) => {
 
   }
 
-  // delete image **** need to add apicall to delete image
-console.log(current_data)
+  // delete image
+  
   const deleteImage = async (colorIter, picIter) => {
 
     let array2 = structuredClone(current_data);
     let picName = current_data.colorArray[colorIter].images[picIter]
 
     array2.colorArray[colorIter].images.splice(picIter, 1)
-    
+
     await fetch(`http://localhost:3000/products/image/`, {
       method: 'Delete',
       body: JSON.stringify({
@@ -192,6 +195,25 @@ console.log(current_data)
 
   }
 
+  // render new pic form 
+  const newPicForm = () => {
+    return (
+      <div className="addImageContainer">
+        <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
+          <label>
+            <div className="form-group">
+              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            </div>
+          </label>
+          <div className="addImage">
+            <button type="submit">Add New Picture</button>
+          </div>
+        </form>
+      </div>
+    )
+  }
+
   // render form
 
   const renderform = () => {
@@ -226,6 +248,12 @@ console.log(current_data)
     )
   }
 
+// set state to display add image
+  function showImage() {
+    
+    setShowPicForm(true)
+  }
+
   // function display images 
 
   function displayImages(data, colorIter) {
@@ -240,7 +268,7 @@ console.log(current_data)
             return (
               <div key={iter}>
                 <img className="newProdImage" src={url}></img>
-                <button>add image</button>
+              
                 <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
               </div>
             )
@@ -249,6 +277,23 @@ console.log(current_data)
         </div>
       )
 
+    }
+  }
+
+  const renderPicForm = (index2, iter1) => {
+    if (showPicForm == false) {
+      return (
+        <div>
+          {displayImages(index2, iter1)}
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+          {newPicForm()}
+        </div>
+      )
     }
   }
 
@@ -289,9 +334,9 @@ console.log(current_data)
                         </div>
                       )
                     })}
+                    {renderPicForm(index2, iter1)}
 
-                    {displayImages(index2, iter1)}
-
+                    <button onClick={showImage}>add image</button>
                   </div>
                 )
               })}
