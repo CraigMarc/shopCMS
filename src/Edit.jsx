@@ -89,7 +89,7 @@ const Edit = (props) => {
   }
 
 
-  
+
 
   // display and populate form
 
@@ -108,7 +108,7 @@ const Edit = (props) => {
     let colorIter = iter.current.colorIter
     let sizeIter = iter.current.sizeIter
     let array2 = structuredClone(current_data);
-   
+
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
 
@@ -116,7 +116,7 @@ const Edit = (props) => {
     array2.colorArray[colorIter].color = data.color
 
     // set new size array
- 
+
     delete data.color
 
     array2.colorArray[colorIter].sizeArray[sizeIter] = data
@@ -131,22 +131,60 @@ const Edit = (props) => {
 
   const handleDelete = (colorIter, sizeIter) => {
 
-   let array2 = structuredClone(current_data);
+    let array2 = structuredClone(current_data);
 
     array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
     setCurrent_data(array2)
-  
+
   }
 
   // delete image **** need to add apicall to delete image
-
-  const deleteImage = (colorIter, picIter) => {
+console.log(current_data)
+  const deleteImage = async (colorIter, picIter) => {
 
     let array2 = structuredClone(current_data);
+    let picName = current_data.colorArray[colorIter].images[picIter]
 
-    let uuid = self.crypto.randomUUID();
     array2.colorArray[colorIter].images.splice(picIter, 1)
-    setCurrent_data(array2)
+    
+    await fetch(`http://localhost:3000/products/image/${picName}`, {
+      method: 'Delete',
+      body: JSON.stringify({
+
+        title: title,
+        category: category,
+        brand: brand,
+        modelNum: modelNum,
+        description: description,
+        colorArray: array2.colorArray,
+        _id: current_data._id
+
+      }),
+
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        setCurrent_data(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+      })
 
 
 
