@@ -35,9 +35,11 @@ const Edit = (props) => {
 
   }
 
-  // handle color and size form submission
-  const submitColorForm = () => {
-
+  // handle color and size form submission shut off edit button if form is open ??????????????? proper iter
+  const submitColorForm = (event) => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.target).entries());
+    console.log(data)
     setDisplay(false)
   }
 
@@ -177,7 +179,7 @@ const displayForm = () => {
 
   return (
     <div>
-      <form >
+      <form onSubmit={submitColorForm} >
         <label>
           <p>Color</p>
           <input defaultValue={productData[0].colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
@@ -211,7 +213,7 @@ const displayForm = () => {
           <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].weight} className="sizeInput" type="number" name="weight" required />
         </label>
         <div className="newProductSubmit">
-          <button onClick={submitColorForm} type="submit product">Submit Changes</button>
+          <button type="submit">Submit Changes</button>
         </div>
       </form>
 
