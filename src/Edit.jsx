@@ -135,7 +135,8 @@ const Edit = (props) => {
 
                           <button>Delete</button>
                           <button onClick={(e) => handleEdit(e, iter1, iter2) }  type = "submit" > Edit</button>
-
+                          
+                          {showForm(iter1, iter2)}
                         </div>
                 )
               })}
@@ -157,8 +158,9 @@ const Edit = (props) => {
 
   }
 
-function showForm () {
-  if (display == true) {
+function showForm (colorIter, sizeIter) {
+  
+  if (display == true && iter.current.colorIter == colorIter && iter.current.sizeIter == sizeIter) {
     return (
       <div>
       {displayForm()}
@@ -233,7 +235,7 @@ return (
     <h2 className="pageTitle">Edit Post</h2>
     {renderform()}
     {renderColorArray()}
-    {showForm()}
+    
   </div>
 
 
