@@ -24,13 +24,14 @@ const Edit = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [display, setDisplay] = useState(false)
+  /// maybe get rid of *********
   const [update, setUpdate] = useState(true)
   const [title, setTitle] = useState(productData[0].title)
   const [category, setCategory] = useState(productData[0].category)
   const [brand, setBrand] = useState(productData[0].brand)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
-  const [current_data, setCurrentData] = useState(productData[0])
+  const [current_data, setCurrent_data] = useState(productData[0])
   const iter = useRef();
   const disableEdit = useRef(false);
 
@@ -51,7 +52,7 @@ const Edit = (props) => {
         brand: brand,
         modelNum: modelNum,
         description: description,
-        colorArray: productData[0].colorArray
+        colorArray: current_data.colorArray
 
       }),
       headers: {
@@ -106,41 +107,46 @@ const Edit = (props) => {
 
     let colorIter = iter.current.colorIter
     let sizeIter = iter.current.sizeIter
-
+    let array2 = structuredClone(current_data);
    
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
 
     //set new color
-    productData[0].colorArray[colorIter].color = data.color
+    array2.colorArray[colorIter].color = data.color
 
     // set new size array
  
     delete data.color
 
-    productData[0].colorArray[colorIter].sizeArray[sizeIter] = data
+    array2.colorArray[colorIter].sizeArray[sizeIter] = data
 
 
     disableEdit.current = false
+    setCurrent_data(array2)
     setDisplay(false)
   }
 
-  // delete item from cart
+  // delete item from cart **** need to change
 
   const handleDelete = (colorIter, sizeIter) => {
-   
-   let uuid = self.crypto.randomUUID();
-    productData[0].colorArray[colorIter].sizeArray.splice(sizeIter, 1)
-    setUpdate(uuid)
+
+   let array2 = structuredClone(current_data);
+
+    array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
+    setCurrent_data(array2)
+  
   }
 
-  // delete image
-console.log(productData[0])
+  // delete image **** need to add apicall to delete image
+
   const deleteImage = (colorIter, picIter) => {
 
+    let array2 = structuredClone(current_data);
+
     let uuid = self.crypto.randomUUID();
-    productData[0].colorArray[colorIter].images.splice(picIter, 1)
-    setUpdate(uuid)
+    array2.colorArray[colorIter].images.splice(picIter, 1)
+    setCurrent_data(array2)
 
 
 
@@ -156,23 +162,23 @@ console.log(productData[0])
         <form>
           <label>
             <p>Product Name</p>
-            <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
+            <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={current_data.title} type="text" name="title" />
           </label>
           <label>
             <p>Category</p>
-            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" defaultValue={productData[0].category} type="text" name="category" />
+            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" defaultValue={current_data.category} type="text" name="category" />
           </label>
           <label>
             <p>Brand</p>
-            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" defaultValue={productData[0].brand} type="text" name="brand" />
+            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" defaultValue={current_data.brand} type="text" name="brand" />
           </label>
           <label>
             <p>Model Number</p>
-            <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={productData[0].modelNum} type="text" name="modelNum" />
+            <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={current_data.modelNum} type="text" name="modelNum" />
           </label>
           <label>
             <p>Description</p>
-            <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={productData[0].description} type="text" name="description" />
+            <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={current_data.description} type="text" name="description" />
           </label>
 
         </form>
@@ -219,7 +225,7 @@ console.log(productData[0])
 
             <div className='descriptionContainer'>
 
-              {productData[0].colorArray.map((index2, iter1) => {
+              {current_data.colorArray.map((index2, iter1) => {
 
                 return (
                   <div key={iter1}>
@@ -283,35 +289,35 @@ console.log(productData[0])
         <form onSubmit={submitColorForm} >
           <label>
             <p>Color</p>
-            <input defaultValue={productData[0].colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
+            <input defaultValue={current_data.colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
           </label>
           <label>
             <p>Size</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
           </label>
           <label>
             <p>Price</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].price} className="sizeInput" type="number" step="0.01" name="price" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].price} className="sizeInput" type="number" step="0.01" name="price" required />
           </label>
           <label>
             <p>Quantity</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" step="0.01" name="quantity" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" step="0.01" name="quantity" required />
           </label>
           <label>
             <p>Length</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].length} className="sizeInput" type="number" step="0.01" name="length" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].length} className="sizeInput" type="number" step="0.01" name="length" required />
           </label>
           <label>
             <p>Width</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].width} className="sizeInput" type="number" step="0.01" name="width" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].width} className="sizeInput" type="number" step="0.01" name="width" required />
           </label>
           <label>
             <p>Height</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].height} className="sizeInput" type="number" step="0.01" name="height" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].height} className="sizeInput" type="number" step="0.01" name="height" required />
           </label>
           <label>
             <p>Weight</p>
-            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].weight} className="sizeInput" type="number" name="weight" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight} className="sizeInput" type="number" name="weight" required />
           </label>
           <div className="newProductSubmit">
             <button type="submit">Submit Changes</button>
