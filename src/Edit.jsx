@@ -157,6 +157,7 @@ console.log(current_data)
         modelNum: modelNum,
         description: description,
         colorArray: array2.colorArray,
+        product_id: array2.product_id,
         _id: current_data._id
 
       }),
