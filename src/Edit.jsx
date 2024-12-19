@@ -25,12 +25,14 @@ const Edit = (props) => {
 
   const [display, setDisplay] = useState(false)
   const iter = useRef();
+  const disableEdit = useRef(false);
 
 // display and populate form
 
   function handleEdit(e, colorIter, sizeIter) {
 
     setDisplay(true)
+    disableEdit.current = true
     iter.current = {colorIter: colorIter, sizeIter: sizeIter}
 
   }
@@ -40,6 +42,7 @@ const Edit = (props) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
     console.log(data)
+    disableEdit.current = false
     setDisplay(false)
   }
 
@@ -136,7 +139,7 @@ const Edit = (props) => {
                           <p><span className='productSpan'>weight:</span> {index3.weight}</p>
 
                           <button>Delete</button>
-                          <button onClick={(e) => handleEdit(e, iter1, iter2) }  type = "submit" > Edit</button>
+                          <button onClick={(e) => handleEdit(e, iter1, iter2) } disabled={disableEdit.current} type = "submit" > Edit</button>
                           
                           {showForm(iter1, iter2)}
                         </div>
