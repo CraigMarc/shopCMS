@@ -25,8 +25,70 @@ const Edit = (props) => {
 
   const [display, setDisplay] = useState(false)
   const [update, setUpdate] = useState(true)
+  const [title, setTitle] = useState(productData[0].title)
+  const [category, setCategory] = useState(productData[0].category)
+  const [brand, setBrand] = useState(productData[0].brand)
+  const [modelNum, setModelNum] = useState(productData[0].modelNum)
+  const [description, setDescription] = useState(productData[0].description)
+  const [current_data, setCurrentData] = useState(productData[0])
   const iter = useRef();
   const disableEdit = useRef(false);
+
+  //send updates to API
+  const sendUpdates = async e => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+
+
+    //send form data 
+    await fetch(`http://localhost:3000/products/edit/${productId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+
+        title: title,
+        category: category,
+        brand: brand,
+        modelNum: modelNum,
+        description: description,
+        colorArray: productData[0].colorArray
+
+      }),
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+
+
+
+      .then((response) => response.json())
+      .then((data) => {
+        navigate('/')
+
+      })
+
+
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+
+
+  }
+
+
+  
 
   // display and populate form
 
@@ -53,7 +115,7 @@ const Edit = (props) => {
     productData[0].colorArray[colorIter].color = data.color
 
     // set new size array
-
+ 
     delete data.color
 
     productData[0].colorArray[colorIter].sizeArray[sizeIter] = data
@@ -67,9 +129,21 @@ const Edit = (props) => {
 
   const handleDelete = (colorIter, sizeIter) => {
    
-    let uuid = self.crypto.randomUUID();
+   let uuid = self.crypto.randomUUID();
     productData[0].colorArray[colorIter].sizeArray.splice(sizeIter, 1)
     setUpdate(uuid)
+  }
+
+  // delete image
+console.log(productData[0])
+  const deleteImage = (colorIter, picIter) => {
+
+    let uuid = self.crypto.randomUUID();
+    productData[0].colorArray[colorIter].images.splice(picIter, 1)
+    setUpdate(uuid)
+
+
+
   }
 
   // render form
@@ -82,23 +156,23 @@ const Edit = (props) => {
         <form>
           <label>
             <p>Product Name</p>
-            <input className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
+            <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
           </label>
           <label>
             <p>Category</p>
-            <input className="titleInput" defaultValue={productData[0].category} type="text" name="category" />
+            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" defaultValue={productData[0].category} type="text" name="category" />
           </label>
           <label>
             <p>Brand</p>
-            <input className="titleInput" defaultValue={productData[0].brand} type="text" name="brand" />
+            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" defaultValue={productData[0].brand} type="text" name="brand" />
           </label>
           <label>
             <p>Model Number</p>
-            <input className="titleInput" defaultValue={productData[0].modelNum} type="text" name="modelNum" />
+            <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={productData[0].modelNum} type="text" name="modelNum" />
           </label>
           <label>
             <p>Description</p>
-            <textarea defaultValue={productData[0].description} type="text" name="description" />
+            <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={productData[0].description} type="text" name="description" />
           </label>
 
         </form>
@@ -108,7 +182,7 @@ const Edit = (props) => {
 
   // function display images 
 
-  function displayImages(data) {
+  function displayImages(data, colorIter) {
 
     if (data.images) {
 
@@ -121,7 +195,7 @@ const Edit = (props) => {
               <div key={iter}>
                 <img className="newProdImage" src={url}></img>
                 <button>add image</button>
-                <button>delete image</button>
+                <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
               </div>
             )
           })
@@ -170,7 +244,7 @@ const Edit = (props) => {
                       )
                     })}
 
-                    {displayImages(index2)}
+                    {displayImages(index2, iter1)}
 
                   </div>
                 )
