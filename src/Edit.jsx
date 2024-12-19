@@ -17,157 +17,12 @@ const Edit = (props) => {
   const productId = urlParams.id
   const productData = products.filter((product) => product._id == productId)
 
-  let image = productData[0].image
-  let url = ""
-  if (image) {
-    url = `http://localhost:3000/${image}`
-  }
-
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-
-  //submit function
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
-
-
-    //send form data
-    await fetch(`http://localhost:3000/products/edit/${productId}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-
-        title: data.title,
-        category: data.category,
-        brand: data.brand,
-        color: data.color,
-        description: data.description,
-        modelNum: data.modelNum,
-        price: Math.round(data.price * 100),
-        length: Math.round(data.length * 100),
-        width: Math.round(data.width * 100),
-        height: Math.round(data.height * 100),
-        weight: Math.round(data.weight * 100),
-        quantity: data.quantity
-
-      }),
-      headers: {
-        Authorization: tokenFetch,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-
-
-
-      .then((response) => response.json())
-      .then((data) => {
-        navigate('/')
-
-      })
-
-
-      .catch((err) => {
-        console.log(err.message);
-
-        //send to login if token expires
-
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
-
-      });
-
-
-  }
-
-  // delete pic
-
-  const deleteImage = async (event) => {
-    let id = event.target.value
-
-
-    await fetch(`http://localhost:3000/products/image/${id}`, {
-      method: 'Delete',
-
-      headers: {
-        Authorization: tokenFetch,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-
-        setProducts(data)
-
-      })
-      .catch((err) => {
-        console.log(err.message);
-
-        //send to login if token expires
-
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
-
-
-      });
-  };
-
-  // add pic
-
-  const newImage = async e => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
-    const formData = new FormData();
-
-    formData.append("image", data.image);
-
-    await fetch(`http://localhost:3000/products/image/${productId}`, {
-
-      method: 'Post',
-      body: formData,
-
-      headers: {
-        Authorization: tokenFetch,
-        //'Content-type': 'application/json; charset=UTF-8',
-
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(data)
-
-      })
-      .catch((err) => {
-        console.log(err.message);
-
-        //send to login if token expires
-
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
-
-
-      });
-
-  }
 
   // render form
 
@@ -176,7 +31,7 @@ const Edit = (props) => {
     return (
       <>
 
-        <form onSubmit={handleSubmit}>
+        <form>
           <label>
             <p>Product Name</p>
             <input className="titleInput" defaultValue={productData[0].title} type="text" name="title" />
