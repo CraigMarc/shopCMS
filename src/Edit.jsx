@@ -147,7 +147,7 @@ console.log(current_data)
 
     array2.colorArray[colorIter].images.splice(picIter, 1)
     
-    await fetch(`http://localhost:3000/products/image/${picName}`, {
+    await fetch(`http://localhost:3000/products/image/`, {
       method: 'Delete',
       body: JSON.stringify({
 
@@ -158,7 +158,8 @@ console.log(current_data)
         description: description,
         colorArray: array2.colorArray,
         product_id: array2.product_id,
-        _id: current_data._id
+        _id: current_data._id,
+        picName: picName
 
       }),
 
