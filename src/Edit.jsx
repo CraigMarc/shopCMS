@@ -24,26 +24,52 @@ const Edit = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [display, setDisplay] = useState(false)
+  const [update, setUpdate] = useState(true)
   const iter = useRef();
   const disableEdit = useRef(false);
 
-// display and populate form
+  // display and populate form
 
   function handleEdit(e, colorIter, sizeIter) {
 
     setDisplay(true)
     disableEdit.current = true
-    iter.current = {colorIter: colorIter, sizeIter: sizeIter}
+    iter.current = { colorIter: colorIter, sizeIter: sizeIter }
 
   }
 
-  // handle color and size form submission shut off edit button if form is open ??????????????? proper iter
+  // handle color and size form submission
+
   const submitColorForm = (event) => {
+
+    let colorIter = iter.current.colorIter
+    let sizeIter = iter.current.sizeIter
+
+   
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
-    console.log(data)
+
+    //set new color
+    productData[0].colorArray[colorIter].color = data.color
+
+    // set new size array
+
+    delete data.color
+
+    productData[0].colorArray[colorIter].sizeArray[sizeIter] = data
+
+
     disableEdit.current = false
     setDisplay(false)
+  }
+
+  // delete item from cart
+
+  const handleDelete = (colorIter, sizeIter) => {
+   
+    let uuid = self.crypto.randomUUID();
+    productData[0].colorArray[colorIter].sizeArray.splice(sizeIter, 1)
+    setUpdate(uuid)
   }
 
   // render form
@@ -74,9 +100,7 @@ const Edit = (props) => {
             <p>Description</p>
             <textarea defaultValue={productData[0].description} type="text" name="description" />
           </label>
-          <div className="submitChanges">
-            <button type="submit">Submit Changes</button>
-          </div>
+
         </form>
       </>
     )
@@ -138,113 +162,113 @@ const Edit = (props) => {
                           <p><span className='productSpan'>height:</span> {index3.height}</p>
                           <p><span className='productSpan'>weight:</span> {index3.weight}</p>
 
-                          <button>Delete</button>
-                          <button onClick={(e) => handleEdit(e, iter1, iter2) } disabled={disableEdit.current} type = "submit" > Edit</button>
-                          
+                          <button onClick={() => handleDelete(iter1, iter2)}>Delete</button>
+                          <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" > Edit</button>
+
                           {showForm(iter1, iter2)}
                         </div>
+                      )
+                    })}
+
+                    {displayImages(index2)}
+
+                  </div>
                 )
               })}
 
-              {displayImages(index2)}
-
             </div>
-            )
-              })}
 
           </div>
 
         </div>
-
-      </div>
 
       </div >
     )
 
   }
 
-function showForm (colorIter, sizeIter) {
-  
-  if (display == true && iter.current.colorIter == colorIter && iter.current.sizeIter == sizeIter) {
+  function showForm(colorIter, sizeIter) {
+
+    if (display == true && iter.current.colorIter == colorIter && iter.current.sizeIter == sizeIter) {
+      return (
+        <div>
+          {displayForm()}
+        </div>
+      )
+    }
+  }
+
+
+  const displayForm = () => {
+
+    let colorIter = iter.current.colorIter
+    let sizeIter = iter.current.sizeIter
+
     return (
       <div>
-      {displayForm()}
+        <form onSubmit={submitColorForm} >
+          <label>
+            <p>Color</p>
+            <input defaultValue={productData[0].colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
+          </label>
+          <label>
+            <p>Size</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
+          </label>
+          <label>
+            <p>Price</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].price} className="sizeInput" type="number" step="0.01" name="price" required />
+          </label>
+          <label>
+            <p>Quantity</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" step="0.01" name="quantity" required />
+          </label>
+          <label>
+            <p>Length</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].length} className="sizeInput" type="number" step="0.01" name="length" required />
+          </label>
+          <label>
+            <p>Width</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].width} className="sizeInput" type="number" step="0.01" name="width" required />
+          </label>
+          <label>
+            <p>Height</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].height} className="sizeInput" type="number" step="0.01" name="height" required />
+          </label>
+          <label>
+            <p>Weight</p>
+            <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].weight} className="sizeInput" type="number" name="weight" required />
+          </label>
+          <div className="newProductSubmit">
+            <button type="submit">Submit Changes</button>
+          </div>
+        </form>
+
+
+
       </div>
+
     )
+
   }
-}
 
 
-const displayForm = () => {
-  console.log(iter.current)
-  let colorIter = iter.current.colorIter
-  let sizeIter = iter.current.sizeIter
+
 
   return (
-    <div>
-      <form onSubmit={submitColorForm} >
-        <label>
-          <p>Color</p>
-          <input defaultValue={productData[0].colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
-        </label>
-        <label>
-          <p>Size</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
-        </label>
-        <label>
-          <p>Price</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].price} className="sizeInput" type="number" step="0.01" name="price" required />
-        </label>
-        <label>
-          <p>Quantity</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" step="0.01" name="quantity" required />
-        </label>
-        <label>
-          <p>Length</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].length} className="sizeInput" type="number" step="0.01" name="length" required />
-        </label>
-        <label>
-          <p>Width</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].width} className="sizeInput" type="number" step="0.01" name="width" required />
-        </label>
-        <label>
-          <p>Height</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].height} className="sizeInput" type="number" step="0.01" name="height" required />
-        </label>
-        <label>
-          <p>Weight</p>
-          <input defaultValue={productData[0].colorArray[colorIter].sizeArray[sizeIter].weight} className="sizeInput" type="number" name="weight" required />
-        </label>
-        <div className="newProductSubmit">
-          <button type="submit">Submit Changes</button>
-        </div>
-      </form>
 
-
+    <div className="login-wrapper">
+      <Header
+        setLogMessage={setLogMessage}
+      />
+      <h2 className="pageTitle">Edit Post</h2>
+      {renderform()}
+      {renderColorArray()}
 
     </div>
 
+
   )
-
-}
-
-
-
-
-return (
-
-  <div className="login-wrapper">
-    <Header
-      setLogMessage={setLogMessage}
-    />
-    <h2 className="pageTitle">Edit Post</h2>
-    {renderform()}
-    {renderColorArray()}
-    
-  </div>
-
-
-)
 
 
 
