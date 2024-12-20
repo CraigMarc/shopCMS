@@ -119,6 +119,13 @@ const NewProduct = (props) => {
   const submitSize = async event => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
+   
+    data.height = data.height * 100
+    data.length = data.length * 100
+    data.price = data.price * 100
+    data.weight = data.weight * 100
+    data.width = data.width * 100
+
     let uuid = self.crypto.randomUUID();
     const idData = { ...data, id_size: uuid }
     const newData = [...sizeArray, idData]
@@ -194,12 +201,12 @@ const NewProduct = (props) => {
                 return (
                   <div className='productQuantityContainer' key={iter}>
                     <p><span className='productSpan'>size:</span> {index3.size}</p>
-                    <p><span className='productSpan'>price:</span> {index3.price}</p>
+                    <p><span className='productSpan'>price:</span> {index3.price /100}</p>
                     <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                    <p><span className='productSpan'>length:</span> {index3.length}</p>
-                    <p><span className='productSpan'>width:</span> {index3.width}</p>
-                    <p><span className='productSpan'>height:</span> {index3.height}</p>
-                    <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+                    <p><span className='productSpan'>length:</span> {index3.length /100}</p>
+                    <p><span className='productSpan'>width:</span> {index3.width /100}</p>
+                    <p><span className='productSpan'>height:</span> {index3.height /100}</p>
+                    <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
 
 
                   </div>
@@ -259,12 +266,12 @@ const NewProduct = (props) => {
             
             <div key={iter}>
               <p>size: {index.size}</p>
-              <p>price: {index.price}</p>
+              <p>price: {index.price /100}</p>
               <p>quantity: {index.quantity}</p>
-              <p>length: {index.length}</p>
-              <p>width: {index.width}</p>
-              <p>height: {index.height}</p>
-              <p>weight: {index.weight}</p>
+              <p>length: {index.length /100}</p>
+              <p>width: {index.width /100}</p>
+              <p>height: {index.height /100}</p>
+              <p>weight: {index.weight /100}</p>
 
             </div>
           )
@@ -456,12 +463,12 @@ const NewProduct = (props) => {
                       return (
                         <div className='productQuantityContainer' key={iter}>
                           <p><span className='productSpan'>size:</span> {index3.size}</p>
-                          <p><span className='productSpan'>price:</span> {index3.price}</p>
+                          <p><span className='productSpan'>price:</span> {index3.price /100}</p>
                           <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                          <p><span className='productSpan'>length:</span> {index3.length}</p>
-                          <p><span className='productSpan'>width:</span> {index3.width}</p>
-                          <p><span className='productSpan'>height:</span> {index3.height}</p>
-                          <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+                          <p><span className='productSpan'>length:</span> {index3.length /100}</p>
+                          <p><span className='productSpan'>width:</span> {index3.width /100}</p>
+                          <p><span className='productSpan'>height:</span> {index3.height /100}</p>
+                          <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
 
                         </div>
 

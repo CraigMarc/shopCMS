@@ -207,12 +207,12 @@ function Products(props) {
                     return (
                       <div className='productQuantityContainer' key={iter}>
                         <p><span className='productSpan'>size:</span> {index3.size}</p>
-                        <p><span className='productSpan'>price:</span> {index3.price}</p>
+                        <p><span className='productSpan'>price:</span> {index3.price /100}</p>
                         <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                        <p><span className='productSpan'>length:</span> {index3.length}</p>
-                        <p><span className='productSpan'>width:</span> {index3.width}</p>
-                        <p><span className='productSpan'>height:</span> {index3.height}</p>
-                        <p><span className='productSpan'>weight:</span> {index3.weight}</p>
+                        <p><span className='productSpan'>length:</span> {index3.length /100}</p>
+                        <p><span className='productSpan'>width:</span> {index3.width /100}</p>
+                        <p><span className='productSpan'>height:</span> {index3.height /100}</p>
+                        <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
                        
 
                       </div>
