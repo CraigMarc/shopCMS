@@ -244,8 +244,8 @@ const Edit = (props) => {
           brand: brand,
           modelNum: modelNum,
           description: description,
-          colorArray: array2.colorArray,
-          product_id: array2.product_id,
+          colorArray: current_data.colorArray,
+          product_id: current_data.product_id,
           _id: current_data._id,
           color_iter: colorIter
   
