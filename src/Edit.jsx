@@ -31,6 +31,7 @@ const Edit = (props) => {
   const [description, setDescription] = useState(productData[0].description)
   const [current_data, setCurrent_data] = useState(productData[0])
   const [showPicForm, setShowPicForm] = useState(false)
+  const [showColorForm, setShowColorForm] = useState(false)
   const iter = useRef();
   const disableEdit = useRef(false);
   const disablePic = useRef(false);
@@ -336,6 +337,50 @@ const Edit = (props) => {
 
 
   }
+  
+  // submit color form
+  const submitNewColorForm = (e) => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+   
+    let newColorArr = structuredClone(current_data.colorArray)
+    newColorArr.push({color: data.color, sizeArray: [], images: []})
+    let newArr = {...current_data, colorArray: newColorArr}
+
+    setCurrent_data(newArr)
+    setShowColorForm(false)
+
+  }
+
+
+  // display color form
+  const displayNewColorForm = () => {
+
+    setShowColorForm(true)
+
+  }
+  // add new color form
+
+const newColorForm = () => {
+  if (showColorForm == true) {
+return (
+  <div>
+     <form onSubmit={submitNewColorForm} >
+          <label>
+            <p>Color</p>
+            <input className="sizeInput" type="text" name="color" />
+          </label>
+          <div className="newProductSubmit">
+            <button type="submit">Submit Changes</button>
+          </div>
+        </form>
+
+  </div>
+)
+  }
+
+}
 
   // render new pic form 
   const newPicForm = (colorIter) => {
@@ -386,6 +431,8 @@ const Edit = (props) => {
           </label>
 
         </form>
+        <button onClick={displayNewColorForm}>Add New Color</button>
+        {newColorForm()}
       </>
     )
   }
@@ -460,6 +507,7 @@ const Edit = (props) => {
                 return (
                   <div key={iter1}>
                     <p><span className='productSpan'>color:</span> {index2.color}</p>
+                    <button>Add New Size</button>
 
                     {index2.sizeArray.map((index3, iter2) => {
                       return (
