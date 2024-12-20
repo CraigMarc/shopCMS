@@ -41,16 +41,16 @@ const Edit = (props) => {
 
 
 
-
+  console.log(current_data)
   //send updates to API
-  const sendUpdates = async e => {
+  const sendUpdates = async () => {
 
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
+    //e.preventDefault();
+    //const data = Object.fromEntries(new FormData(e.target).entries());
 
 
     //send form data 
-    await fetch(`http://localhost:3000/products/edit/${productId}`, {
+    await fetch(`http://localhost:3000/products/edit/`, {
       method: 'PUT',
       body: JSON.stringify({
 
@@ -59,7 +59,9 @@ const Edit = (props) => {
         brand: brand,
         modelNum: modelNum,
         description: description,
-        colorArray: current_data.colorArray
+        colorArray: current_data.colorArray,
+        product_id: current_data.product_id,
+        _id: current_data._id
 
       }),
       headers: {
@@ -696,7 +698,7 @@ return (
       <h2 className="pageTitle">Edit Post</h2>
       {renderform()}
       {renderColorArray()}
-
+      <button onClick={sendUpdates}>Submit Changes</button>
     </div>
 
 
