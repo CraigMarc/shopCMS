@@ -88,27 +88,66 @@ const Edit = (props) => {
 
   }
 
-  // submit new image
+  // submit new image make another api call to update the product data then send the multipart form with picture
   
   const newImage = async (e, colorIter) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
+   
+    // update any product changes
 
+    await fetch(`http://localhost:3000/products/update_product/`, {
+      method: 'Delete',
+      body: JSON.stringify({
+
+        title: title,
+        category: category,
+        brand: brand,
+        modelNum: modelNum,
+        description: description,
+        colorArray: current_data.colorArray,
+        product_id: current_data.product_id,
+        _id: current_data._id,
+       
+
+      }),
+
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        setCurrent_data(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+      })
+
+
+
+
+    //send pic in multipart form
     const formData = new FormData();
 
-    formData.append("title", title);
-    formData.append("category", category)
-    formData.append("brand", brand)
-    formData.append("modelNum", modelNum);
-    formData.append("description", description)
-    formData.append("colorArray", current_data.colorArray)
-    formData.append("product_id", current_data.product_id);
-    formData.append("_id", current_data._id)
+    formData.append("current_id", current_data._id);
     formData.append("image", data.image);
     formData.append("colorIter", colorIter);
-    
 
-    await fetch(`http://localhost:3000/products/image/`, {
+    await fetch(`http://localhost:3000/products/new_image/`, {
 
       method: 'Post',
       body: formData,
@@ -122,7 +161,7 @@ const Edit = (props) => {
       .then((response) => response.json())
       .then((data) => {
         setShowPicForm(false)
-        //setCurrent_data(data)
+        setCurrent_data(data)
 
       })
       .catch((err) => {
