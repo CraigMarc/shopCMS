@@ -33,7 +33,9 @@ const Edit = (props) => {
   const [showPicForm, setShowPicForm] = useState(false)
   const iter = useRef();
   const disableEdit = useRef(false);
-  
+  const disablePic = useRef(false);
+  const iterImage = useRef();
+
 
   //send updates to API
   const sendUpdates = async e => {
@@ -88,12 +90,12 @@ const Edit = (props) => {
 
   }
 
-  // submit new image make another api call to update the product data then send the multipart form with picture
-  
+  // submit new image
+
   const newImage = async (e, colorIter) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-   
+
     // update any product changes
 
     await fetch(`http://localhost:3000/products/update_product/`, {
@@ -108,7 +110,7 @@ const Edit = (props) => {
         colorArray: current_data.colorArray,
         product_id: current_data.product_id,
         _id: current_data._id,
-       
+
 
       }),
 
@@ -120,6 +122,7 @@ const Edit = (props) => {
       .then((response) => response.json())
       .then((data) => {
 
+        disablePic.current = false
         setCurrent_data(data)
 
       })
@@ -230,7 +233,7 @@ const Edit = (props) => {
   }
 
   // delete image
-  
+
   const deleteImage = async (colorIter, picIter) => {
 
     let array2 = structuredClone(current_data);
@@ -336,10 +339,13 @@ const Edit = (props) => {
     )
   }
 
-// set state to display add image
-  function showImage() {
-    
+  // set state to display add image
+  function showImage(colorIter) {
+
+    iterImage.current = colorIter
+    disablePic.current = true
     setShowPicForm(true)
+
   }
 
   // function display images 
@@ -356,7 +362,7 @@ const Edit = (props) => {
             return (
               <div key={iter}>
                 <img className="newProdImage" src={url}></img>
-              
+
                 <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
               </div>
             )
@@ -368,18 +374,18 @@ const Edit = (props) => {
     }
   }
 
-  const renderPicForm = (index2, iter1) => {
-    if (showPicForm == false) {
+  const renderPicForm = (index2, colorIter) => {
+    if (showPicForm == true && colorIter == iterImage.current) {
       return (
         <div>
-          {displayImages(index2, iter1)}
+          {newPicForm(colorIter)}
         </div>
       )
     }
     else {
       return (
         <div>
-          {newPicForm(iter1)}
+          {displayImages(index2, colorIter)}
         </div>
       )
     }
@@ -416,7 +422,7 @@ const Edit = (props) => {
                           <p><span className='productSpan'>weight:</span> {index3.weight}</p>
 
                           <button onClick={() => handleDelete(iter1, iter2)}>Delete</button>
-                          <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" > Edit</button>
+                          <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" >Edit</button>
 
                           {showForm(iter1, iter2)}
                         </div>
@@ -424,7 +430,7 @@ const Edit = (props) => {
                     })}
                     {renderPicForm(index2, iter1)}
 
-                    <button onClick={showImage}>add image</button>
+                    <button onClick={() => showImage(iter1)}  disabled={disablePic.current}>add image</button>
                   </div>
                 )
               })}
