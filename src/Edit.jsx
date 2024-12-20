@@ -89,9 +89,58 @@ const Edit = (props) => {
   }
 
   // submit new image
-  const newImage = async e => {
+  
+  const newImage = async (e, colorIter) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
 
-setShowPicForm(false)
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("category", category)
+    formData.append("brand", brand)
+    formData.append("modelNum", modelNum);
+    formData.append("description", description)
+    formData.append("colorArray", current_data.colorArray)
+    formData.append("product_id", current_data.product_id);
+    formData.append("_id", current_data._id)
+    formData.append("image", data.image);
+    formData.append("colorIter", colorIter);
+    
+
+    await fetch(`http://localhost:3000/products/image/`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setShowPicForm(false)
+        //setCurrent_data(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+
+      });
+
   }
 
   // display and populate form
@@ -196,10 +245,10 @@ setShowPicForm(false)
   }
 
   // render new pic form 
-  const newPicForm = () => {
+  const newPicForm = (colorIter) => {
     return (
       <div className="addImageContainer">
-        <form encType="multipart/form-data" id={iter} onSubmit={newImage}>
+        <form encType="multipart/form-data" id={iter} onSubmit={(e) => newImage(e, colorIter)}>
           <label>
             <div className="form-group">
               <label>Image (file must be .jpeg .jpg or .png):</label>
@@ -291,7 +340,7 @@ setShowPicForm(false)
     else {
       return (
         <div>
-          {newPicForm()}
+          {newPicForm(iter1)}
         </div>
       )
     }
