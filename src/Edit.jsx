@@ -97,7 +97,7 @@ const Edit = (props) => {
     // update any product changes
 
     await fetch(`http://localhost:3000/products/update_product/`, {
-      method: 'Delete',
+      method: 'Post',
       body: JSON.stringify({
 
         title: title,
