@@ -32,10 +32,14 @@ const Edit = (props) => {
   const [current_data, setCurrent_data] = useState(productData[0])
   const [showPicForm, setShowPicForm] = useState(false)
   const [showColorForm, setShowColorForm] = useState(false)
+  const [showSizeForm, setShowSizeForm] = useState(false)
   const iter = useRef();
   const disableEdit = useRef(false);
   const disablePic = useRef(false);
   const iterImage = useRef();
+  const iterSize = useRef();
+
+
 
 
   //send updates to API
@@ -337,6 +341,75 @@ const Edit = (props) => {
 
 
   }
+
+  // submit new size form
+  const submitNewSizeForm = (e) => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+  
+    let newColorArr = structuredClone(current_data.colorArray)
+    newColorArr[iterSize.current].sizeArray.push(data)
+    let newArr = {...current_data, colorArray: newColorArr}
+
+    setCurrent_data(newArr)
+    setShowSizeForm(false)
+
+  }
+// display new size form
+
+const displayNewSizeForm = (iterColor) => {
+
+  iterSize.current = iterColor
+
+  setShowSizeForm(true)
+
+}
+
+// add new size form
+const newSizeForm = () => {
+  if (showSizeForm == true) {
+return (
+  <div>
+      <form onSubmit={submitNewSizeForm} >
+          <label>
+            <p>Size</p>
+            <input className="sizeInput" type="text" name="size" />
+          </label>
+          <label>
+            <p>Price</p>
+            <input className="sizeInput" type="number" step="0.01" name="price" required />
+          </label>
+          <label>
+            <p>Quantity</p>
+            <input className="sizeInput" type="number" step="0.01" name="quantity" required />
+          </label>
+          <label>
+            <p>Length</p>
+            <input className="sizeInput" type="number" step="0.01" name="length" required />
+          </label>
+          <label>
+            <p>Width</p>
+            <input className="sizeInput" type="number" step="0.01" name="width" required />
+          </label>
+          <label>
+            <p>Height</p>
+            <input className="sizeInput" type="number" step="0.01" name="height" required />
+          </label>
+          <label>
+            <p>Weight</p>
+            <input className="sizeInput" type="number" name="weight" required />
+          </label>
+          <div className="newProductSubmit">
+            <button type="submit">Submit Changes</button>
+          </div>
+        </form>
+
+
+  </div>
+)
+  }
+}
   
   // submit color form
   const submitNewColorForm = (e) => {
@@ -507,7 +580,8 @@ return (
                 return (
                   <div key={iter1}>
                     <p><span className='productSpan'>color:</span> {index2.color}</p>
-                    <button>Add New Size</button>
+                    <button onClick={() => displayNewSizeForm(iter1)}>Add New Size</button>
+                    {newSizeForm()}
 
                     {index2.sizeArray.map((index3, iter2) => {
                       return (
