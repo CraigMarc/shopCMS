@@ -145,7 +145,7 @@ const Edit = (props) => {
 
     formData.append("current_id", current_data._id);
     formData.append("image", data.image);
-    formData.append("colorIter", colorIter);
+    formData.append("array_number", colorIter);
 
     await fetch(`http://localhost:3000/products/new_image/`, {
 
