@@ -223,12 +223,63 @@ const Edit = (props) => {
 
   // delete item from cart 
 
-  const handleDelete = (colorIter, sizeIter) => {
+  const handleDelete = async (colorIter, sizeIter) => {
 
     let array2 = structuredClone(current_data);
 
     array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
     setCurrent_data(array2)
+
+    // if size array empty delete pics and color array
+    if (current_data.colorArray[colorIter].sizeArray.length == 1){
+
+      //api call to delete pics and color array at color iter
+
+      await fetch(`http://localhost:3000/products/delete_color/`, {
+        method: 'Delete',
+        body: JSON.stringify({
+  
+          title: title,
+          category: category,
+          brand: brand,
+          modelNum: modelNum,
+          description: description,
+          colorArray: array2.colorArray,
+          product_id: array2.product_id,
+          _id: current_data._id,
+          color_iter: colorIter
+  
+        }),
+  
+        headers: {
+          Authorization: tokenFetch,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+  
+          setCurrent_data(data)
+  
+        })
+        .catch((err) => {
+          console.log(err.message);
+  
+          //send to login if token expires
+  
+          if (err.message.includes("Unauthorized")) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_id");
+            sessionStorage.removeItem("message");
+            setLogMessage(true)
+            navigate('/login')
+          }
+        })
+  
+  
+
+    }
+
 
   }
 
