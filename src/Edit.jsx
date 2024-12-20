@@ -33,6 +33,7 @@ const Edit = (props) => {
   const [showPicForm, setShowPicForm] = useState(false)
   const [showColorForm, setShowColorForm] = useState(false)
   const [showSizeForm, setShowSizeForm] = useState(false)
+  const [message, setMessage] = useState(false)
   const iter = useRef();
   const disableEdit = useRef(false);
   const disablePic = useRef(false);
@@ -45,55 +46,55 @@ const Edit = (props) => {
   //send updates to API
   const sendUpdates = async () => {
 
-    //e.preventDefault();
-    //const data = Object.fromEntries(new FormData(e.target).entries());
-
-
+    if (!title || !category || !description || !modelNum || !brand || current_data.colorArray.length == 0) {
+      setMessage(true)
+    }
     //send form data 
-    await fetch(`http://localhost:3000/products/edit/`, {
-      method: 'PUT',
-      body: JSON.stringify({
+    else {
+      await fetch(`http://localhost:3000/products/edit/`, {
+        method: 'PUT',
+        body: JSON.stringify({
 
-        title: title,
-        category: category,
-        brand: brand,
-        modelNum: modelNum,
-        description: description,
-        colorArray: current_data.colorArray,
-        product_id: current_data.product_id,
-        _id: current_data._id
+          title: title,
+          category: category,
+          brand: brand,
+          modelNum: modelNum,
+          description: description,
+          colorArray: current_data.colorArray,
+          product_id: current_data.product_id,
+          _id: current_data._id
 
-      }),
-      headers: {
-        Authorization: tokenFetch,
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-
-
-
-      .then((response) => response.json())
-      .then((data) => {
-        navigate('/')
-
+        }),
+        headers: {
+          Authorization: tokenFetch,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
       })
 
 
-      .catch((err) => {
-        console.log(err.message);
 
-        //send to login if token expires
+        .then((response) => response.json())
+        .then((data) => {
+          navigate('/')
 
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
+        })
 
-      });
 
+        .catch((err) => {
+          console.log(err.message);
+
+          //send to login if token expires
+
+          if (err.message.includes("Unauthorized")) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_id");
+            sessionStorage.removeItem("message");
+            setLogMessage(true)
+            navigate('/login')
+          }
+
+        });
+    }
 
   }
 
@@ -238,14 +239,14 @@ const Edit = (props) => {
     setCurrent_data(array2)
 
     // if size array empty delete pics and color array
-    if (current_data.colorArray[colorIter].sizeArray.length == 1){
+    if (current_data.colorArray[colorIter].sizeArray.length == 1) {
 
       //api call to delete pics and color array at color iter
 
       await fetch(`http://localhost:3000/products/delete_color/`, {
         method: 'Delete',
         body: JSON.stringify({
-  
+
           title: title,
           category: category,
           brand: brand,
@@ -255,9 +256,9 @@ const Edit = (props) => {
           product_id: current_data.product_id,
           _id: current_data._id,
           color_iter: colorIter
-  
+
         }),
-  
+
         headers: {
           Authorization: tokenFetch,
           'Content-type': 'application/json; charset=UTF-8',
@@ -265,15 +266,15 @@ const Edit = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-  
+
           setCurrent_data(data)
-  
+
         })
         .catch((err) => {
           console.log(err.message);
-  
+
           //send to login if token expires
-  
+
           if (err.message.includes("Unauthorized")) {
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user_id");
@@ -282,8 +283,8 @@ const Edit = (props) => {
             navigate('/login')
           }
         })
-  
-  
+
+
 
     }
 
@@ -344,84 +345,94 @@ const Edit = (props) => {
 
   }
 
+  function displayMessage() {
+    if (message == true) {
+      return (
+        <div>
+          <h3>All fields must be filled out</h3>
+        </div>
+      )
+    }
+  }
+
   // submit new size form
   const submitNewSizeForm = (e) => {
 
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-  
+
     let newColorArr = structuredClone(current_data.colorArray)
     newColorArr[iterSize.current].sizeArray.push(data)
-    let newArr = {...current_data, colorArray: newColorArr}
+    let newArr = { ...current_data, colorArray: newColorArr }
 
     setCurrent_data(newArr)
     setShowSizeForm(false)
 
   }
-// display new size form
+  // display new size form
 
-const displayNewSizeForm = (iterColor) => {
+  const displayNewSizeForm = (iterColor) => {
 
-  iterSize.current = iterColor
+    iterSize.current = iterColor
 
-  setShowSizeForm(true)
+    setShowSizeForm(true)
 
-}
-
-// add new size form
-const newSizeForm = () => {
-  if (showSizeForm == true) {
-return (
-  <div>
-      <form onSubmit={submitNewSizeForm} >
-          <label>
-            <p>Size</p>
-            <input className="sizeInput" type="text" name="size" />
-          </label>
-          <label>
-            <p>Price</p>
-            <input className="sizeInput" type="number" step="0.01" name="price" required />
-          </label>
-          <label>
-            <p>Quantity</p>
-            <input className="sizeInput" type="number" step="0.01" name="quantity" required />
-          </label>
-          <label>
-            <p>Length</p>
-            <input className="sizeInput" type="number" step="0.01" name="length" required />
-          </label>
-          <label>
-            <p>Width</p>
-            <input className="sizeInput" type="number" step="0.01" name="width" required />
-          </label>
-          <label>
-            <p>Height</p>
-            <input className="sizeInput" type="number" step="0.01" name="height" required />
-          </label>
-          <label>
-            <p>Weight</p>
-            <input className="sizeInput" type="number" name="weight" required />
-          </label>
-          <div className="newProductSubmit">
-            <button type="submit">Submit Changes</button>
-          </div>
-        </form>
-
-
-  </div>
-)
   }
-}
-  
+
+  // add new size form
+  const newSizeForm = () => {
+    if (showSizeForm == true) {
+      return (
+        <div>
+          <form onSubmit={submitNewSizeForm} >
+            <label>
+              <p>Size</p>
+              <input className="sizeInput" type="text" name="size" />
+            </label>
+            <label>
+              <p>Price</p>
+              <input className="sizeInput" type="number" step="0.01" name="price" required />
+            </label>
+            <label>
+              <p>Quantity</p>
+              <input className="sizeInput" type="number" step="0.01" name="quantity" required />
+            </label>
+            <label>
+              <p>Length</p>
+              <input className="sizeInput" type="number" step="0.01" name="length" required />
+            </label>
+            <label>
+              <p>Width</p>
+              <input className="sizeInput" type="number" step="0.01" name="width" required />
+            </label>
+            <label>
+              <p>Height</p>
+              <input className="sizeInput" type="number" step="0.01" name="height" required />
+            </label>
+            <label>
+              <p>Weight</p>
+              <input className="sizeInput" type="number" name="weight" required />
+            </label>
+            <div className="newProductSubmit">
+              <button type="submit">Submit Changes</button>
+            </div>
+          </form>
+
+
+        </div>
+      )
+    }
+  }
+
   // submit color form
   const submitNewColorForm = (e) => {
 
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-   
+
     let newColorArr = structuredClone(current_data.colorArray)
-    newColorArr.push({color: data.color, sizeArray: [], images: []})
-    let newArr = {...current_data, colorArray: newColorArr}
+    newColorArr.push({ color: data.color, sizeArray: [], images: [] })
+    let newArr = { ...current_data, colorArray: newColorArr }
 
     setCurrent_data(newArr)
     setShowColorForm(false)
@@ -437,25 +448,25 @@ return (
   }
   // add new color form
 
-const newColorForm = () => {
-  if (showColorForm == true) {
-return (
-  <div>
-     <form onSubmit={submitNewColorForm} >
-          <label>
-            <p>Color</p>
-            <input className="sizeInput" type="text" name="color" />
-          </label>
-          <div className="newProductSubmit">
-            <button type="submit">Submit Changes</button>
-          </div>
-        </form>
+  const newColorForm = () => {
+    if (showColorForm == true) {
+      return (
+        <div>
+          <form onSubmit={submitNewColorForm} >
+            <label>
+              <p>Color</p>
+              <input className="sizeInput" type="text" name="color" />
+            </label>
+            <div className="newProductSubmit">
+              <button type="submit">Submit Changes</button>
+            </div>
+          </form>
 
-  </div>
-)
+        </div>
+      )
+    }
+
   }
-
-}
 
   // render new pic form 
   const newPicForm = (colorIter) => {
@@ -605,7 +616,7 @@ return (
                     })}
                     {renderPicForm(index2, iter1)}
 
-                    <button onClick={() => showImage(iter1)}  disabled={disablePic.current}>add image</button>
+                    <button onClick={() => showImage(iter1)} disabled={disablePic.current}>add image</button>
                   </div>
                 )
               })}
@@ -698,6 +709,7 @@ return (
       <h2 className="pageTitle">Edit Post</h2>
       {renderform()}
       {renderColorArray()}
+      {displayMessage()}
       <button onClick={sendUpdates}>Submit Changes</button>
     </div>
 
