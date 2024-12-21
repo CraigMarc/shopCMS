@@ -92,10 +92,10 @@ const NewProduct = (props) => {
   const submitProduct = async event => {
     event.preventDefault();
     if (sizeArray.length == 0) {
-     setMessage2(true)
+      setMessage2(true)
     }
     else {
-    
+
       const data = Object.fromEntries(new FormData(event.target).entries());
       let uuid = self.crypto.randomUUID();
       const idData = { ...data, sizeArray: sizeArray }
@@ -119,7 +119,7 @@ const NewProduct = (props) => {
   const submitSize = async event => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target).entries());
-   
+
     data.height = data.height * 100
     data.length = data.length * 100
     data.price = data.price * 100
@@ -188,36 +188,39 @@ const NewProduct = (props) => {
   //display color 
 
   function displayColorArray() {
-    return (
-      <div>
-        <h3>Colors</h3>
-        {colorArray.map((index2, iter) => {
 
-          return (
-            <div key={iter}>
-              <p><span className='productSpan'>color:</span> {index2.color}</p>
+    if (colorArray.length > 0) {
+      return (
+        <div className="newProductColorContainer">
+          
+          {colorArray.map((index2, iter) => {
 
-              {index2.sizeArray.map((index3, iter) => {
-                return (
-                  <div className='productQuantityContainer' key={iter}>
-                    <p><span className='productSpan'>size:</span> {index3.size}</p>
-                    <p><span className='productSpan'>price:</span> {index3.price /100}</p>
-                    <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                    <p><span className='productSpan'>length:</span> {index3.length /100}</p>
-                    <p><span className='productSpan'>width:</span> {index3.width /100}</p>
-                    <p><span className='productSpan'>height:</span> {index3.height /100}</p>
-                    <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
+            return (
+              <div key={iter}>
+                <p><span className='productSpan'>color:</span> {index2.color}</p>
+
+                {index2.sizeArray.map((index3, iter) => {
+                  return (
+                    <div className='productQuantityContainer' key={iter}>
+                      <p><span className='productSpan'>size:</span> {index3.size}</p>
+                      <p><span className='productSpan'>price:</span> {index3.price / 100}</p>
+                      <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                      <p><span className='productSpan'>length:</span> {index3.length / 100}</p>
+                      <p><span className='productSpan'>width:</span> {index3.width / 100}</p>
+                      <p><span className='productSpan'>height:</span> {index3.height / 100}</p>
+                      <p><span className='productSpan'>weight:</span> {index3.weight / 100}</p>
 
 
-                  </div>
-                )
-              })}
+                    </div>
+                  )
+                })}
 
-            </div>
-          )
-        })}
-      </div>
-    )
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
   }
 
   // display main form
@@ -258,33 +261,35 @@ const NewProduct = (props) => {
 
   function displaySize() {
 
-    return (
-      <div>
-        <h3>sizes</h3>
-        {sizeArray.map((index, iter) => {
-          return (
-            
-            <div key={iter}>
-              <p>size: {index.size}</p>
-              <p>price: {index.price /100}</p>
-              <p>quantity: {index.quantity}</p>
-              <p>length: {index.length /100}</p>
-              <p>width: {index.width /100}</p>
-              <p>height: {index.height /100}</p>
-              <p>weight: {index.weight /100}</p>
+    if (sizeArray.length > 0) {
 
-            </div>
-          )
-        })}
+      return (
+        <div>
+          <h3>Sizes to be submitted hit add color to submit</h3>
+          {sizeArray.map((index, iter) => {
+            return (
 
-      </div>
-    )
+              <div key={iter}>
+                <p>size: {index.size}</p>
+                <p>price: {index.price / 100}</p>
+                <p>quantity: {index.quantity}</p>
+                <p>length: {index.length / 100}</p>
+                <p>width: {index.width / 100}</p>
+                <p>height: {index.height / 100}</p>
+                <p>weight: {index.weight / 100}</p>
 
+              </div>
+            )
+          })}
+
+        </div>
+      )
+    }
   }
 
   // display warning if size form is not complete
 
-  function displaySizeMessage () {
+  function displaySizeMessage() {
     if (message2 == true) {
       return (
         <div>
@@ -309,7 +314,7 @@ const NewProduct = (props) => {
             <p>Color</p>
             <input className="productInput" type="text" name="color" required />
           </label>
-          <div className="newProductSubmit">
+          <div className="addColorSubmit">
             {displaySizeMessage()}
             <button type="submit">Add Color</button>
 
@@ -395,7 +400,9 @@ const NewProduct = (props) => {
       return (
         <div>
           {displayMain()}
-          {addProduct()}
+          <div className="newProductMenuContainer">
+            {addProduct()}
+          </div>
           <div className="newProductSubmit">
             {displayMessage()}
             <button onClick={handleSubmit} type="submit product">Submit Product</button>
@@ -437,8 +444,8 @@ const NewProduct = (props) => {
 
     return (
       <div>
-        
-        <div className="post">
+
+        <div className="newProductContainer">
 
           <div className="card" >
 
@@ -463,12 +470,12 @@ const NewProduct = (props) => {
                       return (
                         <div className='productQuantityContainer' key={iter}>
                           <p><span className='productSpan'>size:</span> {index3.size}</p>
-                          <p><span className='productSpan'>price:</span> {index3.price /100}</p>
+                          <p><span className='productSpan'>price:</span> {index3.price / 100}</p>
                           <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                          <p><span className='productSpan'>length:</span> {index3.length /100}</p>
-                          <p><span className='productSpan'>width:</span> {index3.width /100}</p>
-                          <p><span className='productSpan'>height:</span> {index3.height /100}</p>
-                          <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
+                          <p><span className='productSpan'>length:</span> {index3.length / 100}</p>
+                          <p><span className='productSpan'>width:</span> {index3.width / 100}</p>
+                          <p><span className='productSpan'>height:</span> {index3.height / 100}</p>
+                          <p><span className='productSpan'>weight:</span> {index3.weight / 100}</p>
 
                         </div>
 
@@ -485,7 +492,7 @@ const NewProduct = (props) => {
                             <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
                           </div>
                         </label>
-                        <div className="addImage">
+                        <div className="addImageCont">
                           <button type="submit">Add New Picture</button>
                         </div>
                       </form>

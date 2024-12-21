@@ -423,7 +423,7 @@ const Edit = (props) => {
               <p>Weight</p>
               <input className="sizeInput" type="number" name="weight" required />
             </label>
-            <div className="newProductSubmit">
+            <div className="editColorSubmit">
               <button type="submit">Submit Changes</button>
             </div>
           </form>

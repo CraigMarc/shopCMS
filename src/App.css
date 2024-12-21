@@ -39,6 +39,11 @@ header {
   padding-top: 30px;
 }
 
+.newProductContainer {
+  width: 100%;
+  margin: 0;
+}
+
 .editContainer {
   .post {
     width: 100%;
@@ -240,4 +245,27 @@ padding-top: 10px;
 
 .colorText {
   padding-top: 25px;
+}
+
+.newProductMenuContainer {
+  text-align: left;
+  margin-left: 30px;
+}
+
+.newProductColorContainer {
+  text-align: left;
+  margin-left: 30px;
+}
+
+.addColorSubmit {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.newProductSubmit {
+  padding-top: 10px;
+}
+
+.addImageCont {
+  padding-bottom: 20px;
 }
