@@ -475,6 +475,13 @@ const Edit = (props) => {
         </div>
       )
     }
+    else {
+      return (
+        <div>
+           <button onClick={displayNewColorForm}>Add New Color</button>
+        </div>
+      )
+    }
 
   }
 
@@ -527,8 +534,10 @@ const Edit = (props) => {
           </label>
 
         </form>
-        <button onClick={displayNewColorForm}>Add New Color</button>
+        <div className="addNewColorContainer">
         {newColorForm()}
+        
+        </div>
       </>
     )
   }
@@ -585,6 +594,16 @@ const Edit = (props) => {
     }
   }
 
+  function renderSizeButton (iter1) {
+   if (showSizeForm == false) {
+    return (
+      <div>
+ <button onClick={() => displayNewSizeForm(iter1)}>Add New Size</button>
+      </div>
+    )
+  }
+  } 
+
   // display the colors and sizes
 
   const renderColorArray = () => {
@@ -603,7 +622,7 @@ const Edit = (props) => {
                 return (
                   <div key={iter1}>
                     <p><span className='productSpan'>color:</span> {index2.color}</p>
-                    <button onClick={() => displayNewSizeForm(iter1)}>Add New Size</button>
+                   {renderSizeButton(iter1)}
                     {newSizeForm()}
 
                     {index2.sizeArray.map((index3, iter2) => {
