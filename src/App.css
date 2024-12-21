@@ -39,6 +39,15 @@ header {
   padding-top: 30px;
 }
 
+.editContainer {
+  .post {
+    width: 100%;
+    margin: 0;
+   
+    padding-top: 30px;
+  }
+}
+
 .imgPost {
   width: 150px;
   height: 100px;
@@ -203,5 +212,32 @@ label {
 
 .addNewColorContainer {
   text-align: left;
+  
+  padding-top: 20px;
+  margin-left: 20px;
+}
+
+.sizeArrayButtonContainer {
+  padding-top: 10px;
+ display: flex;
+ gap: 10px;
+}
+
+.editImageContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding-bottom: 10px;
+}
+
+.editColorSubmit {
+padding-top: 10px;
+}
+
+.editNewSizeButtonContainer {
+ padding-top: 10px;
+}
+
+.colorText {
+  padding-top: 25px;
 }

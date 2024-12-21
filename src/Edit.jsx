@@ -467,7 +467,7 @@ const Edit = (props) => {
               <p>Color</p>
               <input className="sizeInput" type="text" name="color" />
             </label>
-            <div className="newProductSubmit">
+            <div className="editColorSubmit">
               <button type="submit">Submit Changes</button>
             </div>
           </form>
@@ -478,7 +478,7 @@ const Edit = (props) => {
     else {
       return (
         <div>
-           <button onClick={displayNewColorForm}>Add New Color</button>
+          <button onClick={displayNewColorForm}>Add New Color</button>
         </div>
       )
     }
@@ -535,8 +535,8 @@ const Edit = (props) => {
 
         </form>
         <div className="addNewColorContainer">
-        {newColorForm()}
-        
+          {newColorForm()}
+
         </div>
       </>
     )
@@ -563,9 +563,8 @@ const Edit = (props) => {
           {data.images.map((index, iter) => {
             let url = `http://localhost:3000/${index}`
             return (
-              <div key={iter}>
+              <div className="editImageContainer" key={iter}>
                 <img className="newProdImage" src={url}></img>
-
                 <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
               </div>
             )
@@ -594,15 +593,15 @@ const Edit = (props) => {
     }
   }
 
-  function renderSizeButton (iter1) {
-   if (showSizeForm == false) {
-    return (
-      <div>
- <button onClick={() => displayNewSizeForm(iter1)}>Add New Size</button>
-      </div>
-    )
+  function renderSizeButton(iter1) {
+    if (showSizeForm == false) {
+      return (
+        <div className="editNewSizeButtonContainer">
+          <button onClick={() => displayNewSizeForm(iter1)}>Add New Size</button>
+        </div>
+      )
+    }
   }
-  } 
 
   // display the colors and sizes
 
@@ -610,7 +609,7 @@ const Edit = (props) => {
     return (
       <div>
 
-        <div className="post">
+        <div className="editContainer">
 
           <div className="card" >
 
@@ -621,24 +620,24 @@ const Edit = (props) => {
 
                 return (
                   <div key={iter1}>
-                    <p><span className='productSpan'>color:</span> {index2.color}</p>
-                   {renderSizeButton(iter1)}
+                    <h4 className="colorText"><span className='productSpan'>color:</span> {index2.color}</h4>
+                    {renderSizeButton(iter1)}
                     {newSizeForm()}
 
                     {index2.sizeArray.map((index3, iter2) => {
                       return (
                         <div className='productQuantityContainer' key={iter2}>
                           <p><span className='productSpan'>size:</span> {index3.size}</p>
-                          <p><span className='productSpan'>price:</span> {index3.price /100}</p>
+                          <p><span className='productSpan'>price:</span> {index3.price / 100}</p>
                           <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                          <p><span className='productSpan'>length:</span> {index3.length /100}</p>
-                          <p><span className='productSpan'>width:</span> {index3.width /100}</p>
-                          <p><span className='productSpan'>height:</span> {index3.height /100}</p>
-                          <p><span className='productSpan'>weight:</span> {index3.weight /100}</p>
-
-                          <button onClick={() => handleDelete(iter1, iter2)}>Delete</button>
-                          <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" >Edit</button>
-
+                          <p><span className='productSpan'>length:</span> {index3.length / 100}</p>
+                          <p><span className='productSpan'>width:</span> {index3.width / 100}</p>
+                          <p><span className='productSpan'>height:</span> {index3.height / 100}</p>
+                          <p><span className='productSpan'>weight:</span> {index3.weight / 100}</p>
+                          <div className="sizeArrayButtonContainer">
+                            <button onClick={() => handleDelete(iter1, iter2)}>Delete</button>
+                            <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" >Edit</button>
+                          </div>
                           {showForm(iter1, iter2)}
                         </div>
                       )
@@ -691,7 +690,7 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Price</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].price /100} className="sizeInput" type="number" step="0.01" name="price" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].price / 100} className="sizeInput" type="number" step="0.01" name="price" required />
           </label>
           <label>
             <p>Quantity</p>
@@ -699,21 +698,21 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Length</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].length /100} className="sizeInput" type="number" step="0.01" name="length" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].length / 100} className="sizeInput" type="number" step="0.01" name="length" required />
           </label>
           <label>
             <p>Width</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].width /100} className="sizeInput" type="number" step="0.01" name="width" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].width / 100} className="sizeInput" type="number" step="0.01" name="width" required />
           </label>
           <label>
             <p>Height</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].height /100} className="sizeInput" type="number" step="0.01" name="height" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].height / 100} className="sizeInput" type="number" step="0.01" name="height" required />
           </label>
           <label>
             <p>Weight</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight /100} className="sizeInput" type="number" name="weight" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight / 100} className="sizeInput" type="number" name="weight" required />
           </label>
-          <div className="newProductSubmit">
+          <div className="editColorSubmit">
             <button type="submit">Submit Changes</button>
           </div>
         </form>
