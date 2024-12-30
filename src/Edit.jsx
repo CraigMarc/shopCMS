@@ -405,7 +405,7 @@ const Edit = (props) => {
             </label>
             <label>
               <p>Quantity</p>
-              <input className="sizeInput" type="number" step="0.01" name="quantity" required />
+              <input className="sizeInput" type="number" name="quantity" required />
             </label>
             <label>
               <p>Length</p>
@@ -421,7 +421,7 @@ const Edit = (props) => {
             </label>
             <label>
               <p>Weight</p>
-              <input className="sizeInput" type="number" name="weight" required />
+              <input className="sizeInput" type="number" step="0.01" name="weight" required />
             </label>
             <div className="editColorSubmit">
               <button type="submit">Submit Changes</button>
@@ -694,7 +694,7 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Quantity</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" step="0.01" name="quantity" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" name="quantity" required />
           </label>
           <label>
             <p>Length</p>
@@ -710,7 +710,7 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Weight</p>
-            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight / 100} className="sizeInput" type="number" name="weight" required />
+            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight / 100} className="sizeInput" type="number" step="0.01" name="weight" required />
           </label>
           <div className="editColorSubmit">
             <button type="submit">Submit Changes</button>
