@@ -6,6 +6,7 @@ import Edit from "./Edit"
 import NewProduct from "./NewProduct"
 import Orders from "./Orders"
 import EditOrder from "./EditOrder"
+import Category from "./Category"
 
 const Router = (props) => {
 
@@ -18,7 +19,9 @@ const Router = (props) => {
     logMessage,
     setLogMessage,
     orders,
-    setOrders
+    setOrders,
+    category,
+    setCategory
 
 
   } = props;
@@ -92,6 +95,19 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           orders={orders}
           setOrders={setOrders}
+
+        />,
+
+      errorElement: <ErrorPage />,
+    },
+
+    {
+      path: "/category",
+      element:
+        <Category
+        setLogMessage={setLogMessage}
+        category={category}
+        setCategory={setCategory}
 
         />,
 
