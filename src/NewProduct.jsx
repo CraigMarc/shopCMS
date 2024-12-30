@@ -125,6 +125,7 @@ const NewProduct = (props) => {
     data.price = data.price * 100
     data.weight = data.weight * 100
     data.width = data.width * 100
+    data.quantity = Number(data.quantity)
 
     let uuid = self.crypto.randomUUID();
     const idData = { ...data, id_size: uuid }
@@ -343,7 +344,7 @@ const NewProduct = (props) => {
           </label>
           <label>
             <p>Quantity</p>
-            <input className="sizeInput" type="number" step="0.01" name="quantity" required />
+            <input className="sizeInput" type="number" name="quantity" required />
           </label>
           <label>
             <p>Length</p>

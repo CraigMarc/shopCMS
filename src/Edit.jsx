@@ -217,7 +217,8 @@ const Edit = (props) => {
     data.price = data.price * 100
     data.weight = data.weight * 100
     data.width = data.width * 100
-
+    data.quantity = Number(data.quantity)
+    
     //set new color
     array2.colorArray[colorIter].color = data.color
 
@@ -370,7 +371,8 @@ const Edit = (props) => {
     data.price = data.price * 100
     data.weight = data.weight * 100
     data.width = data.width * 100
-
+    data.quantity = Number(data.quantity)
+   
     let newColorArr = structuredClone(current_data.colorArray)
     newColorArr[iterSize.current].sizeArray.push(data)
     let newArr = { ...current_data, colorArray: newColorArr }
