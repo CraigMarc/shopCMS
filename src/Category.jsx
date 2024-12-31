@@ -166,7 +166,6 @@ const NewCategory = (props) => {
       });
   };
 
-
   function ListCategories () {
     return (
       <div>
@@ -204,6 +203,9 @@ let url = `http://localhost:3000/${index.image}`
       </div>
     )
   }
+
+
+ 
 
   return (
     <div className="login-wrapper">

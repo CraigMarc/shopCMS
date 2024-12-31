@@ -11,6 +11,8 @@ function Products(props) {
     products,
     setProducts,
     setLogMessage,
+    category,
+    setCategory
 
   } = props;
 
@@ -101,7 +103,7 @@ function Products(props) {
 
   //get products
 
-
+/*
   const fetchInfo = async () => {
     //setLoading(true)
 
@@ -155,7 +157,66 @@ console.log(products)
   )
 
   if (loading) return <p>Loading...</p>;
+*/
 
+
+
+const fetchInfo = async () => {
+  //setLoading(true)
+
+  try {
+    //return fetch(picUrl)
+    
+    const [apiProducts, apiCategory] = await Promise.all([
+      await fetch('http://localhost:3000/users/all', {
+        headers: { Authorization: tokenFetch }
+      
+      }),
+      await fetch('http://localhost:3000/products/category', {
+        headers: { Authorization: tokenFetch }
+
+      })
+    ]);
+
+   
+
+    const productData = await apiProducts.json();
+    const categoryData = await apiCategory.json();
+
+    //setData(productData)
+    setProducts(productData)
+    setCategory(categoryData)
+  }
+
+  catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+    //add error message to dom
+    setError("true")
+
+  }
+  setLoading(false)
+
+}
+
+
+useEffect(() => {
+  fetchInfo();
+}, [])
+
+
+
+//display error and loading for api call
+
+if (error) return (
+  <div>
+
+    <p>A network error was encountered</p>
+  </div>
+)
+
+if (loading) return <p>Loading...</p>;
+
+// render page
 
   return (
     <div>
