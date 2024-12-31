@@ -24,66 +24,80 @@ const NewCategory = (props) => {
   const [loading, setLoading] = useState(true);
 
 
-  //get posts
+  //get category data
   
-  
-    const fetchInfo = async () => {
-      //setLoading(true)
-  
-      try {
-  
-        const apiData = await fetch('http://localhost:3000/products/category', {
-          headers: { Authorization: tokenFetch }
-  
-        })
-  
-  
-        const categoryData = await apiData.json();
-  
-        setCategory(categoryData)
-  
-      }
-  
-      catch (error) {
-        console.error("There has been a problem with your fetch operation:", error);
-        //add error message to dom
-        setError("true")
-  
-        //send to login if token expires
-  
-        if (error.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
-  
-      }
-      setLoading(false)
-  
-    }
-  
-  
-    useEffect(() => {
-      fetchInfo();
-    }, [])
-  
-  console.log(category)
-   
-    //display error and loading for api call
-  
-    if (error) return (
-      <div>
-  
-        <p>A network error was encountered</p>
-      </div>
-    )
-  
-    if (loading) return <p>Loading...</p>;
-  
-  
+  const fetchInfo = async () => {
 
+    setLoading(true)
+
+    try {
+
+      const apiData = await fetch('http://localhost:3000/products/category', {
+        headers: { Authorization: tokenFetch }
+
+      })
+
+
+      const categoryData = await apiData.json();
+
+      setCategory(categoryData)
+
+    }
+
+    catch (error) {
+      console.error("There has been a problem with your fetch operation:", error);
+      //add error message to dom
+      setError("true")
+
+      //send to login if token expires
+
+      if (error.message.includes("Unauthorized")) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user_id");
+        sessionStorage.removeItem("message");
+        setLogMessage(true)
+        navigate('/login')
+      }
+
+    }
+    setLoading(false)
+
+  }
+
+
+  useEffect(() => {
+    fetchInfo();
+  }, [])
+
+
+ 
+  //display error and loading for api call
+
+  if (error) return (
+    <div>
+
+      <p>A network error was encountered</p>
+    </div>
+  )
+
+  if (loading) return <p>Loading...</p>;
+
+
+
+
+ 
+  //display error and loading for api call
+
+  if (error) return (
+    <div>
+
+      <p>A network error was encountered</p>
+    </div>
+  )
+
+  if (loading) return <p>Loading...</p>
+  
+   
   //submit new post
 
   const handleSubmit = async e => {
@@ -107,7 +121,7 @@ const NewCategory = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        //navigate('/');
+        setCategory(data)
 
       })
       .catch((err) => {
@@ -122,7 +136,7 @@ const NewCategory = (props) => {
     let id = event.target.value
 
 
-    await fetch(`http://localhost:3000/products/deleteOrder/${id}`, {
+    await fetch(`http://localhost:3000/products/delete_category/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -133,7 +147,7 @@ const NewCategory = (props) => {
       .then((response) => response.json())
       .then((data) => {
 
-        setOrders(data)
+        setCategory(data)
         //maybe set state for a rerender
       })
       .catch((err) => {
@@ -178,7 +192,7 @@ let url = `http://localhost:3000/${index.image}`
       </div>
       <div className='allButtonContainer'>
         <div className="deleteButtonContainer">
-          <button className="delete" value={index._id} onClick={handleDelete} >delete order</button>
+          <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
 
         </div>
       </div>

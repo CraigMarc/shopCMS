@@ -1,12 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
 import Header from './Header'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const NewProduct = (props) => {
 
   const {
 
     setLogMessage,
+    category,
+    setCategory
 
   } = props;
 
@@ -15,7 +17,7 @@ const NewProduct = (props) => {
   const [sizeArray, setSizeArray] = useState([])
   const [colorArray, setcolorArray] = useState([])
   const [title, setTitle] = useState()
-  const [category, setCategory] = useState()
+  const [categoryForm, setCategoryForm] = useState()
   const [brand, setBrand] = useState()
   const [modelNum, setModelNum] = useState()
   const [description, setDescription] = useState()
@@ -23,10 +25,91 @@ const NewProduct = (props) => {
   const display = useRef(false);
   const [message, setMessage] = useState(false)
   const [message2, setMessage2] = useState(false)
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const category_id = useRef();
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
+
+  // get category data
+
+  const fetchInfo = async () => {
+
+    setLoading(true)
+
+    try {
+
+      const apiData = await fetch('http://localhost:3000/products/category', {
+        headers: { Authorization: tokenFetch }
+
+      })
+
+
+      const categoryData = await apiData.json();
+
+      setCategory(categoryData)
+      category_id.current = categoryData[0]._id
+      setCategoryForm(categoryData[0].name)
+
+    }
+
+    catch (error) {
+      console.error("There has been a problem with your fetch operation:", error);
+      //add error message to dom
+      setError("true")
+
+      //send to login if token expires
+
+      if (error.message.includes("Unauthorized")) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user_id");
+        sessionStorage.removeItem("message");
+        setLogMessage(true)
+        navigate('/login')
+      }
+
+    }
+    setLoading(false)
+
+  }
+
+
+  useEffect(() => {
+    fetchInfo();
+  }, [])
+
+
+
+  //display error and loading for api call
+
+  if (error) return (
+    <div>
+
+      <p>A network error was encountered</p>
+    </div>
+  )
+
+  if (loading) return <p>Loading...</p>;
+
+
+
+
+
+  //display error and loading for api call
+
+  if (error) return (
+    <div>
+
+      <p>A network error was encountered</p>
+    </div>
+  )
+
+  if (loading) return <p>Loading...</p>
+
+
+
 
 
   // submit new product
@@ -44,7 +127,7 @@ const NewProduct = (props) => {
         method: 'POST',
         body: JSON.stringify({
           title: title,
-          category: category,
+          category: category_id.current,
           description: description,
           modelNum: modelNum,
           brand: brand,
@@ -185,6 +268,46 @@ const NewProduct = (props) => {
 
   }
 
+  // change cat
+  function changeCategory(e) {
+
+    let index = category.findIndex(
+      (temp) => temp['name'] == e.target.value)
+
+
+    category_id.current = category[index]._id
+    setCategoryForm(e.target.value)
+  }
+
+  //dropdown form
+
+
+  function Dropdown() {
+
+    return (
+      <div>
+
+        <label>Category</label>
+        <select required value={categoryForm} onChange={(e) => changeCategory(e)}>
+
+          {category.map((item, iter) => {
+            let category = item.name
+
+
+            return (
+              <option id={iter} key={iter}>{category}</option>
+
+            )
+          })}
+        </select>
+
+
+      </div>
+    )
+
+  }
+
+
 
   //display color 
 
@@ -193,7 +316,7 @@ const NewProduct = (props) => {
     if (colorArray.length > 0) {
       return (
         <div className="newProductColorContainer">
-          
+
           {colorArray.map((index2, iter) => {
 
             return (
@@ -234,10 +357,7 @@ const NewProduct = (props) => {
             <p>Product Name</p>
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" type="text" name="title" required />
           </label>
-          <label>
-            <p>Category</p>
-            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" type="text" name="category" required />
-          </label>
+          <Dropdown />
           <label>
             <p>Brand</p>
             <input onChange={(e) => setBrand(e.target.value)} className="titleInput" type="text" name="brand" />

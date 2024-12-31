@@ -69,6 +69,8 @@ const Router = (props) => {
         <NewProduct
           products={products}
           setLogMessage={setLogMessage}
+          category={category}
+          setCategory={setCategory}
 
         />,
 

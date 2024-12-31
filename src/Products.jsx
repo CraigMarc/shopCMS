@@ -99,7 +99,7 @@ function Products(props) {
   };
 
 
-  //get posts
+  //get products
 
 
   const fetchInfo = async () => {
@@ -144,8 +144,7 @@ function Products(props) {
     fetchInfo();
   }, [])
 
-
- 
+console.log(products)
   //display error and loading for api call
 
   if (error) return (
@@ -189,7 +188,7 @@ function Products(props) {
                     
                   </div>
                   <div className='descriptionContainer'>
-                    <p><span className='productSpan'>category:</span> {index.category}</p>
+                    <p><span className='productSpan'>category:</span> {index.category[0].name}</p>
                     <p><span className='productSpan'>brand:</span> {index.brand}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
