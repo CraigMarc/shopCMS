@@ -18,7 +18,7 @@ const NewProduct = (props) => {
   const [sizeArray, setSizeArray] = useState([])
   const [colorArray, setcolorArray] = useState([])
   const [title, setTitle] = useState()
-  const [categoryForm, setCategoryForm] = useState()
+  const [categoryForm, setCategoryForm] = useState(category[0].name)
   const [brand, setBrand] = useState()
   const [modelNum, setModelNum] = useState()
   const [description, setDescription] = useState()
@@ -28,13 +28,15 @@ const NewProduct = (props) => {
   const [message2, setMessage2] = useState(false)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const category_id = useRef();
+  const category_id = useRef(category[0]._id);
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
- 
+ console.log(category_id.current)
+ console.log(categoryForm)
+ console.log(category)
   // submit new product
 
   const handleSubmit = async () => {

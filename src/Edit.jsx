@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from 'react'
 import Header from './Header'
+import Dropdown from './Dropdown'
 
 
 const Edit = (props) => {
@@ -10,13 +11,15 @@ const Edit = (props) => {
     products,
     setProducts,
     setLogMessage,
+    category,
+    setCategory
 
   } = props;
 
   const urlParams = useParams();
   const productId = urlParams.id
   const productData = products.filter((product) => product._id == productId)
-
+  
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem("token");
@@ -25,7 +28,7 @@ const Edit = (props) => {
 
   const [display, setDisplay] = useState(false)
   const [title, setTitle] = useState(productData[0].title)
-  const [category, setCategory] = useState(productData[0].category)
+  const [categoryForm, setCategoryForm] = useState(productData[0].category[0].name)
   const [brand, setBrand] = useState(productData[0].brand)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
@@ -39,6 +42,7 @@ const Edit = (props) => {
   const disablePic = useRef(false);
   const iterImage = useRef();
   const iterSize = useRef();
+  const category_id = useRef(productData[0].category[0]._id);
 
 
   //send updates to API
@@ -54,7 +58,7 @@ const Edit = (props) => {
         body: JSON.stringify({
 
           title: title,
-          category: category,
+          category: category_id.current,
           brand: brand,
           modelNum: modelNum,
           description: description,
@@ -518,10 +522,12 @@ const Edit = (props) => {
             <p>Product Name</p>
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={current_data.title} type="text" name="title" />
           </label>
-          <label>
-            <p>Category</p>
-            <input onChange={(e) => setCategory(e.target.value)} className="titleInput" defaultValue={current_data.category} type="text" name="category" />
-          </label>
+          <Dropdown
+          category={category}
+          setCategoryForm={setCategoryForm}
+          category_id={category_id}
+          categoryForm={categoryForm}
+          />
           <label>
             <p>Brand</p>
             <input onChange={(e) => setBrand(e.target.value)} className="titleInput" defaultValue={current_data.brand} type="text" name="brand" />

@@ -60,6 +60,8 @@ const Router = (props) => {
           products={products}
           setProducts={setProducts}
           setLogMessage={setLogMessage}
+          category={category}
+          setCategory={setCategory}
         />,
 
       errorElement: <ErrorPage />,
