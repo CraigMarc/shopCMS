@@ -5,31 +5,32 @@
 
     const {
 
-       category,
-       setCategoryForm,
-       category_id,
-       categoryForm
+       dataName,
+       setForm,
+       data_id,
+       dataForm,
+       labelName
     
       } = props;
 
     // change cat
   function changeCategory(e) {
 
-    let index = category.findIndex(
+    let index = dataName.findIndex(
       (temp) => temp['name'] == e.target.value)
 
 
-    category_id.current = category[index]._id
-    setCategoryForm(e.target.value)
+    data_id.current = dataName[index]._id
+    setForm(e.target.value)
   }
 
     return (
       <div>
 
-        <label>Category</label>
-        <select required value={categoryForm} onChange={(e) => changeCategory(e)}>
+        <label>{labelName}</label>
+        <select required value={dataForm} onChange={(e) => changeCategory(e)}>
 
-          {category.map((item, iter) => {
+          {dataName.map((item, iter) => {
             let category = item.name
 
 

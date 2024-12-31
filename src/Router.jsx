@@ -67,6 +67,8 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           category={category}
           setCategory={setCategory}
+          brand={brand}
+          setBrand={setBrand}
         />,
 
       errorElement: <ErrorPage />,
@@ -80,6 +82,8 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           category={category}
           setCategory={setCategory}
+          brand={brand}
+          setBrand={setBrand}
 
         />,
 

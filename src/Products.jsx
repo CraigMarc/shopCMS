@@ -101,67 +101,7 @@ function Products(props) {
       });
   };
 
-
-  //get products
-
-/*
-  const fetchInfo = async () => {
-    //setLoading(true)
-
-    try {
-
-      const apiProducts = await fetch('http://localhost:3000/users/all', {
-        headers: { Authorization: tokenFetch }
-
-      })
-
-
-      const productData = await apiProducts.json();
-
-      setProducts(productData)
-
-    }
-
-    catch (error) {
-      console.error("There has been a problem with your fetch operation:", error);
-      //add error message to dom
-      setError("true")
-
-      //send to login if token expires
-
-      if (error.message.includes("Unauthorized")) {
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user_id");
-        sessionStorage.removeItem("message");
-        setLogMessage(true)
-        navigate('/login')
-      }
-
-    }
-    setLoading(false)
-
-  }
-
-
-  useEffect(() => {
-    fetchInfo();
-  }, [])
-
-console.log(products)
-  //display error and loading for api call
-
-  if (error) return (
-    <div>
-
-      <p>A network error was encountered</p>
-    </div>
-  )
-
-  if (loading) return <p>Loading...</p>;
-*/
-
-
-
+  
 const fetchInfo = async () => {
   //setLoading(true)
 
@@ -211,7 +151,6 @@ useEffect(() => {
 }, [])
 
 
-
 //display error and loading for api call
 
 if (error) return (
@@ -257,7 +196,7 @@ if (loading) return <p>Loading...</p>;
                   </div>
                   <div className='descriptionContainer'>
                     <p><span className='productSpan'>category:</span> {index.category.name}</p>
-                    <p><span className='productSpan'>brand:</span> {index.brand}</p>
+                    <p><span className='productSpan'>brand:</span> {index.brand.name}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
 

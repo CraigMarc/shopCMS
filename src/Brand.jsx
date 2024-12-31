@@ -94,7 +94,7 @@ const Brand = (props) => {
     if (brand) {
       return (
         <div>
-          <h2>Orders</h2>
+          <h2>Brands</h2>
 
           {brand.map((index, iter) => {
 

@@ -12,7 +12,9 @@ const Edit = (props) => {
     setProducts,
     setLogMessage,
     category,
-    setCategory
+    setCategory,
+    brand,
+    setBrand
 
   } = props;
 
@@ -28,8 +30,8 @@ const Edit = (props) => {
 
   const [display, setDisplay] = useState(false)
   const [title, setTitle] = useState(productData[0].title)
-  const [categoryForm, setCategoryForm] = useState(productData[0].category[0].name)
-  const [brand, setBrand] = useState(productData[0].brand)
+  const [categoryForm, setCategoryForm] = useState(productData[0].category.name)
+  const [brandForm, setBrandForm] = useState(productData[0].brand.name)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
   const [current_data, setCurrent_data] = useState(productData[0])
@@ -42,8 +44,8 @@ const Edit = (props) => {
   const disablePic = useRef(false);
   const iterImage = useRef();
   const iterSize = useRef();
-  const category_id = useRef(productData[0].category[0]._id);
-
+  const category_id = useRef(productData[0].category._id);
+  const brand_id = useRef(productData[0].brand._id);
 
   //send updates to API
   const sendUpdates = async () => {
@@ -59,7 +61,7 @@ const Edit = (props) => {
 
           title: title,
           category: category_id.current,
-          brand: brand,
+          brand: brand_id.current,
           modelNum: modelNum,
           description: description,
           colorArray: current_data.colorArray,
@@ -113,8 +115,8 @@ const Edit = (props) => {
       body: JSON.stringify({
 
         title: title,
-        category: category,
-        brand: brand,
+        category: category_id.current,
+        brand: brand_id.current,
         modelNum: modelNum,
         description: description,
         colorArray: current_data.colorArray,
@@ -257,8 +259,8 @@ const Edit = (props) => {
         body: JSON.stringify({
 
           title: title,
-          category: category,
-          brand: brand,
+          category: category_id.current,
+          brand: brand_id.current,
           modelNum: modelNum,
           description: description,
           colorArray: current_data.colorArray,
@@ -314,8 +316,8 @@ const Edit = (props) => {
       body: JSON.stringify({
 
         title: title,
-        category: category,
-        brand: brand,
+        category: category_id.current,
+        brand: brand_id.current,
         modelNum: modelNum,
         description: description,
         colorArray: array2.colorArray,
@@ -523,10 +525,18 @@ const Edit = (props) => {
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={current_data.title} type="text" name="title" />
           </label>
           <Dropdown
-          category={category}
-          setCategoryForm={setCategoryForm}
-          category_id={category_id}
-          categoryForm={categoryForm}
+          dataName={category}
+          setForm={setCategoryForm}
+          data_id={category_id}
+          dataForm={categoryForm}
+          labelName="Category"
+          />
+          <Dropdown
+          dataName={brand}
+          setForm={setBrandForm}
+          data_id={brand_id}
+          dataForm={brandForm}
+          labelName="Brand"
           />
           <label>
             <p>Brand</p>

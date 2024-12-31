@@ -94,7 +94,7 @@ const Category = (props) => {
     if (category) {
       return (
         <div>
-          <h2>Orders</h2>
+          <h2>Categories</h2>
 
           {category.map((index, iter) => {
 

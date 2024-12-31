@@ -9,7 +9,9 @@ const NewProduct = (props) => {
 
     setLogMessage,
     category,
-    setCategory
+    setCategory,
+    brand,
+    setBrand
 
   } = props;
 
@@ -19,7 +21,7 @@ const NewProduct = (props) => {
   const [colorArray, setcolorArray] = useState([])
   const [title, setTitle] = useState()
   const [categoryForm, setCategoryForm] = useState(category[0].name)
-  const [brand, setBrand] = useState()
+  const [brandForm, setBrandForm] = useState(brand[0].name)
   const [modelNum, setModelNum] = useState()
   const [description, setDescription] = useState()
   const [current_data, setCurrent_data] = useState()
@@ -29,6 +31,7 @@ const NewProduct = (props) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const category_id = useRef(category[0]._id);
+  const brand_id = useRef(brand[0]._id);
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -52,7 +55,7 @@ const NewProduct = (props) => {
           category: category_id.current,
           description: description,
           modelNum: modelNum,
-          brand: brand,
+          brand: brand_id.current,
           colorArray: colorArray,
           product_id: uuid
 
@@ -242,15 +245,19 @@ const NewProduct = (props) => {
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" type="text" name="title" required />
           </label>
           <Dropdown
-          category={category}
-          setCategoryForm={setCategoryForm}
-          category_id={category_id}
-          categoryForm={categoryForm}
+          dataName={category}
+          setForm={setCategoryForm}
+          data_id={category_id}
+          dataForm={categoryForm}
+          labelName="Category"
           />
-          <label>
-            <p>Brand</p>
-            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" type="text" name="brand" />
-          </label>
+          <Dropdown
+          dataName={brand}
+          setForm={setBrandForm}
+          data_id={brand_id}
+          dataForm={brandForm}
+          labelName="Brand"
+          />
           <label>
             <label>
               <p>Model Number</p>
