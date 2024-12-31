@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react'
 import Header from './Header'
 
 
-const Category = (props) => {
+const Brand = (props) => {
 
 
   const {
 
-    category,
-    setCategory,
+    brand,
+    setBrand,
     setLogMessage,
 
   } = props;
@@ -21,7 +21,8 @@ const Category = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
 
-  //submit new post
+
+  //submit new brand
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -31,20 +32,19 @@ const Category = (props) => {
     formData.append("image", data.image);
 
 
-    await fetch(`http://localhost:3000/products/new_category/`, {
+    await fetch(`http://localhost:3000/products/new_brand/`, {
 
       method: 'Post',
       body: formData,
 
       headers: {
         Authorization: tokenFetch,
-        //'Content-type': 'application/json; charset=UTF-8',
 
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        setCategory(data)
+        setBrand(data)
 
       })
       .catch((err) => {
@@ -53,13 +53,13 @@ const Category = (props) => {
 
   }
 
-  // delete category
+  // delete brand
 
   const handleDelete = async (event) => {
     let id = event.target.value
 
 
-    await fetch(`http://localhost:3000/products/delete_category/${id}`, {
+    await fetch(`http://localhost:3000/products/delete_brand/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -70,8 +70,8 @@ const Category = (props) => {
       .then((response) => response.json())
       .then((data) => {
 
-        setCategory(data)
-        //maybe set state for a rerender
+        setBrand(data)
+
       })
       .catch((err) => {
         console.log(err.message);
@@ -91,12 +91,12 @@ const Category = (props) => {
 
   function ListCategories() {
 
-    if (category) {
+    if (brand) {
       return (
         <div>
           <h2>Orders</h2>
 
-          {category.map((index, iter) => {
+          {brand.map((index, iter) => {
 
             let url = `http://localhost:3000/${index.image}`
 
@@ -116,7 +116,7 @@ const Category = (props) => {
                 </div>
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
+                    <button className="delete" value={index._id} onClick={handleDelete} >delete brand</button>
 
                   </div>
                 </div>
@@ -131,7 +131,7 @@ const Category = (props) => {
     else {
       return (
         <div>
-          <h3>there are no categories</h3>
+          <h3>there are no brands</h3>
         </div>
       )
     }
@@ -145,7 +145,7 @@ const Category = (props) => {
 
       <Header />
       <ListCategories />
-      <h2 className="pageTitle">New Category</h2>
+      <h3 className="pageTitle">New Brand</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>
@@ -167,4 +167,4 @@ const Category = (props) => {
 
 
 
-export default Category;
+export default Brand;

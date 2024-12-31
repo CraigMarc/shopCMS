@@ -7,6 +7,8 @@ import NewProduct from "./NewProduct"
 import Orders from "./Orders"
 import EditOrder from "./EditOrder"
 import Category from "./Category"
+import Brand from "./Brand"
+
 
 const Router = (props) => {
 
@@ -21,7 +23,9 @@ const Router = (props) => {
     orders,
     setOrders,
     category,
-    setCategory
+    setCategory,
+    brand,
+    setBrand
 
 
   } = props;
@@ -114,6 +118,19 @@ const Router = (props) => {
         setLogMessage={setLogMessage}
         category={category}
         setCategory={setCategory}
+
+        />,
+
+      errorElement: <ErrorPage />,
+    },
+
+    {
+      path: "/brand",
+      element:
+        <Brand
+        setLogMessage={setLogMessage}
+        brand={brand}
+        setBrand={setBrand}
 
         />,
 

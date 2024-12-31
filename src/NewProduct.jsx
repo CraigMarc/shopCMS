@@ -34,9 +34,6 @@ const NewProduct = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
- console.log(category_id.current)
- console.log(categoryForm)
- console.log(category)
   // submit new product
 
   const handleSubmit = async () => {
