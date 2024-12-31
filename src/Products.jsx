@@ -12,7 +12,8 @@ function Products(props) {
     setProducts,
     setLogMessage,
     category,
-    setCategory
+    setCategory,
+    setBrand
 
   } = props;
 
@@ -167,12 +168,16 @@ const fetchInfo = async () => {
   try {
     //return fetch(picUrl)
     
-    const [apiProducts, apiCategory] = await Promise.all([
+    const [apiProducts, apiCategory, apiBrand] = await Promise.all([
       await fetch('http://localhost:3000/users/all', {
         headers: { Authorization: tokenFetch }
       
       }),
       await fetch('http://localhost:3000/products/category', {
+        headers: { Authorization: tokenFetch }
+
+      }),
+      await fetch('http://localhost:3000/products/brand', {
         headers: { Authorization: tokenFetch }
 
       })
@@ -182,10 +187,12 @@ const fetchInfo = async () => {
 
     const productData = await apiProducts.json();
     const categoryData = await apiCategory.json();
+    const brandData = await apiBrand.json();
 
     //setData(productData)
     setProducts(productData)
     setCategory(categoryData)
+    setBrand(brandData)
   }
 
   catch (error) {
