@@ -1,6 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import Header from './Header'
 import { useState, useRef, useEffect } from 'react'
+import Dropdown from './Dropdown'
 
 const NewProduct = (props) => {
 
@@ -190,47 +191,9 @@ const NewProduct = (props) => {
 
   }
 
-  // change cat
-  function changeCategory(e) {
+  
 
-    let index = category.findIndex(
-      (temp) => temp['name'] == e.target.value)
-
-
-    category_id.current = category[index]._id
-    setCategoryForm(e.target.value)
-  }
-
-  //dropdown form
-
-
-  function Dropdown() {
-
-    return (
-      <div>
-
-        <label>Category</label>
-        <select required value={categoryForm} onChange={(e) => changeCategory(e)}>
-
-          {category.map((item, iter) => {
-            let category = item.name
-
-
-            return (
-              <option id={iter} key={iter}>{category}</option>
-
-            )
-          })}
-        </select>
-
-
-      </div>
-    )
-
-  }
-
-
-
+ 
   //display color 
 
   function displayColorArray() {
@@ -279,7 +242,12 @@ const NewProduct = (props) => {
             <p>Product Name</p>
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" type="text" name="title" required />
           </label>
-          <Dropdown />
+          <Dropdown
+          category={category}
+          setCategoryForm={setCategoryForm}
+          category_id={category_id}
+          categoryForm={categoryForm}
+          />
           <label>
             <p>Brand</p>
             <input onChange={(e) => setBrand(e.target.value)} className="titleInput" type="text" name="brand" />
