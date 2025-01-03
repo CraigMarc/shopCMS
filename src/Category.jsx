@@ -20,6 +20,7 @@ const Category = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
+  const [message, setMessage] = useState(false)
 
   //submit new post
 
@@ -70,7 +71,13 @@ const Category = (props) => {
       .then((response) => response.json())
       .then((data) => {
 
+        if (data.message == "category in use") {
+            setMessage(true)
+        }
+        else {
         setCategory(data)
+        setMessage(false)
+        }
         //maybe set state for a rerender
       })
       .catch((err) => {
@@ -137,7 +144,15 @@ const Category = (props) => {
     }
   }
 
-
+  function DisplayMessage() {
+    if (message == true) {
+      return (
+        <div>
+          <h3>This category is in use delete all products using the category to delete the category</h3>
+        </div>
+      )
+    }
+  }
 
 
   return (
@@ -145,6 +160,7 @@ const Category = (props) => {
 
       <Header />
       <ListCategories />
+      <DisplayMessage/>
       <h2 className="pageTitle">New Category</h2>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
