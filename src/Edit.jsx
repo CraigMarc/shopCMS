@@ -539,10 +539,6 @@ const Edit = (props) => {
           labelName="Brand"
           />
           <label>
-            <p>Brand</p>
-            <input onChange={(e) => setBrand(e.target.value)} className="titleInput" defaultValue={current_data.brand} type="text" name="brand" />
-          </label>
-          <label>
             <p>Model Number</p>
             <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={current_data.modelNum} type="text" name="modelNum" />
           </label>
