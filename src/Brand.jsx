@@ -20,7 +20,7 @@ const Brand = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-
+  const [message, setMessage] = useState(false)
 
   //submit new brand
 
@@ -70,7 +70,14 @@ const Brand = (props) => {
       .then((response) => response.json())
       .then((data) => {
 
-        setBrand(data)
+        if (data.message == "category in use") {
+          setMessage(true)
+        }
+        else {
+          setBrand(data)
+          setMessage(false)
+        }
+
 
       })
       .catch((err) => {
@@ -137,7 +144,15 @@ const Brand = (props) => {
     }
   }
 
-
+function DisplayMessage() {
+    if (message == true) {
+      return (
+        <div>
+          <h3>This brand is in use delete all products using the brand to delete the brand</h3>
+        </div>
+      )
+    }
+  }
 
 
   return (
@@ -145,6 +160,7 @@ const Brand = (props) => {
 
       <Header />
       <ListCategories />
+      <DisplayMessage/>
       <h3 className="pageTitle">New Brand</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>

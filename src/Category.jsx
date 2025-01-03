@@ -78,7 +78,7 @@ const Category = (props) => {
         setCategory(data)
         setMessage(false)
         }
-        //maybe set state for a rerender
+       
       })
       .catch((err) => {
         console.log(err.message);
