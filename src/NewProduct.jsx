@@ -506,7 +506,7 @@ const NewProduct = (props) => {
                         <label>
                           <div className="form-group">
                             <label>Image (file must be .jpeg .jpg or .png):</label>
-                            <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+                            <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
                           </div>
                         </label>
                         <div className="addImageCont">
