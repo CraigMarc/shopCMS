@@ -109,18 +109,9 @@ const fetchInfo = async () => {
     //return fetch(picUrl)
     
     const [apiProducts, apiCategory, apiBrand] = await Promise.all([
-      await fetch('http://localhost:3000/users/all', {
-        headers: { Authorization: tokenFetch }
-      
-      }),
-      await fetch('http://localhost:3000/products/category', {
-        headers: { Authorization: tokenFetch }
-
-      }),
-      await fetch('http://localhost:3000/products/brand', {
-        headers: { Authorization: tokenFetch }
-
-      })
+      await fetch('http://localhost:3000/users/all'), 
+      await fetch('http://localhost:3000/users/category'),
+      await fetch('http://localhost:3000/users/brand')
     ]);
 
    

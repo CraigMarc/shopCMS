@@ -165,7 +165,7 @@ const Category = (props) => {
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>
-          <input className="nameInput" type="text" name="name" />
+          <input className="nameInput" type="text" required name="name" />
         </label>
         <div className="addImage">
           <label>Image (file must be .jpeg .jpg or .png):</label>
