@@ -189,6 +189,7 @@ if (loading) return <p>Loading...</p>;
                     <p><span className='productSpan'>category:</span> {index.category.name}</p>
                     <p><span className='productSpan'>brand:</span> {index.brand.name}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
+                    <p><span className='productSpan'>sale percent:</span> {index.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
 
                     {index.colorArray.map((index2, iter) => {

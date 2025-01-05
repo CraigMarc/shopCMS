@@ -23,6 +23,7 @@ const NewProduct = (props) => {
   const [categoryForm, setCategoryForm] = useState(category[0].name)
   const [brandForm, setBrandForm] = useState(brand[0].name)
   const [modelNum, setModelNum] = useState()
+  const [salePercent, setSalePercent] = useState()
   const [description, setDescription] = useState()
   const [current_data, setCurrent_data] = useState()
   const display = useRef(false);
@@ -55,6 +56,7 @@ const NewProduct = (props) => {
           category: category_id.current,
           description: description,
           modelNum: modelNum,
+          sale_percent: salePercent,
           brand: brand_id.current,
           colorArray: colorArray,
           product_id: uuid
@@ -262,6 +264,10 @@ const NewProduct = (props) => {
             <label>
               <p>Model Number</p>
               <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" type="text" name="modelNum" />
+            </label>
+            <label>
+              <p>Sale Percent (not required)</p>
+              <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" type="text" name="sale_percent" />
             </label>
             <p>Description</p>
             <textarea onChange={(e) => setDescription(e.target.value)} className="descriptInput" type="text" name="description" required />
@@ -473,6 +479,7 @@ const NewProduct = (props) => {
             <div className='descriptionContainer'>
               <p><span className='productSpan'>category:</span> {current_data.category}</p>
               <p><span className='productSpan'>brand:</span> {current_data.brand}</p>
+              <p><span className='productSpan'>sale_percent:</span> {current_data.sale_percent}</p>
               <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
               <p><span className='productSpan'>description:</span> {current_data.description}</p>
 

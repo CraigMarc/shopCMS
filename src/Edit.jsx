@@ -34,6 +34,7 @@ const Edit = (props) => {
   const [brandForm, setBrandForm] = useState(productData[0].brand.name)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
+  const [salePercent, setSalePercent] = useState(productData[0].sale_percent)
   const [current_data, setCurrent_data] = useState(productData[0])
   const [showPicForm, setShowPicForm] = useState(false)
   const [showColorForm, setShowColorForm] = useState(false)
@@ -64,6 +65,7 @@ const Edit = (props) => {
           brand: brand_id.current,
           modelNum: modelNum,
           description: description,
+          sale_percent: salePercent,
           colorArray: current_data.colorArray,
           product_id: current_data.product_id,
           _id: current_data._id
@@ -119,6 +121,7 @@ const Edit = (props) => {
         brand: brand_id.current,
         modelNum: modelNum,
         description: description,
+        sale_percent: salePercent,
         colorArray: current_data.colorArray,
         product_id: current_data.product_id,
         _id: current_data._id,
@@ -263,6 +266,7 @@ const Edit = (props) => {
           brand: brand_id.current,
           modelNum: modelNum,
           description: description,
+          sale_percent: salePercent,
           colorArray: current_data.colorArray,
           product_id: current_data.product_id,
           _id: current_data._id,
@@ -320,6 +324,7 @@ const Edit = (props) => {
         brand: brand_id.current,
         modelNum: modelNum,
         description: description,
+        sale_percent: salePercent,
         colorArray: array2.colorArray,
         product_id: array2.product_id,
         _id: current_data._id,
@@ -541,6 +546,10 @@ const Edit = (props) => {
           <label>
             <p>Model Number</p>
             <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={current_data.modelNum} type="text" name="modelNum" />
+          </label>
+          <label>
+            <p>Sale Percent</p>
+            <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" defaultValue={current_data.sale_percent} type="text" name="salePercent" />
           </label>
           <label>
             <p>Description</p>
