@@ -101,7 +101,7 @@ const Category = (props) => {
 
   // handle subcat delete
 
-  const handleDeleteSub = async (_id, iter) => {
+  const handleDeleteSub = async (_id, iter, subName) => {
    
 
 
@@ -112,6 +112,7 @@ const Category = (props) => {
 
         _id: _id,
         iter: iter,
+        subName: subName
         
       }),
 
@@ -124,11 +125,11 @@ const Category = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-          //setMessage(true)
+          setMessage(true)
         }
         else {
-          //setCategory(data)
-          //setMessage(false)
+          setCategory(data)
+          setMessage(false)
         }
 
       })
@@ -241,7 +242,7 @@ const Category = (props) => {
             <div key={iter2}>
             <p>{index2.name}</p>
             <img className="newProdImage" src={url}></img>
-           <button onClick={() => handleDeleteSub(index._id, iter2)}>Delete SubCategory</button>
+           <button onClick={() => handleDeleteSub(index._id, iter2, index2.name)}>Delete SubCategory</button>
           </div>
             )
           })}
