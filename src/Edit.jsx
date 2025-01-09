@@ -562,7 +562,7 @@ const Edit = (props) => {
           </label>
           <label>
             <p>Sale Percent</p>
-            <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" defaultValue={current_data.sale_percent} type="text" name="salePercent" />
+            <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" defaultValue={current_data.sale_percent} type="number" name="salePercent" />
           </label>
           <label>
             <p>Description</p>

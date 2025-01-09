@@ -280,7 +280,7 @@ const NewProduct = (props) => {
             </label>
             <label>
               <p>Sale Percent (not required)</p>
-              <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" type="text" name="sale_percent" />
+              <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" type="number" name="sale_percent" />
             </label>
             <p>Description</p>
             <textarea onChange={(e) => setDescription(e.target.value)} className="descriptInput" type="text" name="description" required />
