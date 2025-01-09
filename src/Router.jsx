@@ -25,8 +25,8 @@ const Router = (props) => {
     category,
     setCategory,
     brand,
-    setBrand
-
+    setBrand,
+   
 
   } = props;
 
@@ -42,6 +42,7 @@ const Router = (props) => {
           category={category}
           setCategory={setCategory}
           setBrand={setBrand}
+         
         />,
 
       errorElement: <ErrorPage />,
@@ -120,9 +121,10 @@ const Router = (props) => {
       path: "/category",
       element:
         <Category
-        setLogMessage={setLogMessage}
-        category={category}
-        setCategory={setCategory}
+          setLogMessage={setLogMessage}
+          category={category}
+          setCategory={setCategory}
+          
 
         />,
 
@@ -133,15 +135,17 @@ const Router = (props) => {
       path: "/brand",
       element:
         <Brand
-        setLogMessage={setLogMessage}
-        brand={brand}
-        setBrand={setBrand}
+          setLogMessage={setLogMessage}
+          brand={brand}
+          setBrand={setBrand}
 
         />,
 
       errorElement: <ErrorPage />,
     },
- 
+
+   
+
 
   ]);
 

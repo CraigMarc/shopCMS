@@ -37,6 +37,7 @@ function App() {
   const [category, setCategory] = useState()
   const { token, setToken } = useToken();
   const [brand, setBrand] = useState()
+  
 
   if (!token) {
 
@@ -60,6 +61,7 @@ function App() {
         setCategory={setCategory}
         brand={brand}
         setBrand={setBrand}
+       
         
       />
     </div>

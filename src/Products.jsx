@@ -13,7 +13,8 @@ function Products(props) {
     setLogMessage,
     category,
     setCategory,
-    setBrand
+    setBrand,
+   
 
   } = props;
 
@@ -111,7 +112,8 @@ const fetchInfo = async () => {
     const [apiProducts, apiCategory, apiBrand] = await Promise.all([
       await fetch('http://localhost:3000/users/all'), 
       await fetch('http://localhost:3000/users/category'),
-      await fetch('http://localhost:3000/users/brand')
+      await fetch('http://localhost:3000/users/brand'),
+     
     ]);
 
    
@@ -119,11 +121,13 @@ const fetchInfo = async () => {
     const productData = await apiProducts.json();
     const categoryData = await apiCategory.json();
     const brandData = await apiBrand.json();
+   
 
     //setData(productData)
     setProducts(productData)
     setCategory(categoryData)
     setBrand(brandData)
+   
   }
 
   catch (error) {

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react'
 import Header from './Header'
 
 
@@ -12,6 +12,7 @@ const Category = (props) => {
     setCategory,
     setLogMessage,
 
+
   } = props;
 
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const Category = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [message, setMessage] = useState(false)
+  const [displaySub, setDisplaySub] = useState(false)
+
 
   //submit new post
 
@@ -72,13 +75,13 @@ const Category = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-            setMessage(true)
+          setMessage(true)
         }
         else {
-        setCategory(data)
-        setMessage(false)
+          setCategory(data)
+          setMessage(false)
         }
-       
+
       })
       .catch((err) => {
         console.log(err.message);
@@ -95,6 +98,161 @@ const Category = (props) => {
 
       });
   };
+
+  // handle subcat delete
+
+  const handleDeleteSub = async (_id, iter) => {
+   
+
+
+    await fetch(`http://localhost:3000/products/delete_subcategory/`, {
+      method: 'Delete',
+
+      body: JSON.stringify({
+
+        _id: _id,
+        iter: iter,
+        
+      }),
+
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        if (data.message == "category in use") {
+          //setMessage(true)
+        }
+        else {
+          //setCategory(data)
+          //setMessage(false)
+        }
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+  };
+
+
+
+
+  // handle new sub category submit
+  const handleSubcatSubmit = async (e, index) => {
+
+    e.preventDefault()
+    const data = Object.fromEntries(new FormData(e.target).entries());
+
+    const formData = new FormData();
+    formData.append("name", data.name)
+    formData.append("image", data.image);
+
+    await fetch(`http://localhost:3000/products/new_subcategory/${index._id}`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCategory(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+  }
+
+
+  // display form 
+
+  function handleDisplay() {
+    setDisplaySub(true)
+  }
+
+  // render sub form when button clicked
+  function DisplaySubForm(props) {
+    const {
+
+      index
+
+    } = props;
+
+
+    if (displaySub == true)
+      return (
+        <form encType="multipart/form-data" onSubmit={(e) => handleSubcatSubmit(e, index)}>
+          <h4>Add new subcategory</h4>
+          <label>
+            <p>Name</p>
+            <input className="nameInput" type="text" required name="name" />
+          </label>
+          <div className="addImage">
+            <label>Image (file must be .jpeg .jpg or .png):</label>
+            <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+          </div>
+          <div className="newPostSubmit">
+            <button type="submit">Add New Category</button>
+          </div>
+        </form>
+      )
+  }
+
+  // List all subcategories
+
+  function ListSubCategories(props) {
+    const {
+
+      index
+
+    } = props;
+
+    
+    if (index.subCategory) {
+      return (
+        <div>
+          <h3>Subcategories</h3>
+         
+          {index.subCategory.map((index2, iter2) => {
+
+            let url = `http://localhost:3000/${index2.image}`
+
+            return(
+            <div key={iter2}>
+            <p>{index2.name}</p>
+            <img className="newProdImage" src={url}></img>
+           <button onClick={() => handleDeleteSub(index._id, iter2)}>Delete SubCategory</button>
+          </div>
+            )
+          })}
+        </div>
+      )
+    }
+
+  }
+
+
+  // list all categories
 
   function ListCategories() {
 
@@ -124,6 +282,16 @@ const Category = (props) => {
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
+                    <button onClick={handleDisplay}>add subcategory</button>
+                    <ListSubCategories
+                      index={index}
+                    />
+                    <DisplaySubForm
+                      index={index}
+                    />
+                  </div>
+                  <div className="subButtonContainer">
+
 
                   </div>
                 </div>
@@ -160,7 +328,7 @@ const Category = (props) => {
 
       <Header />
       <ListCategories />
-      <DisplayMessage/>
+      <DisplayMessage />
       <h2 className="pageTitle">New Category</h2>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
@@ -172,7 +340,7 @@ const Category = (props) => {
           <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
         </div>
         <div className="newPostSubmit">
-          <button type="submit post">Add New Category</button>
+          <button type="submit">Add New Category</button>
         </div>
       </form>
 
