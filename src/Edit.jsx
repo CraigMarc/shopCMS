@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from 'react'
 import Header from './Header'
 import Dropdown from './Dropdown'
+import DropdownSub from './DropdownSub'
 
 
 const Edit = (props) => {
@@ -47,6 +48,7 @@ const Edit = (props) => {
   const iterSize = useRef();
   const category_id = useRef(productData[0].category._id);
   const brand_id = useRef(productData[0].brand._id);
+  const [subCategory, setSubCategory] = useState(productData[0].subCategory)
 
   //send updates to API
   const sendUpdates = async () => {
@@ -62,6 +64,7 @@ const Edit = (props) => {
 
           title: title,
           category: category_id.current,
+          subCategory: subCategory,
           brand: brand_id.current,
           modelNum: modelNum,
           description: description,
@@ -118,6 +121,7 @@ const Edit = (props) => {
 
         title: title,
         category: category_id.current,
+        subCategory: subCategory,
         brand: brand_id.current,
         modelNum: modelNum,
         description: description,
@@ -263,6 +267,7 @@ const Edit = (props) => {
 
           title: title,
           category: category_id.current,
+          subCategory: subCategory,
           brand: brand_id.current,
           modelNum: modelNum,
           description: description,
@@ -321,6 +326,7 @@ const Edit = (props) => {
 
         title: title,
         category: category_id.current,
+        subCategory: subCategory,
         brand: brand_id.current,
         modelNum: modelNum,
         description: description,
@@ -532,9 +538,16 @@ const Edit = (props) => {
           <Dropdown
           dataName={category}
           setForm={setCategoryForm}
+          setSubCategory={setSubCategory}
           data_id={category_id}
           dataForm={categoryForm}
           labelName="Category"
+          />
+          <DropdownSub
+          category={category}
+          categoryForm={categoryForm}
+          subCategory={subCategory}
+          setSubCategory={setSubCategory}
           />
           <Dropdown
           dataName={brand}

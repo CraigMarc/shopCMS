@@ -2,6 +2,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Header from './Header'
 import { useState, useRef, useEffect } from 'react'
 import Dropdown from './Dropdown'
+import DropdownSub from './DropdownSub'
+
 
 const NewProduct = (props) => {
 
@@ -29,10 +31,10 @@ const NewProduct = (props) => {
   const display = useRef(false);
   const [message, setMessage] = useState(false)
   const [message2, setMessage2] = useState(false)
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const category_id = useRef(category[0]._id);
   const brand_id = useRef(brand[0]._id);
+  const [subCategory, setSubCategory] = useState(category[0].subCategory[0].name)
+
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -54,6 +56,7 @@ const NewProduct = (props) => {
         body: JSON.stringify({
           title: title,
           category: category_id.current,
+          subCategory: subCategory,
           description: description,
           modelNum: modelNum,
           sale_percent: salePercent,
@@ -195,9 +198,9 @@ const NewProduct = (props) => {
 
   }
 
-  
 
- 
+
+
   //display color 
 
   function displayColorArray() {
@@ -236,6 +239,8 @@ const NewProduct = (props) => {
     }
   }
 
+ 
+
   // display main form
 
   function displayMain() {
@@ -247,18 +252,26 @@ const NewProduct = (props) => {
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" type="text" name="title" required />
           </label>
           <Dropdown
-          dataName={category}
-          setForm={setCategoryForm}
-          data_id={category_id}
-          dataForm={categoryForm}
-          labelName="Category"
+            dataName={category}
+            setForm={setCategoryForm}
+            data_id={category_id}
+            dataForm={categoryForm}
+            setSubCategory={setSubCategory}
+            labelName="Category"
           />
+          <DropdownSub
+          category={category}
+          categoryForm={categoryForm}
+          subCategory={subCategory}
+          setSubCategory={setSubCategory}
+          />
+
           <Dropdown
-          dataName={brand}
-          setForm={setBrandForm}
-          data_id={brand_id}
-          dataForm={brandForm}
-          labelName="Brand"
+            dataName={brand}
+            setForm={setBrandForm}
+            data_id={brand_id}
+            dataForm={brandForm}
+            labelName="Brand"
           />
           <label>
             <label>

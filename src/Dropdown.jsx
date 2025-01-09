@@ -3,49 +3,52 @@
 
  function Dropdown(props) {
 
-    const {
+  const {
 
-       dataName,
-       setForm,
-       data_id,
-       dataForm,
-       labelName
-    
-      } = props;
+     dataName,
+     setForm,
+     data_id,
+     dataForm,
+     labelName,
+     setSubCategory
+  
+    } = props;
 
-    // change cat
-  function changeCategory(e) {
+  // change cat
+function changeCategory(e) {
 
-    let index = dataName.findIndex(
-      (temp) => temp['name'] == e.target.value)
+  let index = dataName.findIndex(
+    (temp) => temp['name'] == e.target.value)
 
-
-    data_id.current = dataName[index]._id
-    setForm(e.target.value)
+  if (dataName[index].subCategory){
+  setSubCategory(dataName[index].subCategory[0].name)
   }
+  data_id.current = dataName[index]._id
+  setForm(e.target.value)
+}
 
-    return (
-      <div>
+  return (
+    <div>
 
-        <label>{labelName}</label>
-        <select required value={dataForm} onChange={(e) => changeCategory(e)}>
+      <label>{labelName}</label>
+      <select required value={dataForm} onChange={(e) => changeCategory(e)}>
 
-          {dataName.map((item, iter) => {
-            let category = item.name
-
-
-            return (
-              <option id={iter} key={iter}>{category}</option>
-
-            )
-          })}
-        </select>
+        {dataName.map((item, iter) => {
+          let category = item.name
 
 
-      </div>
-    )
+          return (
+            <option id={iter} key={iter}>{category}</option>
 
-  }
+          )
+        })}
+      </select>
 
 
-  export default Dropdown;
+    </div>
+  )
+
+}
+
+
+export default Dropdown;
