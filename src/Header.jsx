@@ -25,7 +25,7 @@ function Header(props) {
       <header>
 
         <Link className="heading" to="/">
-          <h1>My Store</h1>
+          <h2>My Store</h2>
         </Link>
         <div className="editButtonContainer" >
         <Link className="heading" to="/">

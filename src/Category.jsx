@@ -176,6 +176,7 @@ const Category = (props) => {
       .then((response) => response.json())
       .then((data) => {
         setCategory(data)
+        setDisplaySub(false)
 
       })
       .catch((err) => {
@@ -284,12 +285,13 @@ const Category = (props) => {
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
                     <button onClick={handleDisplay}>add subcategory</button>
-                    <ListSubCategories
-                      index={index}
-                    />
                     <DisplaySubForm
                       index={index}
                     />
+                    <ListSubCategories
+                      index={index}
+                    />
+                   
                   </div>
                   <div className="subButtonContainer">
 
@@ -330,7 +332,7 @@ const Category = (props) => {
       <Header />
       <ListCategories />
       <DisplayMessage />
-      <h2 className="pageTitle">New Category</h2>
+      <h3 className="pageTitle">Add New Category</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>

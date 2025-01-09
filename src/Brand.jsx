@@ -161,7 +161,7 @@ function DisplayMessage() {
       <Header />
       <ListCategories />
       <DisplayMessage/>
-      <h3 className="pageTitle">New Brand</h3>
+      <h3 className="pageTitle">Add New Brand</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>
