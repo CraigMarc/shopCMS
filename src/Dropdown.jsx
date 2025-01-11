@@ -20,7 +20,11 @@ function changeCategory(e) {
   let index = dataName.findIndex(
     (temp) => temp['name'] == e.target.value)
 
-  if (dataName[index].subCategory){
+    if (dataName[index].subCategory.length == 0) {
+      setSubCategory()
+    }
+
+  if (dataName[index].subCategory.length > 0){
   setSubCategory(dataName[index].subCategory[0].name)
   }
   data_id.current = dataName[index]._id

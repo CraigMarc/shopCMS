@@ -15,7 +15,9 @@
       let index = category.findIndex(
         (temp) => temp['name'] == categoryForm)
 
+        console.log(category[index])
 
+if (category[index].subCategory.length > 0) {
     return (
       <div>
 
@@ -36,6 +38,8 @@
 
       </div>
     )
+  }
+ 
   }
 
   export default DropdownSub;

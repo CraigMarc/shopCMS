@@ -17,6 +17,8 @@ const NewProduct = (props) => {
 
   } = props;
 
+  console.log(category)
+
   const navigate = useNavigate();
 
   const [sizeArray, setSizeArray] = useState([])
@@ -33,8 +35,10 @@ const NewProduct = (props) => {
   const [message2, setMessage2] = useState(false)
   const category_id = useRef(category[0]._id);
   const brand_id = useRef(brand[0]._id);
-  const [subCategory, setSubCategory] = useState(category[0].subCategory[0].name)
-
+  const [subCategory, setSubCategory] = useState()
+  if (category[0].subCategory.length > 0) {
+    setSubCategory(category[0].subCategory[0].name)
+  }
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
