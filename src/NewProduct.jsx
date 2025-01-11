@@ -17,7 +17,6 @@ const NewProduct = (props) => {
 
   } = props;
 
-  console.log(category)
 
   const navigate = useNavigate();
 
@@ -477,7 +476,7 @@ const NewProduct = (props) => {
     }
   }
 
-
+  
   // display submitted product 
 
   function displaySubmitted() {
