@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Header from './Header'
 
 
@@ -23,6 +23,8 @@ const Category = (props) => {
 
   const [message, setMessage] = useState(false)
   const [displaySub, setDisplaySub] = useState(false)
+  const [showCategoryForm, setShowCategoryForm] = useState(false)
+  const iterCategoryForm = useRef();
 
 
   //submit new post
@@ -102,7 +104,7 @@ const Category = (props) => {
   // handle subcat delete
 
   const handleDeleteSub = async (_id, iter, subName) => {
-   
+
 
 
     await fetch(`http://localhost:3000/products/delete_subcategory/`, {
@@ -113,7 +115,7 @@ const Category = (props) => {
         _id: _id,
         iter: iter,
         subName: subName
-        
+
       }),
 
       headers: {
@@ -185,9 +187,9 @@ const Category = (props) => {
 
   }
 
-   // add pic to existing category
+  // add pic to existing category
 
-   const newImage = async (e, index) => {
+  const newImage = async (e, index) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
     const formData = new FormData();
@@ -243,6 +245,54 @@ const Category = (props) => {
       });
   };
 
+  // submit category edit form
+
+  const submitCategoryEditForm = async (e, _id) => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+   
+
+    await fetch(`http://localhost:3000/products/edit_category/${_id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+
+        name: data.name,
+
+
+      }),
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+
+
+
+      .then((response) => response.json())
+      .then((data) => {
+        setShowCategoryForm(false)
+        setCategory(data)
+      })
+
+
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+  }
+
+
 
   // display form 
 
@@ -287,27 +337,66 @@ const Category = (props) => {
 
     } = props;
 
-    
+
     if (index.subCategory) {
       return (
         <div>
           <h3>Subcategories</h3>
-         
+
           {index.subCategory.map((index2, iter2) => {
 
             let url = `http://localhost:3000/${index2.image}`
 
-            return(
-            <div key={iter2}>
-            <p>{index2.name}</p>
-            <img className="newProdImage" src={url}></img>
-           <button onClick={() => handleDeleteSub(index._id, iter2, index2.name)}>Delete SubCategory</button>
-          </div>
+            return (
+              <div key={iter2}>
+                <p>{index2.name}</p>
+                <img className="newProdImage" src={url}></img>
+                <button onClick={() => handleDeleteSub(index._id, iter2, index2.name)}>Delete SubCategory</button>
+              </div>
             )
           })}
         </div>
       )
     }
+
+  }
+
+   // render edit form 
+
+   function RenderCategoryEditForm(props) {
+
+    const {
+
+      index,
+      iter
+
+    } = props;
+
+
+    if (showCategoryForm == true && iterCategoryForm.current == iter) {
+
+      return (
+        <div>
+          <form onSubmit={(e) => submitCategoryEditForm(e, index._id)} >
+            <label>
+              <p>Name</p>
+              <input defaultValue={index.name} type="text" name="name" />
+            </label>
+
+            <div className="editColorSubmit">
+              <button type="submit">Submit Changes</button>
+            </div>
+          </form>
+        </div>
+      )
+    }
+  }
+
+  // show form when button clicked
+
+  function displayCategoryEditForm(e) {
+    setShowCategoryForm(true)
+    iterCategoryForm.current = e.target.value
 
   }
 
@@ -377,8 +466,13 @@ const Category = (props) => {
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
+                    <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
+                    <RenderCategoryEditForm
+                      index={index}
+                      iter={iter}
+                    />
                     <RenderPicButton
-                    index={index}
+                      index={index}
                     />
                     <button onClick={handleDisplay}>add subcategory</button>
                     <DisplaySubForm
@@ -387,7 +481,7 @@ const Category = (props) => {
                     <ListSubCategories
                       index={index}
                     />
-                   
+
                   </div>
                   <div className="subButtonContainer">
 
