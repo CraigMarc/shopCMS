@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Header from './Header'
 
 
@@ -21,6 +21,8 @@ const Brand = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [message, setMessage] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const iterForm = useRef();
 
   //submit new brand
 
@@ -104,7 +106,7 @@ const Brand = (props) => {
     const formData = new FormData();
 
     formData.append("image", data.image);
-   
+
 
 
     await fetch(`http://localhost:3000/products/new_brand_image/${index._id}`, {
@@ -133,28 +135,121 @@ const Brand = (props) => {
 
   const deleteImage = async (event) => {
     let id = event.target.value
-    
-    
-        await fetch(`http://localhost:3000/products/delete_brand_image/${id}`, {
-          method: 'Delete',
-    
-          headers: {
-            Authorization: tokenFetch,
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-    
-           setBrand(data)
-            //maybe set state for a rerender
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+
+
+    await fetch(`http://localhost:3000/products/delete_brand_image/${id}`, {
+      method: 'Delete',
+
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        setBrand(data)
+        //maybe set state for a rerender
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
+  // submit edit form
+
+  const submitEditForm = async (e, _id) => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+   
+
+    await fetch(`http://localhost:3000/products/edit_brand/${_id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+
+        name: data.name,
+
+
+      }),
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+
+
+
+      .then((response) => response.json())
+      .then((data) => {
+        setShowForm(false)
+        setBrand(data)
+      })
+
+
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+  }
+
+
+
+  // show form when button clicked
+
+  function displayForm(e) {
+    setShowForm(true)
+    iterForm.current = e.target.value
+
+  }
+
+  // render edit form 
+
+  function RenderEditForm(props) {
+
+    const {
+
+      index,
+      iter
+
+    } = props;
+
+
+    if (showForm == true && iterForm.current == iter) {
+
+      return (
+        <div>
+          <form onSubmit={(e) => submitEditForm(e, index._id)} >
+            <label>
+              <p>Name</p>
+              <input defaultValue={index.name} type="text" name="name" />
+            </label>
+
+            <div className="editColorSubmit">
+              <button type="submit">Submit Changes</button>
+            </div>
+          </form>
+        </div>
+      )
+    }
+  }
+
+  // show edit form 
+
+
+
   function RenderPicButton(props) {
+
     const {
 
       index
@@ -186,6 +281,7 @@ const Brand = (props) => {
   }
 
 
+
   function ListCategories() {
 
     if (brand) {
@@ -214,6 +310,11 @@ const Brand = (props) => {
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete brand</button>
+                    <button className="delete" value={iter} onClick={displayForm} >edit brand</button>
+                    <RenderEditForm
+                      index={index}
+                      iter={iter}
+                    />
                     <RenderPicButton
                       index={index}
                     />
