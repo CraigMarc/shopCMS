@@ -25,6 +25,8 @@ const Category = (props) => {
   const [displaySub, setDisplaySub] = useState(false)
   const [showCategoryForm, setShowCategoryForm] = useState(false)
   const iterCategoryForm = useRef();
+  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
+  const iterSubCategoryForm = useRef();
 
 
   //submit new post
@@ -278,36 +280,36 @@ const Category = (props) => {
   }
 
 
-// delete subcategory pic
+  // delete subcategory pic
 
-const deleteSubImage = async (event, iter2) => {
-  let id = event.target.value
+  const deleteSubImage = async (event, iter2) => {
+    let id = event.target.value
 
 
-  await fetch(`http://localhost:3000/products/delete_subCategory_image/${id}`, {
-    method: 'Delete',
+    await fetch(`http://localhost:3000/products/delete_subCategory_image/${id}`, {
+      method: 'Delete',
 
-    body: JSON.stringify({
+      body: JSON.stringify({
 
-      subIter: iter2
+        subIter: iter2
 
-    }),
+      }),
 
-    headers: {
-      Authorization: tokenFetch,
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-
-      setCategory(data)
-     
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
     })
-    .catch((err) => {
-      console.log(err.message);
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+
+        setCategory(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
 
   // submit category edit form
@@ -316,7 +318,7 @@ const deleteSubImage = async (event, iter2) => {
 
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
-   
+
 
     await fetch(`http://localhost:3000/products/edit_category/${_id}`, {
       method: 'PUT',
@@ -357,9 +359,57 @@ const deleteSubImage = async (event, iter2) => {
       });
   }
 
+   // submit category edit form
+
+   const submitSubCategoryEditForm = async (e, _id, iter2) => {
+
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
 
 
-  // display form 
+    await fetch(`http://localhost:3000/products/edit_subcategory/${_id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+
+        name: data.name,
+        subIter: iter2
+
+      }),
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+
+
+
+      .then((response) => response.json())
+      .then((data) => {
+        setShowSubCategoryForm(false)
+        setCategory(data)
+      })
+
+
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+      });
+  }
+
+
+
+
+  // display subcategory form
 
   function handleDisplay() {
     setDisplaySub(true)
@@ -393,6 +443,81 @@ const deleteSubImage = async (event, iter2) => {
       )
   }
 
+  // show subCategory form when button clicked
+
+  function displaySubCategoryEditForm(e) {
+    setShowSubCategoryForm(true)
+    iterSubCategoryForm.current = e.target.value
+
+  }
+
+  // render subcatecory edit form 
+
+  function RenderSubCategoryEditForm(props) {
+
+    const {
+
+      index2,
+      iter2,
+      index
+
+    } = props;
+
+
+    if (showSubCategoryForm == true && iterSubCategoryForm.current == iter2) {
+
+      return (
+        <div>
+          <form onSubmit={(e) => submitSubCategoryEditForm(e, index._id, iter2)} >
+            <label>
+              <p>Name</p>
+              <input defaultValue={index2.name} type="text" name="name" />
+            </label>
+
+            <div className="editColorSubmit">
+              <button type="submit">Submit Changes</button>
+            </div>
+          </form>
+        </div>
+      )
+    }
+  }
+
+
+  // show delete or edit image buttons
+
+  function RenderPicButton(props) {
+
+    const {
+
+      index
+
+    } = props;
+
+    if (index.image) {
+      return (
+        <button className="delete" value={index._id} onClick={deleteImage}>delete image</button>
+      )
+    }
+    else {
+      return (
+        <form encType="multipart/form-data" onSubmit={(e) => newImage(e, index)}>
+          <label>
+            <div className="form-group">
+              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            </div>
+          </label>
+          <div className="addImage">
+            <button type="submit">Add New Picture</button>
+          </div>
+        </form>
+      )
+    }
+
+
+  }
+
   // List all subcategories
 
   function ListSubCategories(props) {
@@ -417,10 +542,16 @@ const deleteSubImage = async (event, iter2) => {
                 <p>{index2.name}</p>
                 <img className="newProdImage" src={url}></img>
                 <button onClick={() => handleDeleteSub(index._id, iter2, index2.name)}>Delete SubCategory</button>
+                <button className="delete" value={iter2} onClick={displaySubCategoryEditForm} >Edit SubCategory</button>
+                <RenderSubCategoryEditForm
+                  index2={index2}
+                  iter2={iter2}
+                  index={index}
+                />
                 <RenderSubPicButton
-                index2={index2}
-                iter2={iter2}
-                index={index}
+                  index2={index2}
+                  iter2={iter2}
+                  index={index}
                 />
               </div>
             )
@@ -431,9 +562,9 @@ const deleteSubImage = async (event, iter2) => {
 
   }
 
-   // render edit form 
+  // render edit form 
 
-   function RenderCategoryEditForm(props) {
+  function RenderCategoryEditForm(props) {
 
     const {
 
@@ -504,43 +635,43 @@ const deleteSubImage = async (event, iter2) => {
 
   }
 
-// show delete or edit image buttons for subcategory
+  // show delete or edit image buttons for subcategory
 
-function RenderSubPicButton(props) {
+  function RenderSubPicButton(props) {
 
-  const {
+    const {
 
-    index2,
-    index,
-    iter2
+      index2,
+      index,
+      iter2
 
-  } = props;
+    } = props;
 
-  
 
-  if (index2.image) {
-    return (
-      <button className="delete" value={index._id} onClick={(e) => deleteSubImage(e, iter2)}>delete image</button>
-    )
-  }
-  else {
-    return (
-      <form encType="multipart/form-data" onSubmit={(e) => newSubImage(e, index, iter2)}>
-        <label>
-          <div className="form-group">
-            <label>Image (file must be .jpeg .jpg or .png):</label>
-            <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+
+    if (index2.image) {
+      return (
+        <button className="delete" value={index._id} onClick={(e) => deleteSubImage(e, iter2)}>delete image</button>
+      )
+    }
+    else {
+      return (
+        <form encType="multipart/form-data" onSubmit={(e) => newSubImage(e, index, iter2)}>
+          <label>
+            <div className="form-group">
+              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            </div>
+          </label>
+          <div className="addImage">
+            <button type="submit">Add New Picture</button>
           </div>
-        </label>
-        <div className="addImage">
-          <button type="submit">Add New Picture</button>
-        </div>
-      </form>
-    )
+        </form>
+      )
+    }
+
+
   }
-
-
-}
 
 
   // list all categories
