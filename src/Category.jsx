@@ -185,6 +185,64 @@ const Category = (props) => {
 
   }
 
+   // add pic to existing category
+
+   const newImage = async (e, index) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const formData = new FormData();
+
+    formData.append("image", data.image);
+
+
+
+    await fetch(`http://localhost:3000/products/new_category_image/${index._id}`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCategory(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+  }
+
+  // delete category pic
+
+  const deleteImage = async (event) => {
+    let id = event.target.value
+
+
+    await fetch(`http://localhost:3000/products/delete_category_image/${id}`, {
+      method: 'Delete',
+
+      headers: {
+        Authorization: tokenFetch,
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        setCategory(data)
+        //maybe set state for a rerender
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
 
   // display form 
 
@@ -253,6 +311,41 @@ const Category = (props) => {
 
   }
 
+  // show delete or edit image buttons
+
+  function RenderPicButton(props) {
+
+    const {
+
+      index
+
+    } = props;
+
+    if (index.image) {
+      return (
+        <button className="delete" value={index._id} onClick={deleteImage} >delete image</button>
+      )
+    }
+    else {
+      return (
+        <form encType="multipart/form-data" onSubmit={(e) => newImage(e, index)}>
+          <label>
+            <div className="form-group">
+              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            </div>
+          </label>
+          <div className="addImage">
+            <button type="submit">Add New Picture</button>
+          </div>
+        </form>
+      )
+    }
+
+
+  }
+
+
 
   // list all categories
 
@@ -284,6 +377,9 @@ const Category = (props) => {
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
+                    <RenderPicButton
+                    index={index}
+                    />
                     <button onClick={handleDisplay}>add subcategory</button>
                     <DisplaySubForm
                       index={index}

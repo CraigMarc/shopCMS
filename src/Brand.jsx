@@ -244,9 +244,8 @@ const Brand = (props) => {
     }
   }
 
-  // show edit form 
-
-
+ 
+// show delete or edit image buttons
 
   function RenderPicButton(props) {
 
