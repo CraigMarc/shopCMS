@@ -96,6 +96,96 @@ const Brand = (props) => {
       });
   };
 
+  // add pic to existing brand
+
+  const newImage = async (e, index) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const formData = new FormData();
+
+    formData.append("image", data.image);
+   
+
+
+    await fetch(`http://localhost:3000/products/new_brand_image/${index._id}`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBrand(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+  }
+
+  // delete pic
+
+  const deleteImage = async (event) => {
+    let id = event.target.value
+    
+    
+        await fetch(`http://localhost:3000/products/delete_brand_image/${id}`, {
+          method: 'Delete',
+    
+          headers: {
+            Authorization: tokenFetch,
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+    
+           setBrand(data)
+            //maybe set state for a rerender
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+  };
+
+  function RenderPicButton(props) {
+    const {
+
+      index
+
+    } = props;
+
+    if (index.image) {
+      return (
+        <button className="delete" value={index._id} onClick={deleteImage} >delete image</button>
+      )
+    }
+    else {
+      return (
+        <form encType="multipart/form-data" onSubmit={(e) => newImage(e, index)}>
+          <label>
+            <div className="form-group">
+              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            </div>
+          </label>
+          <div className="addImage">
+            <button type="submit">Add New Picture</button>
+          </div>
+        </form>
+      )
+    }
+
+
+  }
+
+
   function ListCategories() {
 
     if (brand) {
@@ -124,7 +214,9 @@ const Brand = (props) => {
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
                     <button className="delete" value={index._id} onClick={handleDelete} >delete brand</button>
-
+                    <RenderPicButton
+                      index={index}
+                    />
                   </div>
                 </div>
               </div>
@@ -144,7 +236,7 @@ const Brand = (props) => {
     }
   }
 
-function DisplayMessage() {
+  function DisplayMessage() {
     if (message == true) {
       return (
         <div>
@@ -160,7 +252,7 @@ function DisplayMessage() {
 
       <Header />
       <ListCategories />
-      <DisplayMessage/>
+      <DisplayMessage />
       <h3 className="pageTitle">Add New Brand</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
