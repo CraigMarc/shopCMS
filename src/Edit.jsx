@@ -49,6 +49,7 @@ const Edit = (props) => {
   const category_id = useRef(productData[0].category._id);
   const brand_id = useRef(productData[0].brand._id);
   const [subCategory, setSubCategory] = useState(productData[0].subCategory)
+console.log(current_data)
 
   //send updates to API
   const sendUpdates = async () => {
@@ -533,7 +534,7 @@ const Edit = (props) => {
 
   // render form
 
-  const Renderform = () => {
+  const renderform = () => {
 
     return (
       <>
@@ -794,7 +795,7 @@ const Edit = (props) => {
         setLogMessage={setLogMessage}
       />
       <h2 className="pageTitle">Edit Post</h2>
-      <Renderform />
+      {renderform()}
       <RenderColorArray/>
       <DisplayMessage/>
       <button onClick={sendUpdates}>Submit Changes</button>

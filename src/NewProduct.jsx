@@ -178,8 +178,7 @@ const NewProduct = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // const newData = [...picArray, data.image]
-        //setPicArray(newData);
+       
         setCurrent_data(data)
 
       })
