@@ -343,7 +343,7 @@ const NewProduct = (props) => {
 
   // color form
 
-  function addProduct() {
+  function AddColor() {
 
     return (
       <div>
@@ -359,7 +359,7 @@ const NewProduct = (props) => {
 
           </div>
         </form>
-        {addSize()}
+        <AddSize/>
       </div>
     )
   }
@@ -367,7 +367,7 @@ const NewProduct = (props) => {
 
   // create size form
 
-  function addSize() {
+  function AddSize() {
 
     return (
       <div>
@@ -440,7 +440,7 @@ const NewProduct = (props) => {
         <div>
           {displayMain()}
           <div className="newProductMenuContainer">
-            {addProduct()}
+            <AddColor/>
           </div>
           <div className="newProductSubmit">
             {displayMessage()}

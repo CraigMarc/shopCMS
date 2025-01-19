@@ -22,7 +22,7 @@ const Edit = (props) => {
   const urlParams = useParams();
   const productId = urlParams.id
   const productData = products.filter((product) => product._id == productId)
-  
+
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem("token");
@@ -231,7 +231,7 @@ const Edit = (props) => {
     data.weight = data.weight * 100
     data.width = data.width * 100
     data.quantity = Number(data.quantity)
-    
+
     //set new color
     array2.colorArray[colorIter].color = data.color
 
@@ -367,7 +367,7 @@ const Edit = (props) => {
 
   }
 
-  function displayMessage() {
+  function DisplayMessage() {
     if (message == true) {
       return (
         <div>
@@ -389,7 +389,7 @@ const Edit = (props) => {
     data.weight = data.weight * 100
     data.width = data.width * 100
     data.quantity = Number(data.quantity)
-   
+
     let newColorArr = structuredClone(current_data.colorArray)
     newColorArr[iterSize.current].sizeArray.push(data)
     let newArr = { ...current_data, colorArray: newColorArr }
@@ -409,8 +409,16 @@ const Edit = (props) => {
   }
 
   // add new size form
-  const newSizeForm = () => {
-    if (showSizeForm == true) {
+  const NewSizeForm = (props) => {
+
+    const {
+
+      iter1
+  
+    } = props;
+
+    
+    if (showSizeForm == true && iterSize.current == iter1) {
       return (
         <div>
           <form onSubmit={submitNewSizeForm} >
@@ -443,7 +451,7 @@ const Edit = (props) => {
               <input className="sizeInput" type="number" step="0.01" name="weight" required />
             </label>
             <div className="editColorSubmit">
-              <button type="submit">Submit Changes</button>
+              <button type="submit">Submit Size</button>
             </div>
           </form>
 
@@ -477,7 +485,7 @@ const Edit = (props) => {
   }
   // add new color form
 
-  const newColorForm = () => {
+  const NewColorForm = () => {
     if (showColorForm == true) {
       return (
         <div>
@@ -525,7 +533,7 @@ const Edit = (props) => {
 
   // render form
 
-  const renderform = () => {
+  const Renderform = () => {
 
     return (
       <>
@@ -536,25 +544,25 @@ const Edit = (props) => {
             <input onChange={(e) => setTitle(e.target.value)} className="titleInput" defaultValue={current_data.title} type="text" name="title" />
           </label>
           <Dropdown
-          dataName={category}
-          setForm={setCategoryForm}
-          setSubCategory={setSubCategory}
-          data_id={category_id}
-          dataForm={categoryForm}
-          labelName="Category"
+            dataName={category}
+            setForm={setCategoryForm}
+            setSubCategory={setSubCategory}
+            data_id={category_id}
+            dataForm={categoryForm}
+            labelName="Category"
           />
           <DropdownSub
-          category={category}
-          categoryForm={categoryForm}
-          subCategory={subCategory}
-          setSubCategory={setSubCategory}
+            category={category}
+            categoryForm={categoryForm}
+            subCategory={subCategory}
+            setSubCategory={setSubCategory}
           />
           <Dropdown
-          dataName={brand}
-          setForm={setBrandForm}
-          data_id={brand_id}
-          dataForm={brandForm}
-          labelName="Brand"
+            dataName={brand}
+            setForm={setBrandForm}
+            data_id={brand_id}
+            dataForm={brandForm}
+            labelName="Brand"
           />
           <label>
             <p>Model Number</p>
@@ -571,7 +579,7 @@ const Edit = (props) => {
 
         </form>
         <div className="addNewColorContainer">
-          {newColorForm()}
+          <NewColorForm/>
 
         </div>
       </>
@@ -629,7 +637,15 @@ const Edit = (props) => {
     }
   }
 
-  function renderSizeButton(iter1) {
+  function RenderSizeButton(props) {
+
+    const {
+
+      iter1
+  
+    } = props;
+  
+
     if (showSizeForm == false) {
       return (
         <div className="editNewSizeButtonContainer">
@@ -641,7 +657,7 @@ const Edit = (props) => {
 
   // display the colors and sizes
 
-  const renderColorArray = () => {
+  const RenderColorArray = () => {
     return (
       <div>
 
@@ -657,9 +673,13 @@ const Edit = (props) => {
                 return (
                   <div key={iter1}>
                     <h4 className="colorText"><span className='productSpan'>color:</span> {index2.color}</h4>
-                    {renderSizeButton(iter1)}
-                    {newSizeForm()}
-
+                    
+                    <RenderSizeButton
+                    iter1={iter1}
+                      />
+                    <NewSizeForm
+                    iter1={iter1}
+                    />
                     {index2.sizeArray.map((index3, iter2) => {
                       return (
                         <div className='productQuantityContainer' key={iter2}>
@@ -675,6 +695,7 @@ const Edit = (props) => {
                             <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" >Edit</button>
                           </div>
                           {showForm(iter1, iter2)}
+                        
                         </div>
                       )
                     })}
@@ -701,17 +722,19 @@ const Edit = (props) => {
     if (display == true && iter.current.colorIter == colorIter && iter.current.sizeIter == sizeIter) {
       return (
         <div>
-          {displayForm()}
+          <EditSizeForm/>
         </div>
       )
     }
   }
 
 
-  const displayForm = () => {
+  const EditSizeForm = () => {
+
 
     let colorIter = iter.current.colorIter
     let sizeIter = iter.current.sizeIter
+    
 
     return (
       <div>
@@ -758,7 +781,7 @@ const Edit = (props) => {
       </div>
 
     )
-
+  
   }
 
 
@@ -771,9 +794,9 @@ const Edit = (props) => {
         setLogMessage={setLogMessage}
       />
       <h2 className="pageTitle">Edit Post</h2>
-      {renderform()}
-      {renderColorArray()}
-      {displayMessage()}
+      <Renderform />
+      <RenderColorArray/>
+      <DisplayMessage/>
       <button onClick={sendUpdates}>Submit Changes</button>
     </div>
 
