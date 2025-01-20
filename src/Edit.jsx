@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import Header from './Header'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
+import DropdownBrand from './DropdownBrand'
 
 
 const Edit = (props) => {
@@ -558,7 +559,7 @@ console.log(current_data)
             subCategory={subCategory}
             setSubCategory={setSubCategory}
           />
-          <Dropdown
+          <DropdownBrand
             dataName={brand}
             setForm={setBrandForm}
             data_id={brand_id}
