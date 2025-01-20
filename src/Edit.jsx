@@ -50,7 +50,7 @@ const Edit = (props) => {
   const category_id = useRef(productData[0].category._id);
   const brand_id = useRef(productData[0].brand._id);
   const [subCategory, setSubCategory] = useState(productData[0].subCategory)
-console.log(current_data)
+
 
   //send updates to API
   const sendUpdates = async () => {

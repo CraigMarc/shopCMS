@@ -3,6 +3,7 @@ import Header from './Header'
 import { useState, useRef, useEffect } from 'react'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
+import DropdownBrand from './DropdownBrand'
 
 const NewProduct = (props) => {
 
@@ -28,6 +29,8 @@ const NewProduct = (props) => {
     const brand_id = useRef(brand[0]._id);
     const [subCategory, setSubCategory] = useState()
     const hideMainForm = useRef(false);
+    const [showColorForm, setShowColorForm] = useState(false)
+    
 
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
@@ -100,11 +103,89 @@ const NewProduct = (props) => {
 
     }
 
+     // submit new color
 
-    function RenderMainForm() {
+     const submitColor = async (e) => {
+
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+        current_data.colorArray.push({color: data.color, sizeArray: [], images: []})
+
+         //send form data
+         await fetch("http://localhost:3000/products/new_color", {
+
+            method: 'POST',
+            body: JSON.stringify({
+               
+                colorArray: current_data.colorArray,
+                _id: current_data._id
+
+            }),
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+
+
+
+            .then((response) => response.json())
+            .then((data) => {
+
+                setShowColorForm(false)
+                setCurrent_data(data)
+
+
+            })
+
+
+            .catch((err) => {
+                console.log(err.message);
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("userName");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+
+            });
+
+     }
+
+     // color form
+
+  function Colorform() {
+
+    if (showColorForm == true) {
+
+    return (
+      <div>
+        <form onSubmit={submitColor}>
+          <label>
+            <p>Color</p>
+            <input className="productInput" type="text" name="color" required />
+          </label>
+          <div className="addColorSubmit">
+          
+            <button type="submit">Add Color</button>
+
+          </div>
+        </form>
+       
+      </div>
+    )
+}
+  }
+
+
+    function renderMainForm() {
         if (hideMainForm.current == false) {
             return (
-                <DisplayMainForm />
+                <>
+                    {displayMainForm()}
+                </>
             )
         }
         else {
@@ -116,14 +197,15 @@ const NewProduct = (props) => {
                     <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
                     <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {current_data.description}</p>
-                    <button>Add Color</button>
+                    <button onClick={() => setShowColorForm(true)}>Add New Color</button>
+                    <Colorform/>
                 </div>
             )
         }
     }
 
 
-    function DisplayMainForm() {
+    function displayMainForm() {
         return (
             <div>
                 <form onSubmit={submitMain}>
@@ -146,7 +228,7 @@ const NewProduct = (props) => {
                         setSubCategory={setSubCategory}
                     />
 
-                    <Dropdown
+                    <DropdownBrand
                         dataName={brand}
                         setForm={setBrandForm}
                         data_id={brand_id}
@@ -165,6 +247,8 @@ const NewProduct = (props) => {
                         <p>Description</p>
                         <textarea className="descriptInput" type="text" name="description" required />
                     </label>
+
+
                     <button type="submit">Submit</button>
 
                 </form>
@@ -175,7 +259,7 @@ const NewProduct = (props) => {
 
     return (
         <div>
-            <RenderMainForm />
+            {renderMainForm()}
         </div>
     )
 
