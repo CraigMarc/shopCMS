@@ -30,7 +30,9 @@ const NewProduct = (props) => {
     const [subCategory, setSubCategory] = useState()
     const hideMainForm = useRef(false);
     const [showColorForm, setShowColorForm] = useState(false)
-    
+    const [showSizeForm, setShowSizeForm] = useState(false)
+    const iterNewSizeForm = useRef();
+
 
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
@@ -103,21 +105,21 @@ const NewProduct = (props) => {
 
     }
 
-     // submit new color
+    // submit new color
 
-     const submitColor = async (e) => {
+    const submitColor = async (e) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
 
-        current_data.colorArray.push({color: data.color, sizeArray: [], images: []})
+        current_data.colorArray.push({ color: data.color, sizeArray: [], images: [] })
 
-         //send form data
-         await fetch("http://localhost:3000/products/new_color", {
+        //send form data
+        await fetch("http://localhost:3000/products/new_color", {
 
             method: 'POST',
             body: JSON.stringify({
-               
+
                 colorArray: current_data.colorArray,
                 _id: current_data._id
 
@@ -152,32 +154,152 @@ const NewProduct = (props) => {
 
             });
 
-     }
+    }
 
-     // color form
+    // submit new size
 
-  function Colorform() {
+    const submitNewSize = async (e) => {
 
-    if (showColorForm == true) {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        console.log(data)
 
-    return (
-      <div>
-        <form onSubmit={submitColor}>
-          <label>
-            <p>Color</p>
-            <input className="productInput" type="text" name="color" required />
-          </label>
-          <div className="addColorSubmit">
-          
-            <button type="submit">Add Color</button>
+        data.height = data.height * 100
+        data.length = data.length * 100
+        data.price = data.price * 100
+        data.weight = data.weight * 100
+        data.width = data.width * 100
+        data.quantity = Number(data.quantity)
 
-          </div>
-        </form>
-       
-      </div>
-    )
-}
-  }
+        current_data.colorArray[iterNewSizeForm.current].sizeArray.push({ size: data.size, height: data.height, length: data.length, price: data.price, weight: data.weight, width: data.width, quantity: data.quantity })
+
+        //send form data
+        await fetch("http://localhost:3000/products/new_color", {
+
+            method: 'POST',
+            body: JSON.stringify({
+
+                colorArray: current_data.colorArray,
+                _id: current_data._id
+
+            }),
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+
+
+
+            .then((response) => response.json())
+            .then((data) => {
+
+                setShowSizeForm(false)
+                setCurrent_data(data)
+
+
+            })
+
+
+            .catch((err) => {
+                console.log(err.message);
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("userName");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+
+            });
+
+    }
+
+    // color form
+
+    function Colorform() {
+
+        if (showColorForm == true) {
+
+            return (
+                <div>
+                    <form onSubmit={submitColor}>
+                        <label>
+                            <p>Color</p>
+                            <input className="productInput" type="text" name="color" required />
+                        </label>
+                        <div className="addColorSubmit">
+
+                            <button type="submit">Add Color</button>
+
+                        </div>
+                    </form>
+
+                </div>
+            )
+        }
+    }
+
+    // show new size form when button clicked
+
+    function renderNewSizeForm(e) {
+        setShowSizeForm(true)
+        iterNewSizeForm.current = e.target.value
+
+    }
+
+    // add new size form
+    const NewSizeForm = (props) => {
+
+        const {
+
+            iter
+
+        } = props;
+
+
+        if (showSizeForm == true && iterNewSizeForm.current == iter) {
+            return (
+                <div>
+                    <form onSubmit={submitNewSize} >
+                        <label>
+                            <p>Size</p>
+                            <input className="sizeInput" type="text" name="size" />
+                        </label>
+                        <label>
+                            <p>Price</p>
+                            <input className="sizeInput" type="number" step="0.01" name="price" required />
+                        </label>
+                        <label>
+                            <p>Quantity</p>
+                            <input className="sizeInput" type="number" name="quantity" required />
+                        </label>
+                        <label>
+                            <p>Length</p>
+                            <input className="sizeInput" type="number" step="0.01" name="length" required />
+                        </label>
+                        <label>
+                            <p>Width</p>
+                            <input className="sizeInput" type="number" step="0.01" name="width" required />
+                        </label>
+                        <label>
+                            <p>Height</p>
+                            <input className="sizeInput" type="number" step="0.01" name="height" required />
+                        </label>
+                        <label>
+                            <p>Weight</p>
+                            <input className="sizeInput" type="number" step="0.01" name="weight" required />
+                        </label>
+                        <div className="editColorSubmit">
+                            <button type="submit">Submit Size</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            )
+        }
+    }
 
 
     function renderMainForm() {
@@ -198,7 +320,41 @@ const NewProduct = (props) => {
                     <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {current_data.description}</p>
                     <button onClick={() => setShowColorForm(true)}>Add New Color</button>
-                    <Colorform/>
+                    <Colorform />
+
+                    {current_data.colorArray.map((index, iter) => {
+
+                        return (
+                            <div key={iter}>
+                                <p><span className='productSpan'>color:</span> {index.color}</p>
+                                <button>edit color</button>
+                                <button>delete color</button>
+                                <button>add image</button>
+                                <button value={iter} onClick={(e) => renderNewSizeForm(e)}>Add New Size</button>
+                                <NewSizeForm
+                                    iter={iter}
+                                />
+                                {index.sizeArray.map((index2, iter2) => {
+                                    return (
+                                        <div className='productQuantityContainer' key={iter2}>
+                                            <p><span className='productSpan'>size:</span> {index2.size}</p>
+                                            <p><span className='productSpan'>price:</span> {index2.price / 100}</p>
+                                            <p><span className='productSpan'>quantity:</span> {index2.quantity}</p>
+                                            <p><span className='productSpan'>length:</span> {index2.length / 100}</p>
+                                            <p><span className='productSpan'>width:</span> {index2.width / 100}</p>
+                                            <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
+                                            <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
+                                        <button>edit size</button>
+                                        <button>delete size</button>
+                                        </div>
+                                    )
+                                })}
+
+                            </div>
+                        )
+                    })}
+
+
                 </div>
             )
         }
