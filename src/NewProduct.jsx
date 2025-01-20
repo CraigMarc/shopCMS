@@ -5,6 +5,8 @@ import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
 import DropdownBrand from './DropdownBrand'
 
+
+
 const NewProduct = (props) => {
 
     const {
@@ -32,6 +34,9 @@ const NewProduct = (props) => {
     const [showColorForm, setShowColorForm] = useState(false)
     const [showSizeForm, setShowSizeForm] = useState(false)
     const iterNewSizeForm = useRef();
+    const disablePic = useRef(false);
+    const iterImage = useRef();
+    const [showPicForm, setShowPicForm] = useState(false)
 
 
     if (category[0].subCategory.length > 0) {
@@ -215,6 +220,156 @@ const NewProduct = (props) => {
 
     }
 
+    // submit new image
+
+  const newImage = async (e, colorIter) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+
+   
+    //send pic in multipart form
+    const formData = new FormData();
+
+    formData.append("current_id", current_data._id);
+    formData.append("image", data.image);
+    formData.append("array_number", colorIter);
+
+    await fetch(`http://localhost:3000/products/new_image/`, {
+
+      method: 'Post',
+      body: formData,
+
+      headers: {
+        Authorization: tokenFetch,
+        //'Content-type': 'application/json; charset=UTF-8',
+
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setShowPicForm(false)
+        setCurrent_data(data)
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        //send to login if token expires
+
+        if (err.message.includes("Unauthorized")) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("user_id");
+          sessionStorage.removeItem("message");
+          setLogMessage(true)
+          navigate('/login')
+        }
+
+
+      });
+
+  }
+
+
+    // delete image
+
+    const deleteImage = async (colorIter, picIter) => {
+
+        let array2 = structuredClone(current_data);
+        let picName = current_data.colorArray[colorIter].images[picIter]
+
+        array2.colorArray[colorIter].images.splice(picIter, 1)
+
+        await fetch(`http://localhost:3000/products/image/`, {
+            method: 'Delete',
+            body: JSON.stringify({
+
+                colorArray: array2.colorArray,
+                _id: current_data._id,
+                picName: picName
+
+            }),
+
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+
+                setCurrent_data(data)
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+
+                //send to login if token expires
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("user_id");
+                    sessionStorage.removeItem("message");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+            })
+
+    }
+
+    // set state to display add image
+    function showImage(colorIter) {
+
+        iterImage.current = colorIter
+        disablePic.current = true
+        setShowPicForm(true)
+
+    }
+
+
+    // function display images 
+
+    function displayImages(data, colorIter) {
+
+        if (data.images) {
+
+
+            return (
+                <div>
+                    {data.images.map((index, iter) => {
+                        let url = `http://localhost:3000/${index}`
+                        return (
+                            <div className="editImageContainer" key={iter}>
+                                <img className="newProdImage" src={url}></img>
+                                <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
+                            </div>
+                        )
+                    })
+                    }
+                </div>
+            )
+
+        }
+    }
+
+    // render new pic form 
+    const newPicForm = (colorIter) => {
+        return (
+            <div className="addImageContainer">
+                <form encType="multipart/form-data" onSubmit={(e) => newImage(e, colorIter)}>
+                    <label>
+                        <div className="form-group">
+                            <label>Image (file must be .jpeg .jpg or .png):</label>
+                            <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+                        </div>
+                    </label>
+                    <div className="addImage">
+                        <button type="submit">Add New Picture</button>
+                    </div>
+                </form>
+            </div>
+        )
+    }
+
     // color form
 
     function Colorform() {
@@ -329,7 +484,9 @@ const NewProduct = (props) => {
                                 <p><span className='productSpan'>color:</span> {index.color}</p>
                                 <button>edit color</button>
                                 <button>delete color</button>
-                                <button>add image</button>
+                                <button onClick={() => showImage(iter)} disabled={disablePic.current}>add image</button>
+                                {displayImages(index, iter)}
+                                {newPicForm(iter)}
                                 <button value={iter} onClick={(e) => renderNewSizeForm(e)}>Add New Size</button>
                                 <NewSizeForm
                                     iter={iter}
@@ -344,8 +501,8 @@ const NewProduct = (props) => {
                                             <p><span className='productSpan'>width:</span> {index2.width / 100}</p>
                                             <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
                                             <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
-                                        <button>edit size</button>
-                                        <button>delete size</button>
+                                            <button>edit size</button>
+                                            <button>delete size</button>
                                         </div>
                                     )
                                 })}

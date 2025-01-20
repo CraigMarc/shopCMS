@@ -6,6 +6,7 @@ import DropdownSub from './DropdownSub'
 import DropdownBrand from './DropdownBrand'
 
 
+
 const Edit = (props) => {
 
   const {
@@ -326,15 +327,7 @@ const Edit = (props) => {
       method: 'Delete',
       body: JSON.stringify({
 
-        title: title,
-        category: category_id.current,
-        subCategory: subCategory,
-        brand: brand_id.current,
-        modelNum: modelNum,
-        description: description,
-        sale_percent: salePercent,
         colorArray: array2.colorArray,
-        product_id: array2.product_id,
         _id: current_data._id,
         picName: picName
 
