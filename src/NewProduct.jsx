@@ -247,6 +247,7 @@ const NewProduct = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        disablePic.current = false
         setShowPicForm(false)
         setCurrent_data(data)
 
@@ -353,6 +354,8 @@ const NewProduct = (props) => {
 
     // render new pic form 
     const newPicForm = (colorIter) => {
+
+        if (showPicForm == true) {
         return (
             <div className="addImageContainer">
                 <form encType="multipart/form-data" onSubmit={(e) => newImage(e, colorIter)}>
@@ -368,6 +371,7 @@ const NewProduct = (props) => {
                 </form>
             </div>
         )
+    }
     }
 
     // color form
