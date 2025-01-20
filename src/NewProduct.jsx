@@ -270,6 +270,102 @@ const NewProduct = (props) => {
 
   }
 
+  // delete size array
+
+  const handleSizeDelete = async (colorIter, sizeIter) => {
+
+    let array2 = structuredClone(current_data);
+
+    array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
+    
+
+      //api call to delete pics and color array at color iter
+
+      await fetch(`http://localhost:3000/products/delete_size/`, {
+        method: 'Delete',
+        body: JSON.stringify({
+
+          colorArray: array2.colorArray,
+          _id: current_data._id,
+          
+
+        }),
+
+        headers: {
+          Authorization: tokenFetch,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+
+          setCurrent_data(data)
+
+        })
+        .catch((err) => {
+          console.log(err.message);
+
+          //send to login if token expires
+
+          if (err.message.includes("Unauthorized")) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_id");
+            sessionStorage.removeItem("message");
+            setLogMessage(true)
+            navigate('/login')
+          }
+        })
+
+
+  }
+
+
+  // delete colorarray 
+
+  const handleColorDelete = async (colorIter) => {
+
+
+
+      //api call to delete pics and color array at color iter
+
+      await fetch(`http://localhost:3000/products/delete_color/`, {
+        method: 'Delete',
+        body: JSON.stringify({
+
+          colorArray: current_data.colorArray,
+          _id: current_data._id,
+          color_iter: colorIter
+
+        }),
+
+        headers: {
+          Authorization: tokenFetch,
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+
+          setCurrent_data(data)
+
+        })
+        .catch((err) => {
+          console.log(err.message);
+
+          //send to login if token expires
+
+          if (err.message.includes("Unauthorized")) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user_id");
+            sessionStorage.removeItem("message");
+            setLogMessage(true)
+            navigate('/login')
+          }
+        })
+
+
+  }
+
 
     // delete image
 
@@ -487,7 +583,7 @@ const NewProduct = (props) => {
                             <div key={iter}>
                                 <p><span className='productSpan'>color:</span> {index.color}</p>
                                 <button>edit color</button>
-                                <button>delete color</button>
+                                <button onClick={() => handleColorDelete(iter)}>Delete Color</button>
                                 <button onClick={() => showImage(iter)} disabled={disablePic.current}>add image</button>
                                 {displayImages(index, iter)}
                                 {newPicForm(iter)}
@@ -506,7 +602,7 @@ const NewProduct = (props) => {
                                             <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
                                             <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
                                             <button>edit size</button>
-                                            <button>delete size</button>
+                                            <button onClick={() => handleSizeDelete(iter, iter2)}>Delete Size</button>
                                         </div>
                                     )
                                 })}

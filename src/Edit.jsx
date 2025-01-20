@@ -250,7 +250,7 @@ const Edit = (props) => {
     setDisplay(false)
   }
 
-  // delete item from cart 
+  // delete size and color array if sizes all deleted
 
   const handleDelete = async (colorIter, sizeIter) => {
 
@@ -268,15 +268,7 @@ const Edit = (props) => {
         method: 'Delete',
         body: JSON.stringify({
 
-          title: title,
-          category: category_id.current,
-          subCategory: subCategory,
-          brand: brand_id.current,
-          modelNum: modelNum,
-          description: description,
-          sale_percent: salePercent,
           colorArray: current_data.colorArray,
-          product_id: current_data.product_id,
           _id: current_data._id,
           color_iter: colorIter
 
