@@ -222,149 +222,149 @@ const NewProduct = (props) => {
 
     // submit new image
 
-  const newImage = async (e, colorIter) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
-
-   
-    //send pic in multipart form
-    const formData = new FormData();
-
-    formData.append("current_id", current_data._id);
-    formData.append("image", data.image);
-    formData.append("array_number", colorIter);
-
-    await fetch(`http://localhost:3000/products/new_image/`, {
-
-      method: 'Post',
-      body: formData,
-
-      headers: {
-        Authorization: tokenFetch,
-        //'Content-type': 'application/json; charset=UTF-8',
-
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        disablePic.current = false
-        setShowPicForm(false)
-        setCurrent_data(data)
-
-      })
-      .catch((err) => {
-        console.log(err.message);
-
-        //send to login if token expires
-
-        if (err.message.includes("Unauthorized")) {
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user_id");
-          sessionStorage.removeItem("message");
-          setLogMessage(true)
-          navigate('/login')
-        }
+    const newImage = async (e, colorIter) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
 
 
-      });
+        //send pic in multipart form
+        const formData = new FormData();
 
-  }
+        formData.append("current_id", current_data._id);
+        formData.append("image", data.image);
+        formData.append("array_number", colorIter);
 
-  // delete size array
+        await fetch(`http://localhost:3000/products/new_image/`, {
 
-  const handleSizeDelete = async (colorIter, sizeIter) => {
+            method: 'Post',
+            body: formData,
 
-    let array2 = structuredClone(current_data);
+            headers: {
+                Authorization: tokenFetch,
+                //'Content-type': 'application/json; charset=UTF-8',
 
-    array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
-    
-
-      //api call to delete pics and color array at color iter
-
-      await fetch(`http://localhost:3000/products/delete_size/`, {
-        method: 'Delete',
-        body: JSON.stringify({
-
-          colorArray: array2.colorArray,
-          _id: current_data._id,
-          
-
-        }),
-
-        headers: {
-          Authorization: tokenFetch,
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-
-          setCurrent_data(data)
-
+            },
         })
-        .catch((err) => {
-          console.log(err.message);
+            .then((response) => response.json())
+            .then((data) => {
+                disablePic.current = false
+                setShowPicForm(false)
+                setCurrent_data(data)
 
-          //send to login if token expires
+            })
+            .catch((err) => {
+                console.log(err.message);
 
-          if (err.message.includes("Unauthorized")) {
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_id");
-            sessionStorage.removeItem("message");
-            setLogMessage(true)
-            navigate('/login')
-          }
+                //send to login if token expires
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("user_id");
+                    sessionStorage.removeItem("message");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+
+
+            });
+
+    }
+
+    // delete size array
+
+    const handleSizeDelete = async (colorIter, sizeIter) => {
+
+        let array2 = structuredClone(current_data);
+
+        array2.colorArray[colorIter].sizeArray.splice(sizeIter, 1)
+
+
+        //api call to delete pics and color array at color iter
+
+        await fetch(`http://localhost:3000/products/delete_size/`, {
+            method: 'Delete',
+            body: JSON.stringify({
+
+                colorArray: array2.colorArray,
+                _id: current_data._id,
+
+
+            }),
+
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
         })
+            .then((response) => response.json())
+            .then((data) => {
+
+                setCurrent_data(data)
+
+            })
+            .catch((err) => {
+                console.log(err.message);
+
+                //send to login if token expires
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("user_id");
+                    sessionStorage.removeItem("message");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+            })
 
 
-  }
+    }
 
 
-  // delete colorarray 
+    // delete colorarray 
 
-  const handleColorDelete = async (colorIter) => {
+    const handleColorDelete = async (colorIter) => {
 
 
 
-      //api call to delete pics and color array at color iter
+        //api call to delete pics and color array at color iter
 
-      await fetch(`http://localhost:3000/products/delete_color/`, {
-        method: 'Delete',
-        body: JSON.stringify({
+        await fetch(`http://localhost:3000/products/delete_color/`, {
+            method: 'Delete',
+            body: JSON.stringify({
 
-          colorArray: current_data.colorArray,
-          _id: current_data._id,
-          color_iter: colorIter
+                colorArray: current_data.colorArray,
+                _id: current_data._id,
+                color_iter: colorIter
 
-        }),
+            }),
 
-        headers: {
-          Authorization: tokenFetch,
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-
-          setCurrent_data(data)
-
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
         })
-        .catch((err) => {
-          console.log(err.message);
+            .then((response) => response.json())
+            .then((data) => {
 
-          //send to login if token expires
+                setCurrent_data(data)
 
-          if (err.message.includes("Unauthorized")) {
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user_id");
-            sessionStorage.removeItem("message");
-            setLogMessage(true)
-            navigate('/login')
-          }
-        })
+            })
+            .catch((err) => {
+                console.log(err.message);
+
+                //send to login if token expires
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("user_id");
+                    sessionStorage.removeItem("message");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+            })
 
 
-  }
+    }
 
 
     // delete image
@@ -452,22 +452,22 @@ const NewProduct = (props) => {
     const newPicForm = (colorIter) => {
 
         if (showPicForm == true) {
-        return (
-            <div className="addImageContainer">
-                <form encType="multipart/form-data" onSubmit={(e) => newImage(e, colorIter)}>
-                    <label>
-                        <div className="form-group">
-                            <label>Image (file must be .jpeg .jpg or .png):</label>
-                            <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+            return (
+                <div className="addImageContainer">
+                    <form encType="multipart/form-data" onSubmit={(e) => newImage(e, colorIter)}>
+                        <label>
+                            <div className="form-group">
+                                <label>Image (file must be .jpeg .jpg or .png):</label>
+                                <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+                            </div>
+                        </label>
+                        <div className="addImage">
+                            <button type="submit">Add New Picture</button>
                         </div>
-                    </label>
-                    <div className="addImage">
-                        <button type="submit">Add New Picture</button>
-                    </div>
-                </form>
-            </div>
-        )
-    }
+                    </form>
+                </div>
+            )
+        }
     }
 
     // color form
@@ -480,7 +480,7 @@ const NewProduct = (props) => {
                 <div>
                     <form onSubmit={submitColor}>
                         <label>
-                            <p>Color</p>
+                            <p>Color (enter false for only one color)</p>
                             <input className="productInput" type="text" name="color" required />
                         </label>
                         <div className="addColorSubmit">
@@ -518,8 +518,8 @@ const NewProduct = (props) => {
                 <div>
                     <form onSubmit={submitNewSize} >
                         <label>
-                            <p>Size</p>
-                            <input className="sizeInput" type="text" name="size" />
+                            <p>Size (enter false for only one size)</p>
+                            <input className="sizeInput" type="text" name="size" required />
                         </label>
                         <label>
                             <p>Price</p>
@@ -672,6 +672,9 @@ const NewProduct = (props) => {
 
     return (
         <div>
+            <Header
+                setLogMessage={setLogMessage}
+            />
             {renderMainForm()}
         </div>
     )

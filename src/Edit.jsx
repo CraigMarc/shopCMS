@@ -478,7 +478,7 @@ const Edit = (props) => {
         <div>
           <form onSubmit={submitNewColorForm} >
             <label>
-              <p>Color</p>
+              <p>Color (enter false if only one color)</p>
               <input className="sizeInput" type="text" name="color" />
             </label>
             <div className="editColorSubmit">
@@ -727,11 +727,11 @@ const Edit = (props) => {
       <div>
         <form onSubmit={submitColorForm} >
           <label>
-            <p>Color</p>
+            <p>Color (enter false if only one color)</p>
             <input defaultValue={current_data.colorArray[colorIter].color} className="sizeInput" type="text" name="color" />
           </label>
           <label>
-            <p>Size</p>
+            <p>Size (enter false if only one size)</p>
             <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
           </label>
           <label>
