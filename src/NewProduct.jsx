@@ -41,7 +41,7 @@ const NewProduct = (props) => {
     const iterSizeEdit = useRef({ colorIter: 0, sizeIter: 0 })
     const [showColorEdit, setShowColorEdit] = useState(false)
     const iterColorEdit = useRef({ colorIter: 0, sizeIter: 0 })
-
+    const [showMainEdit, setShowMainEdit] = useState(false)
 
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
@@ -75,7 +75,7 @@ const NewProduct = (props) => {
                 subCategory: subCategory,
                 description: data.description,
                 modelNum: data.modelNum,
-                sale_percent: data.salePercent,
+                sale_percent: data.sale_percent,
                 brand: brand_id.current,
                 colorArray: [],
                 product_id: uuid
@@ -417,9 +417,51 @@ const NewProduct = (props) => {
 
     }
 
+    // submit main edit form
+
+    const submitMainEditForm = async (e) => { 
+
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        console.log(data)
+
+        //send form data
+        await fetch("http://localhost:3000/products/edit_main", {
+
+
+
+            method: 'Put',
+            body: JSON.stringify({
+                title: data.title,
+                category: category_id.current,
+                subCategory: subCategory,
+                description: data.description,
+                modelNum: data.modelNum,
+                sale_percent: data.sale_percent,
+                brand: brand_id.current,
+                _id: current_data._id
+            }),
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+
+
+
+            .then((response) => response.json())
+            .then((data) => {
+
+                setShowMainEdit(false)
+                setCurrent_data(data)
+
+
+            })
+
+    }
+
+
     // submit color edit form
-
-
 
     const submitColorEditForm = async (e) => {
 
@@ -601,6 +643,66 @@ const NewProduct = (props) => {
         }
     }
 
+     //color edit form
+     const EditMainForm = () => {
+
+        if (showMainEdit == true) {
+            return (
+                <div>
+                    <form onSubmit={submitMainEditForm} >
+                        <label>
+                        <p>Product Name</p>
+                        <input defaultValue={current_data.title} className="titleInput" type="text" name="title" required />
+                    </label>
+                    <Dropdown
+                        dataName={category}
+                        setForm={setCategoryForm}
+                        data_id={category_id}
+                        dataForm={categoryForm}
+                        setSubCategory={setSubCategory}
+                        labelName="Category"
+                    />
+                    <DropdownSub
+                        category={category}
+                        categoryForm={categoryForm}
+                        subCategory={subCategory}
+                        setSubCategory={setSubCategory}
+                    />
+
+                    <DropdownBrand
+                        dataName={brand}
+                        setForm={setBrandForm}
+                        data_id={brand_id}
+                        dataForm={brandForm}
+                        labelName="Brand"
+                    />
+                    <label>
+                        <label>
+                            <p>Model Number</p>
+                            <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="modelNum" />
+                        </label>
+                        <label>
+                            <p>Sale Percent (not required)</p>
+                            <input defaultValue={current_data.sale_percent} className="titleInput" type="number" name="sale_percent" />
+                        </label>
+                        <p>Description</p>
+                        <textarea defaultValue={current_data.description} className="descriptInput" type="text" name="description" required />
+                    </label>
+
+
+                        <div className="editColorSubmit">
+                            <button type="submit">Submit Changes</button>
+                        </div>
+                    </form>
+
+
+
+                </div>
+
+            )
+        }
+    }
+
 
     // show color edit form
     const showColorEditForm = (colorIter) => {
@@ -611,15 +713,8 @@ const NewProduct = (props) => {
 
     }
 
-    // show size edit form
-    const showSizeEditForm = (colorIter, sizeIter) => {
-
-        iterSizeEdit.current = { colorIter: colorIter, sizeIter: sizeIter }
-        setShowSizeEdit(true)
-
-    }
-
-    //size edit form
+    
+    //color edit form
     const EditColorForm = (props) => {
 
         const {
@@ -649,6 +744,14 @@ const NewProduct = (props) => {
 
             )
         }
+    }
+
+    // show size edit form
+    const showSizeEditForm = (colorIter, sizeIter) => {
+
+        iterSizeEdit.current = { colorIter: colorIter, sizeIter: sizeIter }
+        setShowSizeEdit(true)
+
     }
 
     //size edit form
@@ -811,13 +914,16 @@ const NewProduct = (props) => {
         else {
             return (
                 <div>
+                    <p><span className='productSpan'>title:</span> {current_data.title}</p>
                     <p><span className='productSpan'>category:</span> {current_data.category.name}</p>
                     <p><span className='productSpan'>subCategory:</span> {current_data.subCategory}</p>
                     <p><span className='productSpan'>brand:</span> {current_data.brand.name}</p>
                     <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
                     <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {current_data.description}</p>
+                    <button onClick={() => setShowMainEdit(true)}>edit</button>
                     <button onClick={() => setShowColorForm(true)}>Add New Color</button>
+                    <EditMainForm/>
                     <Colorform />
 
                     {current_data.colorArray.map((index, iter) => {
