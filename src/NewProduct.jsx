@@ -423,6 +423,12 @@ const NewProduct = (props) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
+        data.height = data.height * 100
+        data.length = data.length * 100
+        data.price = data.price * 100
+        data.weight = data.weight * 100
+        data.width = data.width * 100
+        data.quantity = Number(data.quantity)
 
        current_data.colorArray[iterSizeEdit.current.colorIter].sizeArray[iterSizeEdit.current.sizeIter] = {
         size: data.size,
