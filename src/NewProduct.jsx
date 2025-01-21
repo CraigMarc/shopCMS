@@ -37,7 +37,8 @@ const NewProduct = (props) => {
     const disablePic = useRef(false);
     const iterImage = useRef();
     const [showPicForm, setShowPicForm] = useState(false)
-
+    const [showSizeEdit, setShowSizeEdit] = useState(false)
+    const iterSizeEdit = useRef({colorIter: 0, sizeIter: 0})
 
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
@@ -167,7 +168,7 @@ const NewProduct = (props) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
-        console.log(data)
+        
 
         data.height = data.height * 100
         data.length = data.length * 100
@@ -413,6 +414,70 @@ const NewProduct = (props) => {
 
     }
 
+    // submit size edit form
+    
+    
+
+    const submitSizeEditForm = async (e) => {
+
+
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+       current_data.colorArray[iterSizeEdit.current.colorIter].sizeArray[iterSizeEdit.current.sizeIter] = {
+        size: data.size,
+        price: data.price,
+        quantity: data.quantity,
+        length: data.length,
+        width: data.width,
+        height: data.height,
+        weight: data.weight
+    }
+
+     //send form data
+     await fetch("http://localhost:3000/products/new_color", {
+
+        method: 'POST',
+        body: JSON.stringify({
+
+            colorArray: current_data.colorArray,
+            _id: current_data._id
+
+        }),
+        headers: {
+            Authorization: tokenFetch,
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    })
+
+
+
+        .then((response) => response.json())
+        .then((data) => {
+
+            iterSizeEdit.current = {colorIter: 0, sizeIter: 0}
+            setShowSizeEdit(false)
+            setCurrent_data(data)
+
+
+        })
+
+
+        .catch((err) => {
+            console.log(err.message);
+
+            if (err.message.includes("Unauthorized")) {
+                sessionStorage.removeItem("token");
+                sessionStorage.removeItem("userName");
+                setLogMessage(true)
+                navigate('/login')
+            }
+
+        });
+
+   
+    }
+
     // set state to display add image
     function showImage(colorIter) {
 
@@ -469,6 +534,76 @@ const NewProduct = (props) => {
             )
         }
     }
+
+    const showSizeEditForm = (colorIter, sizeIter) => {
+
+        iterSizeEdit.current = { colorIter: colorIter, sizeIter: sizeIter }
+        setShowSizeEdit(true)
+
+
+    }
+
+
+    const EditSizeForm = (props) => {
+
+        const {
+
+            iter2
+
+        } = props;
+
+
+
+        let colorIter = iterSizeEdit.current.colorIter
+        let sizeIter = iterSizeEdit.current.sizeIter
+
+
+        if (showSizeEdit == true && iterSizeEdit.current.sizeIter == iter2) {
+            return (
+                <div>
+                    <form onSubmit={submitSizeEditForm} >
+                        <label>
+                            <p>Size (enter false if only one size)</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].size} className="sizeInput" type="text" name="size" />
+                        </label>
+                        <label>
+                            <p>Price</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].price / 100} className="sizeInput" type="number" step="0.01" name="price" required />
+                        </label>
+                        <label>
+                            <p>Quantity</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].quantity} className="sizeInput" type="number" name="quantity" required />
+                        </label>
+                        <label>
+                            <p>Length</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].length / 100} className="sizeInput" type="number" step="0.01" name="length" required />
+                        </label>
+                        <label>
+                            <p>Width</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].width / 100} className="sizeInput" type="number" step="0.01" name="width" required />
+                        </label>
+                        <label>
+                            <p>Height</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].height / 100} className="sizeInput" type="number" step="0.01" name="height" required />
+                        </label>
+                        <label>
+                            <p>Weight</p>
+                            <input defaultValue={current_data.colorArray[colorIter].sizeArray[sizeIter].weight / 100} className="sizeInput" type="number" step="0.01" name="weight" required />
+                        </label>
+                        <div className="editColorSubmit">
+                            <button type="submit">Submit Changes</button>
+                        </div>
+                    </form>
+
+
+
+                </div>
+
+            )
+        }
+    }
+
+
 
     // color form
 
@@ -601,8 +736,11 @@ const NewProduct = (props) => {
                                             <p><span className='productSpan'>width:</span> {index2.width / 100}</p>
                                             <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
                                             <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
-                                            <button>edit size</button>
+                                            <button onClick={() => showSizeEditForm(iter, iter2)}>Edit Size</button>
                                             <button onClick={() => handleSizeDelete(iter, iter2)}>Delete Size</button>
+                                            <EditSizeForm
+                                                iter2={iter2}
+                                            />
                                         </div>
                                     )
                                 })}
