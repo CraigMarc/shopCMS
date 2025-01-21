@@ -38,7 +38,10 @@ const NewProduct = (props) => {
     const iterImage = useRef();
     const [showPicForm, setShowPicForm] = useState(false)
     const [showSizeEdit, setShowSizeEdit] = useState(false)
-    const iterSizeEdit = useRef({colorIter: 0, sizeIter: 0})
+    const iterSizeEdit = useRef({ colorIter: 0, sizeIter: 0 })
+    const [showColorEdit, setShowColorEdit] = useState(false)
+    const iterColorEdit = useRef({ colorIter: 0, sizeIter: 0 })
+
 
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
@@ -168,7 +171,7 @@ const NewProduct = (props) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
-        
+
 
         data.height = data.height * 100
         data.length = data.length * 100
@@ -414,9 +417,66 @@ const NewProduct = (props) => {
 
     }
 
+    // submit color edit form
+
+
+
+    const submitColorEditForm = async (e) => {
+
+
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+       
+
+        current_data.colorArray[iterColorEdit.current].color = data.color
+
+        //send form data
+        await fetch("http://localhost:3000/products/new_color", {
+
+            method: 'POST',
+            body: JSON.stringify({
+
+                colorArray: current_data.colorArray,
+                _id: current_data._id
+
+            }),
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+
+
+
+            .then((response) => response.json())
+            .then((data) => {
+
+                iterColorEdit.current = ""
+                setShowColorEdit(false)
+                setCurrent_data(data)
+
+
+            })
+
+
+            .catch((err) => {
+                console.log(err.message);
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("userName");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+
+            });
+
+
+    }
+
     // submit size edit form
-    
-    
+
+
 
     const submitSizeEditForm = async (e) => {
 
@@ -430,58 +490,58 @@ const NewProduct = (props) => {
         data.width = data.width * 100
         data.quantity = Number(data.quantity)
 
-       current_data.colorArray[iterSizeEdit.current.colorIter].sizeArray[iterSizeEdit.current.sizeIter] = {
-        size: data.size,
-        price: data.price,
-        quantity: data.quantity,
-        length: data.length,
-        width: data.width,
-        height: data.height,
-        weight: data.weight
-    }
+        current_data.colorArray[iterSizeEdit.current.colorIter].sizeArray[iterSizeEdit.current.sizeIter] = {
+            size: data.size,
+            price: data.price,
+            quantity: data.quantity,
+            length: data.length,
+            width: data.width,
+            height: data.height,
+            weight: data.weight
+        }
 
-     //send form data
-     await fetch("http://localhost:3000/products/new_color", {
+        //send form data
+        await fetch("http://localhost:3000/products/new_color", {
 
-        method: 'POST',
-        body: JSON.stringify({
+            method: 'POST',
+            body: JSON.stringify({
 
-            colorArray: current_data.colorArray,
-            _id: current_data._id
+                colorArray: current_data.colorArray,
+                _id: current_data._id
 
-        }),
-        headers: {
-            Authorization: tokenFetch,
-            'Content-type': 'application/json; charset=UTF-8',
-        },
-    })
-
-
-
-        .then((response) => response.json())
-        .then((data) => {
-
-            iterSizeEdit.current = {colorIter: 0, sizeIter: 0}
-            setShowSizeEdit(false)
-            setCurrent_data(data)
-
-
+            }),
+            headers: {
+                Authorization: tokenFetch,
+                'Content-type': 'application/json; charset=UTF-8',
+            },
         })
 
 
-        .catch((err) => {
-            console.log(err.message);
 
-            if (err.message.includes("Unauthorized")) {
-                sessionStorage.removeItem("token");
-                sessionStorage.removeItem("userName");
-                setLogMessage(true)
-                navigate('/login')
-            }
+            .then((response) => response.json())
+            .then((data) => {
 
-        });
+                iterSizeEdit.current = { colorIter: 0, sizeIter: 0 }
+                setShowSizeEdit(false)
+                setCurrent_data(data)
 
-   
+
+            })
+
+
+            .catch((err) => {
+                console.log(err.message);
+
+                if (err.message.includes("Unauthorized")) {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("userName");
+                    setLogMessage(true)
+                    navigate('/login')
+                }
+
+            });
+
+
     }
 
     // set state to display add image
@@ -541,15 +601,57 @@ const NewProduct = (props) => {
         }
     }
 
+
+    // show color edit form
+    const showColorEditForm = (colorIter) => {
+
+        iterColorEdit.current = colorIter
+        setShowColorEdit(true)
+
+
+    }
+
+    // show size edit form
     const showSizeEditForm = (colorIter, sizeIter) => {
 
         iterSizeEdit.current = { colorIter: colorIter, sizeIter: sizeIter }
         setShowSizeEdit(true)
 
-
     }
 
+    //size edit form
+    const EditColorForm = (props) => {
 
+        const {
+
+            iter
+
+        } = props;
+
+
+
+        if (showColorEdit == true && iterColorEdit.current == iter) {
+            return (
+                <div>
+                    <form onSubmit={submitColorEditForm} >
+                        <label>
+                            <p>Color (enter false if only one size)</p>
+                            <input defaultValue={current_data.colorArray[iterColorEdit.current].color} className="sizeInput" type="text" name="color" />
+                        </label>
+                        <div className="editColorSubmit">
+                            <button type="submit">Submit Changes</button>
+                        </div>
+                    </form>
+
+
+
+                </div>
+
+            )
+        }
+    }
+
+    //size edit form
     const EditSizeForm = (props) => {
 
         const {
@@ -723,9 +825,12 @@ const NewProduct = (props) => {
                         return (
                             <div key={iter}>
                                 <p><span className='productSpan'>color:</span> {index.color}</p>
-                                <button>edit color</button>
+                                <button onClick={() => showColorEditForm(iter)}>Edit Color</button>
                                 <button onClick={() => handleColorDelete(iter)}>Delete Color</button>
                                 <button onClick={() => showImage(iter)} disabled={disablePic.current}>add image</button>
+                                <EditColorForm
+                                    iter={iter}
+                                />
                                 {displayImages(index, iter)}
                                 {newPicForm(iter)}
                                 <button value={iter} onClick={(e) => renderNewSizeForm(e)}>Add New Size</button>
