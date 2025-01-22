@@ -4,8 +4,9 @@ import { useState, useRef, useEffect } from 'react'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
 import DropdownBrand from './DropdownBrand'
-
-
+import editIcon from './assets/editIcon30.png'
+import trashIcon from './assets/trashIcon.png'
+import imageIcon from './assets/imageIcon.png'
 
 const NewProduct = (props) => {
 
@@ -419,7 +420,7 @@ const NewProduct = (props) => {
 
     // submit main edit form
 
-    const submitMainEditForm = async (e) => { 
+    const submitMainEditForm = async (e) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
@@ -468,7 +469,7 @@ const NewProduct = (props) => {
 
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
-       
+
 
         current_data.colorArray[iterColorEdit.current].color = data.color
 
@@ -643,51 +644,51 @@ const NewProduct = (props) => {
         }
     }
 
-     //color edit form
-     const EditMainForm = () => {
+    //color edit form
+    const EditMainForm = () => {
 
         if (showMainEdit == true) {
             return (
                 <div>
                     <form onSubmit={submitMainEditForm} >
                         <label>
-                        <p>Product Name</p>
-                        <input defaultValue={current_data.title} className="titleInput" type="text" name="title" required />
-                    </label>
-                    <Dropdown
-                        dataName={category}
-                        setForm={setCategoryForm}
-                        data_id={category_id}
-                        dataForm={categoryForm}
-                        setSubCategory={setSubCategory}
-                        labelName="Category"
-                    />
-                    <DropdownSub
-                        category={category}
-                        categoryForm={categoryForm}
-                        subCategory={subCategory}
-                        setSubCategory={setSubCategory}
-                    />
+                            <p>Product Name</p>
+                            <input defaultValue={current_data.title} className="titleInput" type="text" name="title" required />
+                        </label>
+                        <Dropdown
+                            dataName={category}
+                            setForm={setCategoryForm}
+                            data_id={category_id}
+                            dataForm={categoryForm}
+                            setSubCategory={setSubCategory}
+                            labelName="Category"
+                        />
+                        <DropdownSub
+                            category={category}
+                            categoryForm={categoryForm}
+                            subCategory={subCategory}
+                            setSubCategory={setSubCategory}
+                        />
 
-                    <DropdownBrand
-                        dataName={brand}
-                        setForm={setBrandForm}
-                        data_id={brand_id}
-                        dataForm={brandForm}
-                        labelName="Brand"
-                    />
-                    <label>
+                        <DropdownBrand
+                            dataName={brand}
+                            setForm={setBrandForm}
+                            data_id={brand_id}
+                            dataForm={brandForm}
+                            labelName="Brand"
+                        />
                         <label>
-                            <p>Model Number</p>
-                            <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="modelNum" />
+                            <label>
+                                <p>Model Number</p>
+                                <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="modelNum" />
+                            </label>
+                            <label>
+                                <p>Sale Percent (not required)</p>
+                                <input defaultValue={current_data.sale_percent} className="titleInput" type="number" name="sale_percent" />
+                            </label>
+                            <p>Description</p>
+                            <textarea defaultValue={current_data.description} className="descriptInput" type="text" name="description" required />
                         </label>
-                        <label>
-                            <p>Sale Percent (not required)</p>
-                            <input defaultValue={current_data.sale_percent} className="titleInput" type="number" name="sale_percent" />
-                        </label>
-                        <p>Description</p>
-                        <textarea defaultValue={current_data.description} className="descriptInput" type="text" name="description" required />
-                    </label>
 
 
                         <div className="editColorSubmit">
@@ -713,7 +714,7 @@ const NewProduct = (props) => {
 
     }
 
-    
+
     //color edit form
     const EditColorForm = (props) => {
 
@@ -914,47 +915,57 @@ const NewProduct = (props) => {
         else {
             return (
                 <div>
-                    <p><span className='productSpan'>title:</span> {current_data.title}</p>
-                    <p><span className='productSpan'>category:</span> {current_data.category.name}</p>
-                    <p><span className='productSpan'>subCategory:</span> {current_data.subCategory}</p>
-                    <p><span className='productSpan'>brand:</span> {current_data.brand.name}</p>
-                    <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
-                    <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
-                    <p><span className='productSpan'>description:</span> {current_data.description}</p>
-                    <button onClick={() => setShowMainEdit(true)}>edit</button>
-                    <button onClick={() => setShowColorForm(true)}>Add New Color</button>
-                    <EditMainForm/>
+                    <div className="editMainContainer">
+                        <div className="mainText">
+                            <p><span className='productSpan'>title:</span> {current_data.title}</p>
+                            <p><span className='productSpan'>category:</span> {current_data.category.name}</p>
+                            <p><span className='productSpan'>subCategory:</span> {current_data.subCategory}</p>
+                            <p><span className='productSpan'>brand:</span> {current_data.brand.name}</p>
+                            <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
+                            <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
+                            <p><span className='productSpan'>description:</span> {current_data.description}</p>
+                        </div>
+                        <img className="editIcon" src={editIcon} onClick={() => setShowMainEdit(true)}></img>
+                    </div>
+                    <button className="newColorButton" onClick={() => setShowColorForm(true)}>Add New Color</button>
+                    <EditMainForm />
                     <Colorform />
 
                     {current_data.colorArray.map((index, iter) => {
 
                         return (
                             <div key={iter}>
-                                <p><span className='productSpan'>color:</span> {index.color}</p>
-                                <button onClick={() => showColorEditForm(iter)}>Edit Color</button>
-                                <button onClick={() => handleColorDelete(iter)}>Delete Color</button>
-                                <button onClick={() => showImage(iter)} disabled={disablePic.current}>add image</button>
+                                <div className="newProductColorContainer">
+                                    <p className="newProductColor"><span className='productSpan'>color:</span> {index.color}</p>
+                                    <img className="editIcon" src={editIcon} onClick={() => showColorEditForm(iter)}></img>
+                                    <img className="editIcon" src={trashIcon} onClick={() => handleColorDelete(iter)}></img>
+                                    <img className="editIcon" src={imageIcon} onClick={() => showImage(iter)} disabled={disablePic.current}></img>
+                                </div>
                                 <EditColorForm
                                     iter={iter}
                                 />
                                 {displayImages(index, iter)}
                                 {newPicForm(iter)}
-                                <button value={iter} onClick={(e) => renderNewSizeForm(e)}>Add New Size</button>
+                                <button className="newColorButton" value={iter} onClick={(e) => renderNewSizeForm(e)}>Add New Size</button>
                                 <NewSizeForm
                                     iter={iter}
                                 />
                                 {index.sizeArray.map((index2, iter2) => {
                                     return (
                                         <div className='productQuantityContainer' key={iter2}>
-                                            <p><span className='productSpan'>size:</span> {index2.size}</p>
-                                            <p><span className='productSpan'>price:</span> {index2.price / 100}</p>
-                                            <p><span className='productSpan'>quantity:</span> {index2.quantity}</p>
-                                            <p><span className='productSpan'>length:</span> {index2.length / 100}</p>
-                                            <p><span className='productSpan'>width:</span> {index2.width / 100}</p>
-                                            <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
-                                            <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
-                                            <button onClick={() => showSizeEditForm(iter, iter2)}>Edit Size</button>
-                                            <button onClick={() => handleSizeDelete(iter, iter2)}>Delete Size</button>
+                                            <div className="newProductColorContainer">
+                                                <div>
+                                                    <p><span className='productSpan'>size:</span> {index2.size}</p>
+                                                    <p><span className='productSpan'>price:</span> {index2.price / 100}</p>
+                                                    <p><span className='productSpan'>quantity:</span> {index2.quantity}</p>
+                                                    <p><span className='productSpan'>length:</span> {index2.length / 100}</p>
+                                                    <p><span className='productSpan'>width:</span> {index2.width / 100}</p>
+                                                    <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
+                                                    <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
+                                                </div>
+                                                <img className="editIcon" src={editIcon} onClick={() => showSizeEditForm(iter, iter2)}></img>
+                                                <img className="editIcon" src={trashIcon} onClick={() => handleSizeDelete(iter, iter2)}></img>
+                                            </div>
                                             <EditSizeForm
                                                 iter2={iter2}
                                             />
@@ -1026,11 +1037,13 @@ const NewProduct = (props) => {
     }
 
     return (
-        <div>
+        <div >
             <Header
                 setLogMessage={setLogMessage}
             />
+            <div className="newProductBody">
             {renderMainForm()}
+            </div>
         </div>
     )
 

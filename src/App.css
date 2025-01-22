@@ -269,3 +269,49 @@ padding-top: 10px;
 .addImageCont {
   padding-bottom: 20px;
 }
+
+/* new product */
+
+.newProductBody {
+  margin-left: 20px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.editMainContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+}
+
+.mainText {
+  text-align: left;
+}
+
+.editIcon {
+  height: 30px;
+  width: 30px;
+}
+
+.editIcon:hover {
+ background-color: lightgray;
+}
+
+.newProductColor {
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.newProductColorContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+}
+
+.newColorButton {
+  margin-top: 30px;
+ 
+}
