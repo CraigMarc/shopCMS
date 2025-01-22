@@ -611,7 +611,7 @@ const NewProduct = (props) => {
                         return (
                             <div className="editImageContainer" key={iter}>
                                 <img className="newProdImage" src={url}></img>
-                                <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
+                                <img className="editIcon" src={trashIcon} onClick={() => deleteImage(colorIter, iter)}></img>
                             </div>
                         )
                     })
@@ -903,6 +903,25 @@ const NewProduct = (props) => {
         }
     }
 
+    function RenderSizeMessage(props) {
+
+
+        const {
+
+            colorIter,
+           
+
+        } = props;
+       
+
+        if (current_data.colorArray[colorIter].sizeArray.length == 0) {
+            return (
+                <h3>must fill out at least one size</h3>
+            )
+        }
+       
+    }
+
 
     function renderMainForm() {
         if (hideMainForm.current == false) {
@@ -916,7 +935,7 @@ const NewProduct = (props) => {
             return (
                 <div>
                     <div className="editMainContainer">
-                        <div className="mainText">
+                        < div className="mainText" >
                             <p><span className='productSpan'>title:</span> {current_data.title}</p>
                             <p><span className='productSpan'>category:</span> {current_data.category.name}</p>
                             <p><span className='productSpan'>subCategory:</span> {current_data.subCategory}</p>
@@ -924,7 +943,8 @@ const NewProduct = (props) => {
                             <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
                             <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
                             <p><span className='productSpan'>description:</span> {current_data.description}</p>
-                        </div>
+                        </div >
+
                         <img className="editIcon" src={editIcon} onClick={() => setShowMainEdit(true)}></img>
                     </div>
                     <button className="newColorButton" onClick={() => setShowColorForm(true)}>Add New Color</button>
@@ -950,6 +970,9 @@ const NewProduct = (props) => {
                                 <NewSizeForm
                                     iter={iter}
                                 />
+                                <RenderSizeMessage
+                                colorIter={iter}
+                                />
                                 {index.sizeArray.map((index2, iter2) => {
                                     return (
                                         <div className='productQuantityContainer' key={iter2}>
@@ -963,6 +986,7 @@ const NewProduct = (props) => {
                                                     <p><span className='productSpan'>height:</span> {index2.height / 100}</p>
                                                     <p><span className='productSpan'>weight:</span> {index2.weight / 100}</p>
                                                 </div>
+
                                                 <img className="editIcon" src={editIcon} onClick={() => showSizeEditForm(iter, iter2)}></img>
                                                 <img className="editIcon" src={trashIcon} onClick={() => handleSizeDelete(iter, iter2)}></img>
                                             </div>
@@ -1042,7 +1066,7 @@ const NewProduct = (props) => {
                 setLogMessage={setLogMessage}
             />
             <div className="newProductBody">
-            {renderMainForm()}
+                {renderMainForm()}
             </div>
         </div>
     )
