@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header"
 
@@ -19,12 +19,12 @@ function Products(props) {
   } = props;
 
 
-
   //load page get info use token
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [message, setMessage] = useState(false);
+  const iterMessage = useRef();
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -32,10 +32,15 @@ function Products(props) {
 
   // publish posts
 
-  const handlePublish = async (event) => {
+  const handlePublish = async (event, index, iter) => {
     let id = event.target.value
 
+    if (index.colorArray.length == 0 || index.colorArray[0].sizeArray.length == 0) {
+      iterMessage.current = iter
+      setMessage(true)
+    }
 
+else {
     await fetch(`http://localhost:3000/products/publish/${id}`, {
       method: 'PUT',
 
@@ -64,6 +69,7 @@ function Products(props) {
         }
 
       });
+    }
   };
 
   // delete posts
@@ -157,6 +163,18 @@ if (error) return (
 
 if (loading) return <p>Loading...</p>;
 
+// renderMessage
+
+function renderMessage (iter) {
+
+
+  if (message == true && iterMessage.current == iter) {
+    return (
+      <h4>Must have at least one color and one size to publish</h4>
+    )
+  }
+}
+
 // render page
 
   return (
@@ -174,7 +192,7 @@ if (loading) return <p>Loading...</p>;
 
         <div className="postCard">
 
-          {products.map((index) => {
+          {products.map((index, iter) => {
            
             let published = ""
             if (index.published == true) {
@@ -202,13 +220,13 @@ if (loading) return <p>Loading...</p>;
                     <p><span className='productSpan'>sale percent:</span> {index.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>
 
-                    {index.colorArray.map((index2, iter) => {
+                    {index.colorArray.map((index2, iter2) => {
                       let url = ""
                       if (index2.images) {
                        url = `http://localhost:3000/${index2.images[0]}`
                       }
                     return (
-                      <div key={iter}>
+                      <div key={iter2}>
                         <p><span className='productSpan'>color:</span> {index2.color}</p>
 
                         {index2.sizeArray.map((index3, iter) => {
@@ -233,7 +251,7 @@ if (loading) return <p>Loading...</p>;
                    
                     
                   </div>
-                  
+                  {renderMessage(iter)}
 
                   <div className='commentContainer'>
                     <p><span className='productSpan'>Published:</span> {published}</p>
@@ -251,7 +269,7 @@ if (loading) return <p>Loading...</p>;
                     </Link>
                   </div>
                   <div className="publishButtonContainer"  >
-                    <button className="publish" value={index._id} onClick={handlePublish} >publish/unpublish product</button>
+                    <button className="publish" value={index._id} onClick={(e) => handlePublish(e, index, iter)} >publish/unpublish product</button>
 
                   </div>
                 </div>
