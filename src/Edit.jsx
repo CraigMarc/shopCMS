@@ -4,6 +4,9 @@ import Header from './Header'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
 import DropdownBrand from './DropdownBrand'
+import editIcon from './assets/editIcon30.png'
+import trashIcon from './assets/trashIcon.png'
+import imageIcon from './assets/imageIcon.png'
 
 
 
@@ -401,10 +404,10 @@ const Edit = (props) => {
     const {
 
       iter1
-  
+
     } = props;
 
-    
+
     if (showSizeForm == true && iterSize.current == iter1) {
       return (
         <div>
@@ -511,7 +514,7 @@ const Edit = (props) => {
             </div>
           </label>
           <div className="addImage">
-            <button type="submit">Add New Picture</button>
+            <button className="imageIcon" src={imageIcon} type="submit">submit image</button>
           </div>
         </form>
       </div>
@@ -566,7 +569,7 @@ const Edit = (props) => {
 
         </form>
         <div className="addNewColorContainer">
-          <NewColorForm/>
+          <NewColorForm />
 
         </div>
       </>
@@ -596,7 +599,7 @@ const Edit = (props) => {
             return (
               <div className="editImageContainer" key={iter}>
                 <img className="newProdImage" src={url}></img>
-                <button onClick={() => deleteImage(colorIter, iter)}>delete image</button>
+                <img className="editIcon" src={trashIcon} onClick={() => deleteImage(colorIter, iter)}></img>
               </div>
             )
           })
@@ -629,9 +632,9 @@ const Edit = (props) => {
     const {
 
       iter1
-  
+
     } = props;
-  
+
 
     if (showSizeForm == false) {
       return (
@@ -658,37 +661,42 @@ const Edit = (props) => {
               {current_data.colorArray.map((index2, iter1) => {
 
                 return (
-                  <div key={iter1}>
+                  <div className="editBorderContainer" key={iter1}>
                     <h4 className="colorText"><span className='productSpan'>color:</span> {index2.color}</h4>
-                    
+
                     <RenderSizeButton
-                    iter1={iter1}
-                      />
+                      iter1={iter1}
+                    />
                     <NewSizeForm
-                    iter1={iter1}
+                      iter1={iter1}
                     />
                     {index2.sizeArray.map((index3, iter2) => {
                       return (
                         <div className='productQuantityContainer' key={iter2}>
-                          <p><span className='productSpan'>size:</span> {index3.size}</p>
-                          <p><span className='productSpan'>price:</span> {index3.price / 100}</p>
-                          <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
-                          <p><span className='productSpan'>length:</span> {index3.length / 100}</p>
-                          <p><span className='productSpan'>width:</span> {index3.width / 100}</p>
-                          <p><span className='productSpan'>height:</span> {index3.height / 100}</p>
-                          <p><span className='productSpan'>weight:</span> {index3.weight / 100}</p>
-                          <div className="sizeArrayButtonContainer">
-                            <button onClick={() => handleDelete(iter1, iter2)}>Delete</button>
-                            <button onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" >Edit</button>
+                          <div className='sizeEditDeleteContainer'>
+                              <div>
+                              <p><span className='productSpan'>size:</span> {index3.size}</p>
+                              <p><span className='productSpan'>price:</span> {index3.price / 100}</p>
+                              <p><span className='productSpan'>quantity:</span> {index3.quantity}</p>
+                              <p><span className='productSpan'>length:</span> {index3.length / 100}</p>
+                              <p><span className='productSpan'>width:</span> {index3.width / 100}</p>
+                              <p><span className='productSpan'>height:</span> {index3.height / 100}</p>
+                              <p><span className='productSpan'>weight:</span> {index3.weight / 100}</p>
+                            </div>
+                            <div className="sizeArrayButtonContainer">
+                              <img className="editIcon" src={trashIcon} onClick={() => handleDelete(iter1, iter2)}></img>
+                              <img className="editIcon" src={editIcon} onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" ></img>
+                              <img className="editIcon" src={imageIcon} onClick={() => showImage(iter1)} disabled={disablePic.current}></img>
+                            </div>
                           </div>
                           {showForm(iter1, iter2)}
-                        
+
                         </div>
                       )
                     })}
                     {renderPicForm(index2, iter1)}
 
-                    <button onClick={() => showImage(iter1)} disabled={disablePic.current}>add image</button>
+                    
                   </div>
                 )
               })}
@@ -709,7 +717,7 @@ const Edit = (props) => {
     if (display == true && iter.current.colorIter == colorIter && iter.current.sizeIter == sizeIter) {
       return (
         <div>
-          <EditSizeForm/>
+          <EditSizeForm />
         </div>
       )
     }
@@ -721,7 +729,7 @@ const Edit = (props) => {
 
     let colorIter = iter.current.colorIter
     let sizeIter = iter.current.sizeIter
-    
+
 
     return (
       <div>
@@ -768,7 +776,7 @@ const Edit = (props) => {
       </div>
 
     )
-  
+
   }
 
 
@@ -782,8 +790,8 @@ const Edit = (props) => {
       />
       <h2 className="pageTitle">Edit Post</h2>
       {renderform()}
-      <RenderColorArray/>
-      <DisplayMessage/>
+      <RenderColorArray />
+      <DisplayMessage />
       <button onClick={sendUpdates}>Submit Changes</button>
     </div>
 

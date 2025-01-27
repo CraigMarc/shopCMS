@@ -315,3 +315,30 @@ padding-top: 10px;
   margin-top: 30px;
  
 }
+
+.newProductColorBorder {
+  border-bottom: solid;
+  border-width: 0.1px;
+}
+
+/* edit product*/
+
+.sizeEditDeleteContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+}
+
+.editBorderContainer {
+  border-bottom: solid;
+  border-width: 0.1px;
+ margin-bottom: 10px;
+}
+
+/*brand*/
+
+.brandButtonContainer {
+  display: flex;
+  gap: 30px;
+}

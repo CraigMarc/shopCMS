@@ -954,7 +954,7 @@ const NewProduct = (props) => {
                     {current_data.colorArray.map((index, iter) => {
 
                         return (
-                            <div key={iter}>
+                            <div className="newProductColorBorder" key={iter}>
                                 <div className="newProductColorContainer">
                                     <p className="newProductColor"><span className='productSpan'>color:</span> {index.color}</p>
                                     <img className="editIcon" src={editIcon} onClick={() => showColorEditForm(iter)}></img>
