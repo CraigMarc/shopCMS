@@ -23,8 +23,7 @@ function Products(props) {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState(false);
-  const iterMessage = useRef();
+  const [message, setMessage] = useState(null);
 
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
@@ -36,8 +35,8 @@ function Products(props) {
     let id = event.target.value
 
     if (index.colorArray.length == 0 || index.colorArray[0].sizeArray.length == 0) {
-      iterMessage.current = iter
-      setMessage(true)
+    
+      setMessage(iter)
     }
 
 else {
@@ -165,10 +164,11 @@ if (loading) return <p>Loading...</p>;
 
 // renderMessage
 
+
 function renderMessage (iter) {
 
 
-  if (message == true && iterMessage.current == iter) {
+  if (message == iter) {
     return (
       <h4>Must have at least one color and one size to publish</h4>
     )
