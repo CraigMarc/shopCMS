@@ -24,7 +24,7 @@ const Category = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState(null)
   const [displaySub, setDisplaySub] = useState(false)
   const [showCategoryForm, setShowCategoryForm] = useState(false)
   const iterCategoryForm = useRef();
@@ -66,8 +66,8 @@ const Category = (props) => {
 
   // delete category
 
-  const handleDelete = async (event) => {
-    let id = event.target.value
+  const handleDelete = async (e, iter) => {
+    let id = e.target.value
 
 
     await fetch(`http://localhost:3000/products/delete_category/${id}`, {
@@ -82,11 +82,11 @@ const Category = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-          setMessage(true)
+          setMessage(iter)
         }
         else {
           setCategory(data)
-          setMessage(false)
+          setMessage(null)
         }
 
       })
@@ -132,11 +132,11 @@ const Category = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-          setMessage(true)
+          setMessage(iter)
         }
         else {
           setCategory(data)
-          setMessage(false)
+          setMessage(null)
         }
 
       })
@@ -548,6 +548,9 @@ const Category = (props) => {
                   <img className="editIcon" src={trashIcon} onClick={() => handleDeleteSub(index._id, iter2, index2.name)}></img>
                   <img className="editIcon" src={editIcon} value={iter2} onClick={displaySubCategoryEditForm} ></img>
                 </div>
+                <DisplayMessage
+                iter={iter2}
+                />
                 <RenderSubCategoryEditForm
                   index2={index2}
                   iter2={iter2}
@@ -679,77 +682,88 @@ const Category = (props) => {
   }
 
 
-    // list all categories
+  // list all categories
 
-    function ListCategories() {
+  function ListCategories() {
 
-      if (category) {
-        return (
-          <div>
-            <h2>Categories</h2>
-  
-            {category.map((index, iter) => {
-  
-              let url = `http://localhost:3000/${index.image}`
-  
-  
-              return (
-  
-                <div key={iter} className="post">
-  
-                  <div id={index._id} className="card" >
-  
-                    <div className='descriptionContainer'>
-                      <p><span className='productSpan'>name:</span> {index.name}</p>
-                      <img className="newProdImage" src={url}></img>
-                    </div>
-  
-  
+    if (category) {
+      return (
+        <div>
+          <h2>Categories</h2>
+
+          {category.map((index, iter) => {
+
+            let url = `http://localhost:3000/${index.image}`
+
+
+            return (
+
+              <div key={iter} className="post">
+
+                <div id={index._id} className="card" >
+
+                  <div className='descriptionContainer'>
+                    <p><span className='productSpan'>name:</span> {index.name}</p>
+                    <img className="newProdImage" src={url}></img>
                   </div>
-                  <div className='allButtonContainer'>
-                    <div className="deleteButtonContainer">
-                      <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
-                      <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
-                      <RenderCategoryEditForm
-                        index={index}
-                        iter={iter}
-                      />
-                      <RenderPicButton
-                        index={index}
-                      />
-                      <button onClick={handleDisplay}>add subcategory</button>
-                      <DisplaySubForm
-                        index={index}
-                      />
-                      <ListSubCategories
-                        index={index}
-                      />
-  
-                    </div>
-                    <div className="subButtonContainer">
-  
-  
-                    </div>
+
+
+                </div>
+                <div className='allButtonContainer'>
+                  <div className="deleteButtonContainer">
+                    <button className="delete" value={index._id} onClick={(e) => handleDelete(e, iter)}>delete category</button>
+                    <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
+                    <RenderCategoryEditForm
+                      index={index}
+                      iter={iter}
+                    />
+                    <RenderPicButton
+                      index={index}
+                    />
+                    <button onClick={handleDisplay}>add subcategory</button>
+                    <DisplayMessage
+                      iter={iter}
+                    />
+                    <DisplaySubForm
+                      index={index}
+                    />
+                    <ListSubCategories
+                      index={index}
+                    />
+
+                  </div>
+                  <div className="subButtonContainer">
+
+
                   </div>
                 </div>
-  
-              )
-            })}
-  
-          </div>
-        )
-      }
-      else {
-        return (
-          <div>
-            <h3>there are no categories</h3>
-          </div>
-        )
-      }
+              </div>
+
+            )
+          })}
+
+        </div>
+      )
     }
-  
-  function DisplayMessage() {
-    if (message == true) {
+    else {
+      return (
+        <div>
+          <h3>there are no categories</h3>
+        </div>
+      )
+    }
+  }
+
+  function DisplayMessage(props) {
+
+    const {
+
+      iter
+
+    } = props;
+
+
+    if (message == iter) {
       return (
         <div>
           <h3>This category is in use delete all products using the category to delete the category</h3>
@@ -764,7 +778,7 @@ const Category = (props) => {
 
       <Header />
       <ListCategories />
-      <DisplayMessage />
+
       <h3 className="pageTitle">Add New Category</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>

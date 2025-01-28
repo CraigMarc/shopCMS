@@ -20,7 +20,7 @@ const Brand = (props) => {
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
 
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState(null)
   const [showForm, setShowForm] = useState(false)
   const iterForm = useRef();
 
@@ -57,8 +57,8 @@ const Brand = (props) => {
 
   // delete brand
 
-  const handleDelete = async (event) => {
-    let id = event.target.value
+  const handleDelete = async (e, iter) => {
+    let id = e.target.value
 
 
     await fetch(`http://localhost:3000/products/delete_brand/${id}`, {
@@ -73,11 +73,11 @@ const Brand = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-          setMessage(true)
+          setMessage(iter)
         }
         else {
           setBrand(data)
-          setMessage(false)
+          setMessage(null)
         }
 
 
@@ -308,8 +308,11 @@ const Brand = (props) => {
                 </div>
                 <div className='allButtonContainer'>
                   <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id} onClick={handleDelete} >delete brand</button>
+                    <button className="delete" value={index._id}  onClick={(e) => handleDelete(e, iter)} >delete brand</button>
                     <button className="delete" value={iter} onClick={displayForm} >edit brand</button>
+                    <DisplayMessage
+                    iter={iter}
+                    />
                     <RenderEditForm
                       index={index}
                       iter={iter}
@@ -336,8 +339,17 @@ const Brand = (props) => {
     }
   }
 
-  function DisplayMessage() {
-    if (message == true) {
+  function DisplayMessage(props) {
+
+    const {
+
+      iter
+
+    } = props;
+
+
+
+    if (message == iter) {
       return (
         <div>
           <h3>This brand is in use delete all products using the brand to delete the brand</h3>
@@ -352,7 +364,7 @@ const Brand = (props) => {
 
       <Header />
       <ListCategories />
-      <DisplayMessage />
+     
       <h3 className="pageTitle">Add New Brand</h3>
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
