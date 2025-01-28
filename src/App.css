@@ -336,9 +336,30 @@ padding-top: 10px;
  margin-bottom: 10px;
 }
 
-/*brand*/
+/*category*/
 
-.brandButtonContainer {
+.subcategoryButtoncontainer {
   display: flex;
-  gap: 30px;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
+.subCategoryContainer {
+  text-align: left;
+  padding-top: 15px;
+}
+
+.subPadding {
+  padding-top: 10px;
+}
+/*
+.categoryButtonContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+}*/
+

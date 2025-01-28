@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from 'react'
 import Header from './Header'
+import editIcon from './assets/editIcon30.png'
+import trashIcon from './assets/trashIcon.png'
+import imageIcon from './assets/imageIcon.png'
 
 
 const Category = (props) => {
@@ -359,9 +362,9 @@ const Category = (props) => {
       });
   }
 
-   // submit category edit form
+  // submit category edit form
 
-   const submitSubCategoryEditForm = async (e, _id, iter2) => {
+  const submitSubCategoryEditForm = async (e, _id, iter2) => {
 
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
@@ -530,7 +533,7 @@ const Category = (props) => {
 
     if (index.subCategory) {
       return (
-        <div>
+        <div className="subPadding">
           <h3>Subcategories</h3>
 
           {index.subCategory.map((index2, iter2) => {
@@ -538,11 +541,13 @@ const Category = (props) => {
             let url = `http://localhost:3000/${index2.image}`
 
             return (
-              <div key={iter2}>
-                <p>{index2.name}</p>
-                <img className="newProdImage" src={url}></img>
-                <button onClick={() => handleDeleteSub(index._id, iter2, index2.name)}>Delete SubCategory</button>
-                <button className="delete" value={iter2} onClick={displaySubCategoryEditForm} >Edit SubCategory</button>
+              <div className="subCategoryContainer" key={iter2}>
+                <h4>{index2.name}</h4>
+                <div className="subcategoryButtoncontainer">
+                  <img className="newProdImage" src={url}></img>
+                  <img className="editIcon" src={trashIcon} onClick={() => handleDeleteSub(index._id, iter2, index2.name)}></img>
+                  <img className="editIcon" src={editIcon} value={iter2} onClick={displaySubCategoryEditForm} ></img>
+                </div>
                 <RenderSubCategoryEditForm
                   index2={index2}
                   iter2={iter2}
@@ -674,75 +679,75 @@ const Category = (props) => {
   }
 
 
-  // list all categories
+    // list all categories
 
-  function ListCategories() {
+    function ListCategories() {
 
-    if (category) {
-      return (
-        <div>
-          <h2>Categories</h2>
-
-          {category.map((index, iter) => {
-
-            let url = `http://localhost:3000/${index.image}`
-
-
-            return (
-
-              <div key={iter} className="post">
-
-                <div id={index._id} className="card" >
-
-                  <div className='descriptionContainer'>
-                    <p><span className='productSpan'>name:</span> {index.name}</p>
-                    <img className="newProdImage" src={url}></img>
+      if (category) {
+        return (
+          <div>
+            <h2>Categories</h2>
+  
+            {category.map((index, iter) => {
+  
+              let url = `http://localhost:3000/${index.image}`
+  
+  
+              return (
+  
+                <div key={iter} className="post">
+  
+                  <div id={index._id} className="card" >
+  
+                    <div className='descriptionContainer'>
+                      <p><span className='productSpan'>name:</span> {index.name}</p>
+                      <img className="newProdImage" src={url}></img>
+                    </div>
+  
+  
                   </div>
-
-
+                  <div className='allButtonContainer'>
+                    <div className="deleteButtonContainer">
+                      <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
+                      <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
+                      <RenderCategoryEditForm
+                        index={index}
+                        iter={iter}
+                      />
+                      <RenderPicButton
+                        index={index}
+                      />
+                      <button onClick={handleDisplay}>add subcategory</button>
+                      <DisplaySubForm
+                        index={index}
+                      />
+                      <ListSubCategories
+                        index={index}
+                      />
+  
+                    </div>
+                    <div className="subButtonContainer">
+  
+  
+                    </div>
+                  </div>
                 </div>
-                <div className='allButtonContainer'>
-                  <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id} onClick={handleDelete} >delete category</button>
-                    <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
-                    <RenderCategoryEditForm
-                      index={index}
-                      iter={iter}
-                    />
-                    <RenderPicButton
-                      index={index}
-                    />
-                    <button onClick={handleDisplay}>add subcategory</button>
-                    <DisplaySubForm
-                      index={index}
-                    />
-                    <ListSubCategories
-                      index={index}
-                    />
-
-                  </div>
-                  <div className="subButtonContainer">
-
-
-                  </div>
-                </div>
-              </div>
-
-            )
-          })}
-
-        </div>
-      )
+  
+              )
+            })}
+  
+          </div>
+        )
+      }
+      else {
+        return (
+          <div>
+            <h3>there are no categories</h3>
+          </div>
+        )
+      }
     }
-    else {
-      return (
-        <div>
-          <h3>there are no categories</h3>
-        </div>
-      )
-    }
-  }
-
+  
   function DisplayMessage() {
     if (message == true) {
       return (
