@@ -689,8 +689,8 @@ const Category = (props) => {
 
     if (category) {
       return (
-        <div>
-          <h2>Categories</h2>
+        <div className="categoryDivPadding">
+          <h3>Categories</h3>
 
           {category.map((index, iter) => {
 
@@ -704,7 +704,7 @@ const Category = (props) => {
                 <div id={index._id} className="card" >
 
                   <div className='descriptionContainer'>
-                    <p><span className='productSpan'>name:</span> {index.name}</p>
+                    <h4>{index.name}</h4>
                     <img className="newProdImage" src={url}></img>
                   </div>
 
@@ -796,12 +796,10 @@ const Category = (props) => {
 
 
   return (
-    <div className="login-wrapper">
+    <div>
 
       <Header />
-      <ListCategories />
-
-      <h3 className="pageTitle">Add New Category</h3>
+      
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>
@@ -815,7 +813,7 @@ const Category = (props) => {
           <button type="submit">Add New Category</button>
         </div>
       </form>
-
+      <ListCategories />
     </div>
   )
 }

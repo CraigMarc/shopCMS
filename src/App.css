@@ -355,11 +355,13 @@ padding-top: 10px;
 .subPadding {
   padding-top: 10px;
 }
-/*
-.categoryButtonContainer {
-  display: flex;
-  gap: 10px;
-  align-items: center;
 
-}*/
+.categoryDivPadding {
+  padding-top: 50px;
+}
 
+/*brand*/
+
+.brandPadding {
+  padding-top: 50px;
+}

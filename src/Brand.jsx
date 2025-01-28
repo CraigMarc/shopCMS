@@ -285,7 +285,7 @@ const Brand = (props) => {
 
     if (brand) {
       return (
-        <div>
+        <div className="brandPadding">
           <h2>Brands</h2>
 
           {brand.map((index, iter) => {
@@ -360,12 +360,11 @@ const Brand = (props) => {
 
 
   return (
-    <div className="login-wrapper">
+    <div>
 
       <Header />
-      <ListCategories />
      
-      <h3 className="pageTitle">Add New Brand</h3>
+      
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
           <p>Name</p>
@@ -376,10 +375,10 @@ const Brand = (props) => {
           <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
         </div>
         <div className="newPostSubmit">
-          <button type="submit post">Add New Category</button>
+          <button type="submit post">Add New Brand</button>
         </div>
       </form>
-
+      <ListCategories />
     </div>
   )
 }
