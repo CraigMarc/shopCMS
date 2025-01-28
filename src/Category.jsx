@@ -25,6 +25,7 @@ const Category = (props) => {
   const tokenFetch = `Bearer ${tokenOb.token}`
 
   const [message, setMessage] = useState(null)
+  const [subMessage, setSubMessage] = useState(null)
   const [displaySub, setDisplaySub] = useState(false)
   const [showCategoryForm, setShowCategoryForm] = useState(false)
   const iterCategoryForm = useRef();
@@ -132,11 +133,11 @@ const Category = (props) => {
       .then((data) => {
 
         if (data.message == "category in use") {
-          setMessage(iter)
+          setSubMessage(iter)
         }
         else {
           setCategory(data)
-          setMessage(null)
+          setSubMessage(null)
         }
 
       })
@@ -548,7 +549,7 @@ const Category = (props) => {
                   <img className="editIcon" src={trashIcon} onClick={() => handleDeleteSub(index._id, iter2, index2.name)}></img>
                   <img className="editIcon" src={editIcon} value={iter2} onClick={displaySubCategoryEditForm} ></img>
                 </div>
-                <DisplayMessage
+                <DisplaySubMessage
                 iter={iter2}
                 />
                 <RenderSubCategoryEditForm
@@ -753,6 +754,27 @@ const Category = (props) => {
       )
     }
   }
+
+  function DisplaySubMessage(props) {
+
+    const {
+
+      iter
+
+    } = props;
+
+
+    if (subMessage == iter) {
+      return (
+        <div>
+          <h3>This subcategory is in use delete all products using the subcategory to delete the subcategory</h3>
+        </div>
+      )
+    }
+  }
+
+
+
 
   function DisplayMessage(props) {
 
