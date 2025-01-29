@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react'
 import Header from './Header'
+import editIcon from './assets/editIcon30.png'
+import trashIcon from './assets/trashIcon.png'
+import imageIcon from './assets/imageIcon.png'
 
 
 const Brand = (props) => {
@@ -57,9 +60,9 @@ const Brand = (props) => {
 
   // delete brand
 
-  const handleDelete = async (e, iter) => {
-    let id = e.target.value
-
+  const handleDelete = async (id, iter) => {
+   
+console.log(id)
 
     await fetch(`http://localhost:3000/products/delete_brand/${id}`, {
       method: 'Delete',
@@ -207,9 +210,9 @@ const Brand = (props) => {
 
   // show form when button clicked
 
-  function displayForm(e) {
+  function displayForm(iter) {
     setShowForm(true)
-    iterForm.current = e.target.value
+    iterForm.current = iter
 
   }
 
@@ -300,29 +303,33 @@ const Brand = (props) => {
                 <div id={index._id} className="card" >
 
                   <div className='descriptionContainer'>
-                    <p><span className='productSpan'>name:</span> {index.name}</p>
+                    <h3>{index.name}</h3>
+                    <div className="brandButtons">
+                    <img className="editIcon" src={trashIcon}  value={index._id}  onClick={() => handleDelete(index._id, iter)} ></img>
+                    <img className="editIcon" src={editIcon} value={iter} onClick={() => displayForm(iter)}></img>
+                    <RenderEditForm
+                      index={index}
+                      iter={iter}
+                    />
+                    </div>
                     <img className="newProdImage" src={url}></img>
                   </div>
 
 
                 </div>
-                <div className='allButtonContainer'>
-                  <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id}  onClick={(e) => handleDelete(e, iter)} >delete brand</button>
-                    <button className="delete" value={iter} onClick={displayForm} >edit brand</button>
+               
+                 
                     <DisplayMessage
                     iter={iter}
                     />
-                    <RenderEditForm
-                      index={index}
-                      iter={iter}
-                    />
+                   <div className="renderBrandImageCont">
                     <RenderPicButton
                       index={index}
                     />
+                    </div>
                   </div>
-                </div>
-              </div>
+             
+              
 
             )
           })}
@@ -364,10 +371,10 @@ const Brand = (props) => {
 
       <Header />
      
-      
+      <div className="newBrandForm">
       <form encType="multipart/form-data" onSubmit={handleSubmit}>
         <label>
-          <p>Name</p>
+          <p>Brand Name</p>
           <input className="nameInput" type="text" required name="name" />
         </label>
         <div className="addImage">
@@ -378,6 +385,7 @@ const Brand = (props) => {
           <button type="submit post">Add New Brand</button>
         </div>
       </form>
+      </div>
       <ListCategories />
     </div>
   )
