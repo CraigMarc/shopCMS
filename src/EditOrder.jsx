@@ -17,6 +17,8 @@ const EditOrder = (props) => {
   const urlParams = useParams();
   const orderId = urlParams.id
   const orderData = orders.filter((product) => product._id == orderId)
+  let index = orders.findIndex(
+    (temp) => temp['_id'] == orderId)
 
   const navigate = useNavigate();
 
@@ -34,15 +36,14 @@ const EditOrder = (props) => {
     for (let i = 0; i < orderData[0].productsArray.length; i++) {
       let titleIter = "title" + i
       let quantityIter = "quantity" + i
-      let priceIter = "price" + i
+      //let priceIter = "price" + i
 
 
-      orders[0].productsArray[i].title = data[titleIter]
-      orders[0].productsArray[i].quantity = data[quantityIter]
-      orders[0].productsArray[i].price = Math.round(data[priceIter] * 100)
+      orders[index].productsArray[i].title = data[titleIter]
+      orders[index].productsArray[i].quantity = data[quantityIter]
+      //orders[0].productsArray[i].price = Math.round(data[priceIter] * 100)
 
     }
-
 
     //send form data
     await fetch(`http://localhost:3000/products/editOrder/${orderId}`, {
@@ -59,7 +60,7 @@ const EditOrder = (props) => {
         zip: data.zip,
         orderCost: Math.round(data.orderCost * 100),
         shippingCost: Math.round(data.shippingCost * 100),
-        productsArray: orders[0].productsArray,
+        productsArray: orders[index].productsArray,
 
       }),
       headers: {
@@ -105,13 +106,7 @@ const EditOrder = (props) => {
 
           let titleName = "title" + iter
           let quantityName = "quantity" + iter
-          let priceName = "price" + iter
-
-
-          let productPrice = (data.price / 100).toFixed(2)
-          if (data.sale_percent != null) {
-            productPrice = (productPrice - (productPrice * (data.sale_percent / 100))).toFixed(2)
-          }
+          //let priceName = "price" + iter
 
           return (
             <div key={iter}>
@@ -123,10 +118,7 @@ const EditOrder = (props) => {
                 <p>Quantity</p>
                 <input className="titleInput" defaultValue={data.quantity} type="number" name={quantityName} />
               </label>
-              <label>
-                <p>Price</p>
-                <input className="titleInput" defaultValue={productPrice} type="number" step="0.01" name={priceName} />
-              </label>
+           
             </div>
           )
         })}
