@@ -67,8 +67,7 @@ const Category = (props) => {
 
   // delete category
 
-  const handleDelete = async (e, iter) => {
-    let id = e.target.value
+  const handleDelete = async (id, iter) => {
 
 
     await fetch(`http://localhost:3000/products/delete_category/${id}`, {
@@ -441,7 +440,7 @@ const Category = (props) => {
             <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
           </div>
           <div className="newPostSubmit">
-            <button type="submit">Add New Category</button>
+            <button type="submit">Add New SubCategory</button>
           </div>
         </form>
       )
@@ -449,9 +448,9 @@ const Category = (props) => {
 
   // show subCategory form when button clicked
 
-  function displaySubCategoryEditForm(e) {
+  function displaySubCategoryEditForm(iter2) {
     setShowSubCategoryForm(true)
-    iterSubCategoryForm.current = e.target.value
+    iterSubCategoryForm.current = iter2
 
   }
 
@@ -547,10 +546,10 @@ const Category = (props) => {
                 <div className="subcategoryButtoncontainer">
                   <img className="newProdImage" src={url}></img>
                   <img className="editIcon" src={trashIcon} onClick={() => handleDeleteSub(index._id, iter2, index2.name)}></img>
-                  <img className="editIcon" src={editIcon} value={iter2} onClick={displaySubCategoryEditForm} ></img>
+                  <img className="editIcon" src={editIcon} value={iter2} onClick={() => displaySubCategoryEditForm(iter2)} ></img>
                 </div>
                 <DisplaySubMessage
-                iter={iter2}
+                  iter={iter2}
                 />
                 <RenderSubCategoryEditForm
                   index2={index2}
@@ -604,9 +603,9 @@ const Category = (props) => {
 
   // show form when button clicked
 
-  function displayCategoryEditForm(e) {
+  function displayCategoryEditForm(iter) {
     setShowCategoryForm(true)
-    iterCategoryForm.current = e.target.value
+    iterCategoryForm.current = iter
 
   }
 
@@ -690,7 +689,7 @@ const Category = (props) => {
     if (category) {
       return (
         <div className="categoryDivPadding">
-          <h3>Categories</h3>
+          <h2>Categories</h2>
 
           {category.map((index, iter) => {
 
@@ -704,40 +703,42 @@ const Category = (props) => {
                 <div id={index._id} className="card" >
 
                   <div className='descriptionContainer'>
-                    <h4>{index.name}</h4>
+                    <h3>{index.name}</h3>
+                    <div className="categoryEditButtons">
+                      <img className="editIcon" src={trashIcon} value={index._id} onClick={() => handleDelete(index._id, iter)}></img>
+                      <img className="editIcon" src={editIcon} onClick={() => displayCategoryEditForm(iter)}></img>
+                      <RenderCategoryEditForm
+                        index={index}
+                        iter={iter}
+                      />
+                    </div>
                     <img className="newProdImage" src={url}></img>
                   </div>
 
 
                 </div>
-                <div className='allButtonContainer'>
-                  <div className="deleteButtonContainer">
-                    <button className="delete" value={index._id} onClick={(e) => handleDelete(e, iter)}>delete category</button>
-                    <button className="delete" value={iter} onClick={displayCategoryEditForm} >edit category</button>
-                    <RenderCategoryEditForm
-                      index={index}
-                      iter={iter}
-                    />
-                    <RenderPicButton
-                      index={index}
-                    />
-                    <button onClick={handleDisplay}>add subcategory</button>
-                    <DisplayMessage
-                      iter={iter}
-                    />
-                    <DisplaySubForm
-                      index={index}
-                    />
-                    <ListSubCategories
-                      index={index}
-                    />
-
-                  </div>
-                  <div className="subButtonContainer">
-
-
-                  </div>
+                <div className="renderCategoryImageCont">
+                  <RenderPicButton
+                    index={index}
+                  />
                 </div>
+                <button onClick={handleDisplay}>add subcategory</button>
+                <DisplayMessage
+                  iter={iter}
+                />
+                <DisplaySubForm
+                  index={index}
+                />
+                <ListSubCategories
+                  index={index}
+                />
+
+
+                <div className="subButtonContainer">
+
+                </div>
+
+
               </div>
 
             )
@@ -799,20 +800,21 @@ const Category = (props) => {
     <div>
 
       <Header />
-      
-      <form encType="multipart/form-data" onSubmit={handleSubmit}>
-        <label>
-          <p>Name</p>
-          <input className="nameInput" type="text" required name="name" />
-        </label>
-        <div className="addImage">
-          <label>Image (file must be .jpeg .jpg or .png):</label>
-          <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
-        </div>
-        <div className="newPostSubmit">
-          <button type="submit">Add New Category</button>
-        </div>
-      </form>
+      <dir className="newCategoryForm">
+        <form encType="multipart/form-data" onSubmit={handleSubmit}>
+          <label>
+            <p>Name</p>
+            <input className="nameInput" type="text" required name="name" />
+          </label>
+          <div className="addImage">
+            <label>Image (file must be .jpeg .jpg or .png):</label>
+            <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
+          </div>
+          <div className="newPostSubmit">
+            <button type="submit">Add New Category</button>
+          </div>
+        </form>
+      </dir>
       <ListCategories />
     </div>
   )

@@ -318,7 +318,6 @@ console.log(id)
 
                 </div>
                
-                 
                     <DisplayMessage
                     iter={iter}
                     />
