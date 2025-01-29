@@ -153,7 +153,7 @@ const Orders = (props) => {
       });
   };
 
-console.log(orders)
+
   return (
     <div>
       <Header
@@ -202,10 +202,14 @@ console.log(orders)
               </div>
               <h3 className='productTitle'>Products:</h3>
               {index.productsArray.map((data, iter) => {
+                let productPrice = (data.price / 100).toFixed(2)
+                if (data.sale_percent != null) {
+                  productPrice = (productPrice - (productPrice * (data.sale_percent / 100))).toFixed(2)
+                }
                 return (
                   <div className='productsContainer' key={iter}>
                     <p>{data.title}</p>
-                    <p>${(data.price / 100).toFixed(2)}</p>
+                    <p>${productPrice}</p>
                     <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
                   </div>
                 )
