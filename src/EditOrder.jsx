@@ -102,10 +102,16 @@ const EditOrder = (props) => {
     return (
       <div>
         {orderData[0].productsArray.map((data, iter) => {
-         
+
           let titleName = "title" + iter
           let quantityName = "quantity" + iter
           let priceName = "price" + iter
+
+
+          let productPrice = (data.price / 100).toFixed(2)
+          if (data.sale_percent != null) {
+            productPrice = (productPrice - (productPrice * (data.sale_percent / 100))).toFixed(2)
+          }
 
           return (
             <div key={iter}>
@@ -119,7 +125,7 @@ const EditOrder = (props) => {
               </label>
               <label>
                 <p>Price</p>
-                <input className="titleInput" defaultValue={data.price / 100} type="number" step="0.01" name={priceName} />
+                <input className="titleInput" defaultValue={productPrice} type="number" step="0.01" name={priceName} />
               </label>
             </div>
           )
