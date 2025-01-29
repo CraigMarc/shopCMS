@@ -803,7 +803,7 @@ const Category = (props) => {
       <dir className="newCategoryForm">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <label>
-            <p>Name</p>
+            <p>Category Name</p>
             <input className="nameInput" type="text" required name="name" />
           </label>
           <div className="addImage">

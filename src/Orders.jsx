@@ -153,8 +153,7 @@ const Orders = (props) => {
       });
   };
 
-
-
+console.log(orders)
   return (
     <div>
       <Header
@@ -162,7 +161,13 @@ const Orders = (props) => {
       />
       <h2>Orders</h2>
 
+
+
       {orders.map((index, iter) => {
+
+        let orderDate = Date(index.timestamp)
+        let orderTotal = index.orderCost + index.shippingCost
+      
 
         let shipped = ""
         if (index.shipped == true) {
@@ -178,31 +183,33 @@ const Orders = (props) => {
 
             <div id={index._id} className="card" >
               <div className='titleContainer'>
-              <h2 className='postTitle'>{index.title}</h2>
+                <h2 className='postTitle'>{index.title}</h2>
                 <h3><span className='productSpan'>order number:</span> {index._id}</h3>
               </div>
 
               <div className='descriptionContainer'>
                 <p><span className='productSpan'>name:</span> {index.firstName} {index.lastName}</p>
+                <p><span className='productSpan'>order date:</span> {orderDate}</p>
                 <p><span className='productSpan'>email:</span> {index.email}</p>
                 <p><span className='productSpan'>address1:</span> {index.address1}</p>
                 <p><span className='productSpan'>address2:</span> {index.address2}</p>
                 <p><span className='productSpan'>town:</span> {index.town}</p>
                 <p><span className='productSpan'>state:</span> {index.state}</p>
                 <p><span className='productSpan'>zip:</span> {index.zip}</p>
-                <p><span className='productSpan'>shipping:</span> {(index.shippingCost / 100).toFixed(2)}</p>
                 <p><span className='productSpan'>price:</span> {(index.orderCost / 100).toFixed(2)}</p>
+                <p><span className='productSpan'>shipping:</span> {(index.shippingCost / 100).toFixed(2)}</p>  
+                <p><span className='productSpan'>total:</span> {(orderTotal / 100).toFixed(2)}</p>
               </div>
               <h3 className='productTitle'>Products:</h3>
               {index.productsArray.map((data, iter) => {
-                  return (
-                    <div className='productsContainer' key={iter}>
-                      <p>{data.title}</p>
-                      <p>${(data.price / 100).toFixed(2)}</p>
-                      <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
-                    </div>
-                  )
-                })}
+                return (
+                  <div className='productsContainer' key={iter}>
+                    <p>{data.title}</p>
+                    <p>${(data.price / 100).toFixed(2)}</p>
+                    <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
+                  </div>
+                )
+              })}
               <div className='commentContainer'>
                 <p><span className='productSpan'>Shipped:</span> {shipped}</p>
 
