@@ -153,6 +153,35 @@ const Orders = (props) => {
       });
   };
 
+  function RenderSalePrice(props) {
+
+    const {
+
+      data
+
+    } = props;
+    
+
+    let productPrice = (data.price / 100).toFixed(2)
+
+    if (data.sale_percent != null) {
+      productPrice = (productPrice - (productPrice * (data.sale_percent / 100))).toFixed(2)
+      return (
+        <div>
+          <p><span className='productSpan'>price:</span> {(data.price / 100).toFixed(2)}</p>
+          <p><span className='productSpan'>sale price:</span> {productPrice}</p>
+        </div>
+      )
+    }
+    else {
+      return (
+        <p>${productPrice}</p>
+      )
+
+    }
+
+  }
+
 
 
   return (
@@ -168,7 +197,7 @@ const Orders = (props) => {
 
         let orderDate = Date(index.timestamp)
         let orderTotal = index.orderCost + index.shippingCost
-      
+
 
         let shipped = ""
         if (index.shipped == true) {
@@ -198,19 +227,19 @@ const Orders = (props) => {
                 <p><span className='productSpan'>state:</span> {index.state}</p>
                 <p><span className='productSpan'>zip:</span> {index.zip}</p>
                 <p><span className='productSpan'>price:</span> {(index.orderCost / 100).toFixed(2)}</p>
-                <p><span className='productSpan'>shipping:</span> {(index.shippingCost / 100).toFixed(2)}</p>  
+                <p><span className='productSpan'>shipping:</span> {(index.shippingCost / 100).toFixed(2)}</p>
                 <p><span className='productSpan'>total:</span> {(orderTotal / 100).toFixed(2)}</p>
               </div>
               <h3 className='productTitle'>Products:</h3>
               {index.productsArray.map((data, iter) => {
-                let productPrice = (data.price / 100).toFixed(2)
-                if (data.sale_percent != null) {
-                  productPrice = (productPrice - (productPrice * (data.sale_percent / 100))).toFixed(2)
-                }
+
+
                 return (
                   <div className='productsContainer' key={iter}>
                     <p>{data.title}</p>
-                    <p>${productPrice}</p>
+                    <RenderSalePrice
+                    data={data}
+                    />
                     <p><span className='productSpan'>quantity:</span> {data.quantity}</p>
                   </div>
                 )

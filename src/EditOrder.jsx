@@ -35,13 +35,9 @@ const EditOrder = (props) => {
     // edit productArray
     for (let i = 0; i < orderData[0].productsArray.length; i++) {
       let titleIter = "title" + i
-      let quantityIter = "quantity" + i
-      //let priceIter = "price" + i
-
-
+     
       orders[index].productsArray[i].title = data[titleIter]
-      orders[index].productsArray[i].quantity = data[quantityIter]
-      //orders[0].productsArray[i].price = Math.round(data[priceIter] * 100)
+      
 
     }
 
@@ -105,8 +101,7 @@ const EditOrder = (props) => {
         {orderData[0].productsArray.map((data, iter) => {
 
           let titleName = "title" + iter
-          let quantityName = "quantity" + iter
-          //let priceName = "price" + iter
+          
 
           return (
             <div key={iter}>
@@ -114,10 +109,7 @@ const EditOrder = (props) => {
                 <p>Title</p>
                 <input className="titleInput" defaultValue={data.title} type="text" name={titleName} />
               </label>
-              <label>
-                <p>Quantity</p>
-                <input className="titleInput" defaultValue={data.quantity} type="number" name={quantityName} />
-              </label>
+              
            
             </div>
           )
