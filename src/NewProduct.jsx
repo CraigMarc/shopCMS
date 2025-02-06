@@ -27,7 +27,7 @@ const NewProduct = (props) => {
 
     const [categoryForm, setCategoryForm] = useState(category[0].name)
     const [brandForm, setBrandForm] = useState(brand[0].name)
-    const [current_data, setCurrent_data] = useState()
+   const [current_data, setCurrent_data] = useState()
     const category_id = useRef(category[0]._id);
     const brand_id = useRef(brand[0]._id);
     const [subCategory, setSubCategory] = useState()
@@ -43,10 +43,10 @@ const NewProduct = (props) => {
     const [showColorEdit, setShowColorEdit] = useState(false)
     const iterColorEdit = useRef({ colorIter: 0, sizeIter: 0 })
     const [showMainEdit, setShowMainEdit] = useState(false)
-
+/*
     if (category[0].subCategory.length > 0) {
         setSubCategory(category[0].subCategory[0].name)
-    }
+    }*/
 
     const token = sessionStorage.getItem("token");
     const tokenOb = JSON.parse(token)
@@ -925,6 +925,7 @@ const NewProduct = (props) => {
 
     function renderMainForm() {
         if (hideMainForm.current == false) {
+            
             return (
                 <>
                     {displayMainForm()}
@@ -1066,7 +1067,7 @@ const NewProduct = (props) => {
                 setLogMessage={setLogMessage}
             />
             <div className="newProductBody">
-                {renderMainForm()}
+            {renderMainForm()}
             </div>
         </div>
     )
