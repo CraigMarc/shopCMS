@@ -436,7 +436,7 @@ const Category = (props) => {
             <input className="nameInput" type="text" required name="name" />
           </label>
           <div className="addImage">
-            <label>Image (file must be .jpeg .jpg or .png):</label>
+            <label>Image (file must be .jpeg .jpg or .png): (subcategory pics not currently in use)</label>
             <input type="file" className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
           </div>
           <div className="newPostSubmit">
@@ -667,7 +667,7 @@ const Category = (props) => {
         <form encType="multipart/form-data" onSubmit={(e) => newSubImage(e, index, iter2)}>
           <label>
             <div className="form-group">
-              <label>Image (file must be .jpeg .jpg or .png):</label>
+              <label>Image (file must be .jpeg .jpg or .png): (pics not currently in use)</label>
               <input type="file" required className="form-control-file" id="image" name="image" accept=".jpeg, .jpg, .png" />
             </div>
           </label>
