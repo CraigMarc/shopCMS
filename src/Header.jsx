@@ -37,9 +37,7 @@ function Header(props) {
         <Link className="heading" to="/category">
           <h3>Categories</h3>
         </Link>
-        <Link className="heading" to="/brand">
-          <h3>Brands</h3>
-        </Link>
+        
           <Link to={'/login'} >
             <button className="logout" onClick={handleLogout} >logout</button>
           </Link>

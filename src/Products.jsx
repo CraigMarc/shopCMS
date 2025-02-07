@@ -13,7 +13,7 @@ function Products(props) {
     setLogMessage,
     category,
     setCategory,
-    setBrand,
+   
    
 
   } = props;
@@ -125,13 +125,13 @@ const fetchInfo = async () => {
 
     const productData = await apiProducts.json();
     const categoryData = await apiCategory.json();
-    const brandData = await apiBrand.json();
+    
    
 
     //setData(productData)
     setProducts(productData)
     setCategory(categoryData)
-    setBrand(brandData)
+    
    
   }
 
@@ -215,7 +215,7 @@ function renderMessage (iter) {
                   <div className='descriptionContainer'>
                     <p><span className='productSpan'>category:</span> {index.category.name}</p>
                     <p><span className='productSpan'>subCategory:</span> {index.subCategory}</p>
-                    <p><span className='productSpan'>brand:</span> {index.brand.name}</p>
+                    <p><span className='productSpan'>brand:</span> {index.brand}</p>
                     <p><span className='productSpan'>model number:</span> {index.modelNum}</p>
                     <p><span className='productSpan'>sale percent:</span> {index.sale_percent}</p>
                     <p><span className='productSpan'>description:</span> {index.description}</p>

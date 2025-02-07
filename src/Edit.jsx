@@ -3,7 +3,6 @@ import { useState, useRef } from 'react'
 import Header from './Header'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
-import DropdownBrand from './DropdownBrand'
 import editIcon from './assets/editIcon30.png'
 import trashIcon from './assets/trashIcon.png'
 import imageIcon from './assets/imageIcon.png'
@@ -19,8 +18,8 @@ const Edit = (props) => {
     setLogMessage,
     category,
     setCategory,
-    brand,
-    setBrand
+   
+   
 
   } = props;
 
@@ -33,11 +32,9 @@ const Edit = (props) => {
   const token = sessionStorage.getItem("token");
   const tokenOb = JSON.parse(token)
   const tokenFetch = `Bearer ${tokenOb.token}`
-
   const [display, setDisplay] = useState(false)
   const [title, setTitle] = useState(productData[0].title)
   const [categoryForm, setCategoryForm] = useState(productData[0].category.name)
-  const [brandForm, setBrandForm] = useState(productData[0].brand.name)
   const [modelNum, setModelNum] = useState(productData[0].modelNum)
   const [description, setDescription] = useState(productData[0].description)
   const [salePercent, setSalePercent] = useState(productData[0].sale_percent)
@@ -52,14 +49,14 @@ const Edit = (props) => {
   const iterImage = useRef();
   const iterSize = useRef();
   const category_id = useRef(productData[0].category._id);
-  const brand_id = useRef(productData[0].brand._id);
   const [subCategory, setSubCategory] = useState(productData[0].subCategory)
+  const [brandForm2, setBrandForm2] = useState(productData[0].brand)
 
 
   //send updates to API
   const sendUpdates = async () => {
 
-    if (!title || !category || !description || !modelNum || !brand || current_data.colorArray.length == 0) {
+    if (!title || !category || !description || !modelNum || !brandForm2 || current_data.colorArray.length == 0) {
       setMessage(true)
     }
     //send form data 
@@ -71,7 +68,7 @@ const Edit = (props) => {
           title: title,
           category: category_id.current,
           subCategory: subCategory,
-          brand: brand_id.current,
+          brand: brandForm2,
           modelNum: modelNum,
           description: description,
           sale_percent: salePercent,
@@ -128,7 +125,7 @@ const Edit = (props) => {
         title: title,
         category: category_id.current,
         subCategory: subCategory,
-        brand: brand_id.current,
+        brand: brandForm2,
         modelNum: modelNum,
         description: description,
         sale_percent: salePercent,
@@ -547,13 +544,11 @@ const Edit = (props) => {
             subCategory={subCategory}
             setSubCategory={setSubCategory}
           />
-          <DropdownBrand
-            dataName={brand}
-            setForm={setBrandForm}
-            data_id={brand_id}
-            dataForm={brandForm}
-            labelName="Brand"
-          />
+          <label>
+            <p>Brand</p>
+            <input onChange={(e) => setBrandForm2(e.target.value)} className="titleInput" defaultValue={current_data.brand} type="text" name="brand" />
+          </label>
+         
           <label>
             <p>Model Number</p>
             <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={current_data.modelNum} type="text" name="modelNum" />

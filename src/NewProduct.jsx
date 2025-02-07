@@ -3,7 +3,6 @@ import Header from './Header'
 import { useState, useRef, useEffect } from 'react'
 import Dropdown from './Dropdown'
 import DropdownSub from './DropdownSub'
-import DropdownBrand from './DropdownBrand'
 import editIcon from './assets/editIcon30.png'
 import trashIcon from './assets/trashIcon.png'
 import imageIcon from './assets/imageIcon.png'
@@ -15,8 +14,7 @@ const NewProduct = (props) => {
         setLogMessage,
         category,
         setCategory,
-        brand,
-        setBrand
+        
 
     } = props;
 
@@ -26,10 +24,8 @@ const NewProduct = (props) => {
 
 
     const [categoryForm, setCategoryForm] = useState(category[0].name)
-    const [brandForm, setBrandForm] = useState(brand[0].name)
-   const [current_data, setCurrent_data] = useState()
+    const [current_data, setCurrent_data] = useState()
     const category_id = useRef(category[0]._id);
-    const brand_id = useRef(brand[0]._id);
     const [subCategory, setSubCategory] = useState()
     const hideMainForm = useRef(false);
     const [showColorForm, setShowColorForm] = useState(false)
@@ -43,10 +39,12 @@ const NewProduct = (props) => {
     const [showColorEdit, setShowColorEdit] = useState(false)
     const iterColorEdit = useRef({ colorIter: 0, sizeIter: 0 })
     const [showMainEdit, setShowMainEdit] = useState(false)
-/*
-    if (category[0].subCategory.length > 0) {
-        setSubCategory(category[0].subCategory[0].name)
-    }*/
+
+    // was causing infinite rerenders *******
+    /*
+        if (category[0].subCategory.length > 0) {
+            setSubCategory(category[0].subCategory[0].name)
+        }*/
 
     const token = sessionStorage.getItem("token");
     const tokenOb = JSON.parse(token)
@@ -77,7 +75,7 @@ const NewProduct = (props) => {
                 description: data.description,
                 modelNum: data.modelNum,
                 sale_percent: data.sale_percent,
-                brand: brand_id.current,
+                brand: data.brand,
                 colorArray: [],
                 product_id: uuid
 
@@ -439,7 +437,7 @@ const NewProduct = (props) => {
                 description: data.description,
                 modelNum: data.modelNum,
                 sale_percent: data.sale_percent,
-                brand: brand_id.current,
+                brand: data.brand,
                 _id: current_data._id
             }),
             headers: {
@@ -670,14 +668,11 @@ const NewProduct = (props) => {
                             setSubCategory={setSubCategory}
                         />
 
-                        <DropdownBrand
-                            dataName={brand}
-                            setForm={setBrandForm}
-                            data_id={brand_id}
-                            dataForm={brandForm}
-                            labelName="Brand"
-                        />
                         <label>
+                            <label>
+                                <p>Brand</p>
+                                <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="brand" />
+                            </label>
                             <label>
                                 <p>Model Number</p>
                                 <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="modelNum" />
@@ -909,23 +904,23 @@ const NewProduct = (props) => {
         const {
 
             colorIter,
-           
+
 
         } = props;
-       
+
 
         if (current_data.colorArray[colorIter].sizeArray.length == 0) {
             return (
                 <h3>must fill out at least one size</h3>
             )
         }
-       
+
     }
 
 
     function renderMainForm() {
         if (hideMainForm.current == false) {
-            
+
             return (
                 <>
                     {displayMainForm()}
@@ -940,7 +935,7 @@ const NewProduct = (props) => {
                             <p><span className='productSpan'>title:</span> {current_data.title}</p>
                             <p><span className='productSpan'>category:</span> {current_data.category.name}</p>
                             <p><span className='productSpan'>subCategory:</span> {current_data.subCategory}</p>
-                            <p><span className='productSpan'>brand:</span> {current_data.brand.name}</p>
+                            <p><span className='productSpan'>brand:</span> {current_data.brand}</p>
                             <p><span className='productSpan'>model number:</span> {current_data.modelNum}</p>
                             <p><span className='productSpan'>sale percent:</span> {current_data.sale_percent}</p>
                             <p><span className='productSpan'>description:</span> {current_data.description}</p>
@@ -972,7 +967,7 @@ const NewProduct = (props) => {
                                     iter={iter}
                                 />
                                 <RenderSizeMessage
-                                colorIter={iter}
+                                    colorIter={iter}
                                 />
                                 {index.sizeArray.map((index2, iter2) => {
                                     return (
@@ -1032,14 +1027,11 @@ const NewProduct = (props) => {
                         setSubCategory={setSubCategory}
                     />
 
-                    <DropdownBrand
-                        dataName={brand}
-                        setForm={setBrandForm}
-                        data_id={brand_id}
-                        dataForm={brandForm}
-                        labelName="Brand"
-                    />
                     <label>
+                        <label>
+                            <p>Brand</p>
+                            <input className="titleInput" type="text" name="brand" />
+                        </label>
                         <label>
                             <p>Model Number</p>
                             <input className="titleInput" type="text" name="modelNum" />
@@ -1067,7 +1059,7 @@ const NewProduct = (props) => {
                 setLogMessage={setLogMessage}
             />
             <div className="newProductBody">
-            {renderMainForm()}
+                {renderMainForm()}
             </div>
         </div>
     )

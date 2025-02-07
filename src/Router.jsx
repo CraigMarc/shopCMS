@@ -7,7 +7,6 @@ import NewProduct from "./NewProduct"
 import Orders from "./Orders"
 import EditOrder from "./EditOrder"
 import Category from "./Category"
-import Brand from "./Brand"
 
 
 const Router = (props) => {
@@ -24,8 +23,7 @@ const Router = (props) => {
     setOrders,
     category,
     setCategory,
-    brand,
-    setBrand,
+    
    
 
   } = props;
@@ -41,7 +39,7 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           category={category}
           setCategory={setCategory}
-          setBrand={setBrand}
+         
          
         />,
 
@@ -68,8 +66,7 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           category={category}
           setCategory={setCategory}
-          brand={brand}
-          setBrand={setBrand}
+         
         />,
 
       errorElement: <ErrorPage />,
@@ -83,8 +80,7 @@ const Router = (props) => {
           setLogMessage={setLogMessage}
           category={category}
           setCategory={setCategory}
-          brand={brand}
-          setBrand={setBrand}
+         
 
         />,
 
@@ -131,18 +127,7 @@ const Router = (props) => {
       errorElement: <ErrorPage />,
     },
 
-    {
-      path: "/brand",
-      element:
-        <Brand
-          setLogMessage={setLogMessage}
-          brand={brand}
-          setBrand={setBrand}
-
-        />,
-
-      errorElement: <ErrorPage />,
-    },
+   
 
    
 
