@@ -25,6 +25,7 @@ function changeCategory(e) {
     }
 
   if (dataName[index].subCategory.length > 0){
+    
   setSubCategory(dataName[index].subCategory[0].name)
   }
   data_id.current = dataName[index]._id

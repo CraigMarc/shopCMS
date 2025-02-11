@@ -26,7 +26,8 @@ const NewProduct = (props) => {
     const [categoryForm, setCategoryForm] = useState(category[0].name)
     const [current_data, setCurrent_data] = useState()
     const category_id = useRef(category[0]._id);
-    const [subCategory, setSubCategory] = useState()
+    //const [subCategory, setSubCategory] = useState()
+    const [subCategory, setSubCategory] = useState(() => category[0].subCategory.length > 0 ? category[0].subCategory[0].name : null)
     const hideMainForm = useRef(false);
     const [showColorForm, setShowColorForm] = useState(false)
     const [showSizeForm, setShowSizeForm] = useState(false)
@@ -40,11 +41,6 @@ const NewProduct = (props) => {
     const iterColorEdit = useRef({ colorIter: 0, sizeIter: 0 })
     const [showMainEdit, setShowMainEdit] = useState(false)
 
-    // was causing infinite rerenders *******
-    /*
-        if (category[0].subCategory.length > 0) {
-            setSubCategory(category[0].subCategory[0].name)
-        }*/
 
     const token = sessionStorage.getItem("token");
     const tokenOb = JSON.parse(token)
