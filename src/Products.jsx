@@ -114,10 +114,9 @@ const fetchInfo = async () => {
   try {
     //return fetch(picUrl)
     
-    const [apiProducts, apiCategory, apiBrand] = await Promise.all([
+    const [apiProducts, apiCategory] = await Promise.all([
       await fetch('http://localhost:3000/users/all'), 
       await fetch('http://localhost:3000/users/category'),
-      await fetch('http://localhost:3000/users/brand'),
      
     ]);
 
