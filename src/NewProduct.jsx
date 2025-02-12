@@ -1026,11 +1026,11 @@ const NewProduct = (props) => {
                     <label>
                         <label>
                             <p>Brand</p>
-                            <input className="titleInput" type="text" name="brand" />
+                            <input className="titleInput" type="text" name="brand" required />
                         </label>
                         <label>
                             <p>Model Number</p>
-                            <input className="titleInput" type="text" name="modelNum" />
+                            <input className="titleInput" type="text" name="modelNum" required />
                         </label>
                         <label>
                             <p>Sale Percent (not required)</p>
