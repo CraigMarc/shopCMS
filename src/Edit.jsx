@@ -61,7 +61,7 @@ const Edit = (props) => {
     }
     //send form data 
     else {
-      await fetch(`http://localhost:3000/products/edit/`, {
+      await fetch(`https://shoppingapi.fly.dev/products/edit/`, {
         method: 'PUT',
         body: JSON.stringify({
 
@@ -118,7 +118,7 @@ const Edit = (props) => {
 
     // update any product changes
 
-    await fetch(`http://localhost:3000/products/update_product/`, {
+    await fetch(`https://shoppingapi.fly.dev/products/update_product/`, {
       method: 'Post',
       body: JSON.stringify({
 
@@ -172,7 +172,7 @@ const Edit = (props) => {
     formData.append("image", data.image);
     formData.append("array_number", colorIter);
 
-    await fetch(`http://localhost:3000/products/new_image/`, {
+    await fetch(`https://shoppingapi.fly.dev/products/new_image/`, {
 
       method: 'Post',
       body: formData,
@@ -264,7 +264,7 @@ const Edit = (props) => {
 
       //api call to delete pics and color array at color iter
 
-      await fetch(`http://localhost:3000/products/delete_color/`, {
+      await fetch(`https://shoppingapi.fly.dev/products/delete_color/`, {
         method: 'Delete',
         body: JSON.stringify({
 
@@ -315,7 +315,7 @@ const Edit = (props) => {
 
     array2.colorArray[colorIter].images.splice(picIter, 1)
 
-    await fetch(`http://localhost:3000/products/image/`, {
+    await fetch(`https://shoppingapi.fly.dev/products/image/`, {
       method: 'Delete',
       body: JSON.stringify({
 
@@ -590,7 +590,7 @@ const Edit = (props) => {
       return (
         <div>
           {data.images.map((index, iter) => {
-            let url = `http://localhost:3000/${index}`
+            let url = `https://shoppingapi.fly.dev/${index}`
             return (
               <div className="editImageContainer" key={iter}>
                 <img className="newProdImage" src={url}></img>

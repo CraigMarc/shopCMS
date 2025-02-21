@@ -42,7 +42,7 @@ const EditOrder = (props) => {
     }
 
     //send form data
-    await fetch(`http://localhost:3000/products/editOrder/${orderId}`, {
+    await fetch(`https://shoppingapi.fly.dev/products/editOrder/${orderId}`, {
       method: 'PUT',
       body: JSON.stringify({
 
