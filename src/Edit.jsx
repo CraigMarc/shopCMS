@@ -658,7 +658,7 @@ const Edit = (props) => {
                 return (
                   <div className="editBorderContainer" key={iter1}>
                     <h4 className="colorText"><span className='productSpan'>color:</span> {index2.color}</h4>
-
+                    <img className="editIcon" src={imageIcon} onClick={() => showImage(iter1)} disabled={disablePic.current}></img>
                     <RenderSizeButton
                       iter1={iter1}
                     />
@@ -681,7 +681,7 @@ const Edit = (props) => {
                             <div className="sizeArrayButtonContainer">
                               <img className="editIcon" src={trashIcon} onClick={() => handleDelete(iter1, iter2)}></img>
                               <img className="editIcon" src={editIcon} onClick={(e) => handleEdit(e, iter1, iter2)} disabled={disableEdit.current} type="submit" ></img>
-                              <img className="editIcon" src={imageIcon} onClick={() => showImage(iter1)} disabled={disablePic.current}></img>
+                              
                             </div>
                           </div>
                           {showForm(iter1, iter2)}
