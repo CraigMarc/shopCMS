@@ -1,8 +1,9 @@
 # React + Vite
+This is the administrative site for an ecommerce site built with react. It get products and keeps track of order information from the database and takes payments with stripe.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The store site is live [here](https://shopping-cart-topaz-sigma.vercel.app/)
 
-Currently, two official plugins are available:
+the store repo is live [here](https://github.com/CraigMarc/shopping-cart)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The repo for the api for maintaining the inventory, keeping track or orders, checking payments and getting shipping costs is [here](https://github.com/CraigMarc/shoppingApi)
+
