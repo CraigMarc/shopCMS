@@ -184,9 +184,7 @@ function renderMessage (iter) {
       />
       <h2 className='pageTitle'>All Products</h2>
       <div className="newPostContainer" >
-            <Link to={'/newproduct'}>
-              <button className="edit"  >Add New Product</button>
-            </Link>
+            
           </div>
       <div className='postContainer'>
 

@@ -31,6 +31,10 @@ header {
   gap: 50px
 }
 
+.logout {
+  margin-top: 5px;
+}
+
 .post {
   width: 100%;
   margin: 0;
