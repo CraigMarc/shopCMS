@@ -783,7 +783,7 @@ const Edit = (props) => {
       <Header
         setLogMessage={setLogMessage}
       />
-      <h2 className="pageTitle">Edit Post</h2>
+      <h2 className="pageTitle">Edit Product</h2>
       {renderform()}
       <RenderColorArray />
       <DisplayMessage />
