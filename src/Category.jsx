@@ -43,7 +43,7 @@ const Category = (props) => {
     formData.append("image", data.image);
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/new_category/`, {
+    await fetch(`/api/products/new_category/`, {
 
       method: 'Post',
       body: formData,
@@ -70,7 +70,7 @@ const Category = (props) => {
   const handleDelete = async (id, iter) => {
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/delete_category/${id}`, {
+    await fetch(`/api/products/delete_category/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -112,7 +112,7 @@ const Category = (props) => {
 
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/delete_subcategory/`, {
+    await fetch(`/api/products/delete_subcategory/`, {
       method: 'Delete',
 
       body: JSON.stringify({
@@ -169,7 +169,7 @@ const Category = (props) => {
     formData.append("name", data.name)
     formData.append("image", data.image);
 
-    await fetch(`https://shoppingapi.fly.dev/products/new_subcategory/${index._id}`, {
+    await fetch(`/api/products/new_subcategory/${index._id}`, {
 
       method: 'Post',
       body: formData,
@@ -203,7 +203,7 @@ const Category = (props) => {
 
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/new_category_image/${index._id}`, {
+    await fetch(`/api/products/new_category_image/${index._id}`, {
 
       method: 'Post',
       body: formData,
@@ -231,7 +231,7 @@ const Category = (props) => {
     let id = event.target.value
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/delete_category_image/${id}`, {
+    await fetch(`/api/products/delete_category_image/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -260,7 +260,7 @@ const Category = (props) => {
     formData.append("image", data.image);
     formData.append("subIter", iter2);
 
-    await fetch(`https://shoppingapi.fly.dev/products/new_subCategory_image/${index._id}`, {
+    await fetch(`/api/products/new_subCategory_image/${index._id}`, {
 
       method: 'Post',
       body: formData,
@@ -289,7 +289,7 @@ const Category = (props) => {
     let id = event.target.value
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/delete_subCategory_image/${id}`, {
+    await fetch(`/api/products/delete_subCategory_image/${id}`, {
       method: 'Delete',
 
       body: JSON.stringify({
@@ -323,7 +323,7 @@ const Category = (props) => {
     const data = Object.fromEntries(new FormData(e.target).entries());
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/edit_category/${_id}`, {
+    await fetch(`/api/products/edit_category/${_id}`, {
       method: 'PUT',
       body: JSON.stringify({
 
@@ -370,7 +370,7 @@ const Category = (props) => {
     const data = Object.fromEntries(new FormData(e.target).entries());
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/edit_subcategory/${_id}`, {
+    await fetch(`/api/products/edit_subcategory/${_id}`, {
       method: 'PUT',
       body: JSON.stringify({
 
@@ -538,7 +538,7 @@ const Category = (props) => {
 
           {index.subCategory.map((index2, iter2) => {
 
-            let url = `https://shoppingapi.fly.dev/${index2.image}`
+            let url = `/api/${index2.image}`
 
             return (
               <div className="subCategoryContainer" key={iter2}>
@@ -692,7 +692,7 @@ const Category = (props) => {
 
           {category.map((index, iter) => {
 
-            let url = `https://shoppingapi.fly.dev/${index.image}`
+            let url = `/api/${index.image}`
 
 
             return (

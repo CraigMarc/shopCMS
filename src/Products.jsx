@@ -40,7 +40,7 @@ function Products(props) {
     }
 
 else {
-    await fetch(`https://shoppingapi.fly.dev/products/publish/${id}`, {
+    await fetch(`/apiproducts/publish/${id}`, {
       method: 'PUT',
 
       headers: {
@@ -77,7 +77,7 @@ else {
     let id = event.target.value
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/delete/${id}`, {
+    await fetch(`/apiproducts/delete/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -115,8 +115,8 @@ const fetchInfo = async () => {
     //return fetch(picUrl)
     
     const [apiProducts, apiCategory] = await Promise.all([
-      await fetch('https://shoppingapi.fly.dev/users/all'), 
-      await fetch('https://shoppingapi.fly.dev/users/category'),
+      await fetch('/apiusers/all'), 
+      await fetch('/apiusers/category'),
      
     ]);
 
@@ -221,7 +221,7 @@ function renderMessage (iter) {
                     {index.colorArray.map((index2, iter2) => {
                       let url = ""
                       if (index2.images) {
-                       url = `https://shoppingapi.fly.dev/${index2.images[0]}`
+                       url = `/api${index2.images[0]}`
                       }
                     return (
                       <div key={iter2}>

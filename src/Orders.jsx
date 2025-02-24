@@ -32,7 +32,7 @@ const Orders = (props) => {
 
     try {
 
-      const apiOrders = await fetch('https://shoppingapi.fly.dev/products/orders', {
+      const apiOrders = await fetch('/api/products/orders', {
         headers: { Authorization: tokenFetch }
 
       })
@@ -87,7 +87,7 @@ const Orders = (props) => {
     let id = event.target.value
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/deleteOrder/${id}`, {
+    await fetch(`/api/products/deleteOrder/${id}`, {
       method: 'Delete',
 
       headers: {
@@ -123,7 +123,7 @@ const Orders = (props) => {
     let id = event.target.value
 
 
-    await fetch(`https://shoppingapi.fly.dev/products/shipped/${id}`, {
+    await fetch(`/api/products/shipped/${id}`, {
       method: 'PUT',
 
       headers: {

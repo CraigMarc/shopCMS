@@ -14,7 +14,7 @@ const Login = (props) => {
 
 
     try {
-      return fetch('https://shoppingapi.fly.dev/users/login ', {
+      return fetch('/api/users/login ', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
