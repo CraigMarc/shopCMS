@@ -191,7 +191,7 @@ const EditOrder = (props) => {
       <Header
         setLogMessage={setLogMessage}
       />
-      <h2>Edit Order</h2>
+      <h2 className="pageTitle">Edit Order</h2>
       {renderform()}
 
     </div>

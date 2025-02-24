@@ -1050,10 +1050,12 @@ const NewProduct = (props) => {
     }
 
     return (
-        <div >
+        <div>
+            
             <Header
                 setLogMessage={setLogMessage}
             />
+           <h2 className='pageTitle'>New Product</h2>
             <div className="newProductBody">
                 {renderMainForm()}
             </div>

@@ -189,7 +189,7 @@ const Orders = (props) => {
       <Header
         setLogMessage={setLogMessage}
       />
-      <h2>Orders</h2>
+      <h2 className='pageTitle'>Orders</h2>
 
 
 

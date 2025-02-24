@@ -689,7 +689,6 @@ const Category = (props) => {
     if (category) {
       return (
         <div className="categoryDivPadding">
-          <h2>Categories</h2>
 
           {category.map((index, iter) => {
 
@@ -800,6 +799,7 @@ const Category = (props) => {
     <div>
 
       <Header />
+      <h2 className="pageTitle">Categories</h2>
       <dir className="newCategoryForm">
         <form encType="multipart/form-data" onSubmit={handleSubmit}>
           <label>
