@@ -674,7 +674,7 @@ const NewProduct = (props) => {
                                 <input defaultValue={current_data.modelNum} className="titleInput" type="text" name="modelNum" />
                             </label>
                             <label>
-                                <p>Sale Percent (not required)</p>
+                                <p>Sale Percent (leave empty if not on sale)</p>
                                 <input defaultValue={current_data.sale_percent} className="titleInput" type="number" name="sale_percent" />
                             </label>
                             <p>Description</p>
@@ -1033,7 +1033,7 @@ const NewProduct = (props) => {
                             <input className="titleInput" type="text" name="modelNum" required />
                         </label>
                         <label>
-                            <p>Sale Percent (not required)</p>
+                            <p>Sale Percent (leave empty if not on sale)</p>
                             <input className="titleInput" type="number" name="sale_percent" />
                         </label>
                         <p>Description</p>

@@ -281,7 +281,7 @@ const NewProduct = (props) => {
               <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" type="text" name="modelNum" />
             </label>
             <label>
-              <p>Sale Percent (not required)</p>
+              <p>Sale Percent (leave empty if not on sale)</p>
               <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" type="number" name="sale_percent" />
             </label>
             <p>Description</p>

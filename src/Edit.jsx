@@ -554,7 +554,7 @@ const Edit = (props) => {
             <input onChange={(e) => setModelNum(e.target.value)} className="titleInput" defaultValue={current_data.modelNum} type="text" name="modelNum" />
           </label>
           <label>
-            <p>Sale Percent</p>
+            <p>Sale Percent(leave empty if not on sale)</p>
             <input onChange={(e) => setSalePercent(e.target.value)} className="titleInput" defaultValue={current_data.sale_percent} type="number" name="salePercent" />
           </label>
           <label>
